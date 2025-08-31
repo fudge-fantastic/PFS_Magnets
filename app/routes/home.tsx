@@ -46,12 +46,6 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-accent/10 to-secondary/20">
-        <div className="absolute inset-0 opacity-30">
-          <div className="w-full h-full bg-repeat" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23A855F7' fill-opacity='0.08'%3E%3Cpath d='M40 40L20 20v40h40V20L40 40zm0-20L20 0h40L40 20zm20 20l20-20v40H60V20zm0 20v20l20-20H60z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-          }}></div>
-        </div>
-
         <div className="relative max-w-7xl mx-auto px-6 sm:px-8 py-24 sm:py-32">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Hero Content */}
@@ -81,7 +75,7 @@ export default function Home() {
                   to="/gallery"
                   className="group bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center gap-2"
                 >
-                  Start Creating
+                  Explore Magnets
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
                 </Link>
 
@@ -199,7 +193,7 @@ export default function Home() {
               <div className="text-center">
                 <h3 className="text-2xl font-bold text-foreground/80 mb-3">Complete Size Range</h3>
                 <p className="text-foreground/70 text-lg">
-                  From compact 2×2" to spacious 4×4" - choose the perfect size for your design
+                  From compact 2.75×2.75" to large 3.25×4" - choose the perfect size for your design
                 </p>
                 <p className="text-foreground/60 text-sm mt-2">Click to view larger image</p>
               </div>
@@ -212,7 +206,7 @@ export default function Home() {
             <Dialog>
               <DialogTrigger asChild>
                 <div className="bg-card rounded-3xl p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300">
-                  <div className="aspect-[4/3] bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl mb-8 overflow-hidden relative">
+                  <div className="aspect-[4/4] bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl mb-8 overflow-hidden relative">
                     <img
                       src="/small.jpg"
                       alt="Small magnets - 2x2 inch size"
@@ -229,7 +223,7 @@ export default function Home() {
                       Compact & Cute
                     </div>
                     <h3 className="text-2xl font-bold text-foreground/80">Small Size</h3>
-                    <div className="text-3xl font-bold text-primary mb-2">2" × 2"</div>
+                    <div className="text-3xl font-bold text-primary mb-2">2.75" × 2.75"</div>
                     <p className="text-foreground/70 text-base leading-relaxed">
                       Perfect for delicate designs, logos, or when you need multiple magnets in a small space.
                       Ideal for refrigerator collections.
@@ -242,7 +236,7 @@ export default function Home() {
               </DialogTrigger>
               <DialogContent className="max-w-2xl">
                 <DialogHeader>
-                  <DialogTitle>Small Magnets (2" × 2")</DialogTitle>
+                  <DialogTitle>Small Magnets (2.75" × 2.75")</DialogTitle>
                   <DialogDescription>
                     Perfect for delicate designs and compact spaces
                   </DialogDescription>
@@ -254,7 +248,7 @@ export default function Home() {
                     className="w-full h-auto rounded-xl mb-4"
                   />
                   <div className="space-y-3 text-foreground/70">
-                    <p><strong>Dimensions:</strong> 2" × 2" (5.1 × 5.1 cm)</p>
+                    <p><strong>Dimensions:</strong> 2.75" × 2.75" (7.0 × 7.0 cm)</p>
                     <p><strong>Pull Strength:</strong> 2-3 lbs</p>
                     <p><strong>Best For:</strong> Logos, small artwork, multiple magnet displays</p>
                     <p><strong>Material:</strong> Premium vinyl with neodymium magnetic core</p>
@@ -267,7 +261,7 @@ export default function Home() {
             <Dialog>
               <DialogTrigger asChild>
                 <div className="bg-card rounded-3xl p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 lg:scale-105 cursor-pointer">
-                  <div className="aspect-[4/3] bg-gradient-to-br from-accent/10 to-primary/10 rounded-2xl mb-8 overflow-hidden relative">
+                  <div className="aspect-[4/4] bg-gradient-to-br from-accent/10 to-primary/10 rounded-2xl mb-8 overflow-hidden relative">
                     <img
                       src="/medium.jpg"
                       alt="Medium magnets - 3x3 inch size"
@@ -284,7 +278,7 @@ export default function Home() {
                       Most Popular ⭐
                     </div>
                     <h3 className="text-2xl font-bold text-foreground/80">Medium Size</h3>
-                    <div className="text-3xl font-bold text-accent mb-2">3" × 3"</div>
+                    <div className="text-3xl font-bold text-accent mb-2">2.75" × 3.5"</div>
                     <p className="text-foreground/70 text-base leading-relaxed">
                       Our bestseller! The perfect balance of visibility and space efficiency.
                       Great for photos, artwork, and promotional materials.
@@ -297,7 +291,7 @@ export default function Home() {
               </DialogTrigger>
               <DialogContent className="max-w-2xl">
                 <DialogHeader>
-                  <DialogTitle>Medium Magnets (3" × 3") ⭐</DialogTitle>
+                  <DialogTitle>Medium Magnets (2.75" × 3.5") ⭐</DialogTitle>
                   <DialogDescription>
                     Our most popular size - perfect balance of impact and practicality
                   </DialogDescription>
@@ -309,7 +303,7 @@ export default function Home() {
                     className="w-full h-auto rounded-xl mb-4"
                   />
                   <div className="space-y-3 text-foreground/70">
-                    <p><strong>Dimensions:</strong> 3" × 3" (7.6 × 7.6 cm)</p>
+                    <p><strong>Dimensions:</strong> 2.75" × 3.5" (7.0 × 8.9 cm)</p>
                     <p><strong>Pull Strength:</strong> 4-5 lbs</p>
                     <p><strong>Best For:</strong> Photos, artwork, promotional materials, gifts</p>
                     <p><strong>Material:</strong> Premium vinyl with neodymium magnetic core</p>
@@ -323,7 +317,7 @@ export default function Home() {
             <Dialog>
               <DialogTrigger asChild>
                 <div className="bg-card rounded-3xl p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 cursor-pointer">
-                  <div className="aspect-[4/3] bg-gradient-to-br from-secondary/10 to-primary/10 rounded-2xl mb-8 overflow-hidden relative">
+                  <div className="aspect-[4/4] bg-gradient-to-br from-secondary/10 to-primary/10 rounded-2xl mb-8 overflow-hidden relative">
                     <img
                       src="/large.jpg"
                       alt="Large magnets - 4x4 inch size"
@@ -340,7 +334,7 @@ export default function Home() {
                       Detail Rich
                     </div>
                     <h3 className="text-2xl font-bold text-foreground/80">Large Size</h3>
-                    <div className="text-3xl font-bold text-secondary mb-2">4" × 4"</div>
+                    <div className="text-3xl font-bold text-secondary mb-2">3.25" × 4"</div>
                     <p className="text-foreground/70 text-base leading-relaxed">
                       Maximum impact! Perfect for detailed artwork, family photos, or when you want
                       your magnet to be the centerpiece.
@@ -353,7 +347,7 @@ export default function Home() {
               </DialogTrigger>
               <DialogContent className="max-w-2xl">
                 <DialogHeader>
-                  <DialogTitle>Large Magnets (4" × 4")</DialogTitle>
+                  <DialogTitle>Large Magnets (3.25" × 4")</DialogTitle>
                   <DialogDescription>
                     Maximum impact for detailed artwork and statement pieces
                   </DialogDescription>
@@ -365,7 +359,7 @@ export default function Home() {
                     className="w-full h-auto rounded-xl mb-4"
                   />
                   <div className="space-y-3 text-foreground/70">
-                    <p><strong>Dimensions:</strong> 4" × 4" (10.2 × 10.2 cm)</p>
+                    <p><strong>Dimensions:</strong> 3.25" × 4" (8.3 × 10.2 cm)</p>
                     <p><strong>Pull Strength:</strong> 6-8 lbs</p>
                     <p><strong>Best For:</strong> Detailed artwork, family photos, statement pieces</p>
                     <p><strong>Material:</strong> Premium vinyl with neodymium magnetic core</p>

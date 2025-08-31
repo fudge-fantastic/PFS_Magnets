@@ -81,7 +81,8 @@ export function Navigation() {
             to="/" 
             className="text-2xl font-semibold text-primary hover:text-primary/80 transition-colors duration-200"
           >
-            .magnets
+            {/* .magnets */}
+            pfs.magnets
           </Link>
 
           {/* Desktop Navigation */}
