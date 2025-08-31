@@ -1,9 +1,16 @@
 import type { Route } from "./+types/home";
 import { Link } from "react-router";
-import { ArrowRight, Sparkles, Heart, Star, Users } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
+import { ArrowRight, Sparkles, Heart, Star, Users, ZoomIn } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "~/components/ui/dialog";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "Beautiful Magnets - Unique Designs for Every Space" },
     { name: "description", content: "Discover our collection of beautifully designed magnets. From minimalist to playful, find the perfect magnets for your home, office, or as gifts." },
@@ -39,12 +46,12 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-accent/10 to-secondary/20">
-        <div className="absolute inset-0 opacity-40">
+        <div className="absolute inset-0 opacity-30">
           <div className="w-full h-full bg-repeat" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23A855F7' fill-opacity='0.08'%3E%3Cpath d='M40 40L20 20v40h40V20L40 40zm0-20L20 0h40L40 20zm20 20l20-20v40H60V20zm0 20v20l20-20H60z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
           }}></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-6 sm:px-8 py-24 sm:py-32">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Hero Content */}
@@ -52,8 +59,8 @@ export default function Home() {
               <div className="inline-flex items-center bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
                 ✨ Custom Designs Available
               </div>
-              
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground/80 mb-6">
+
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold text-foreground/80 mb-6">
                 <span className="text-foreground/80">Create</span>
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent pb-3">
                   Personalized
@@ -62,13 +69,13 @@ export default function Home() {
                   Fridge Magnets
                 </span>
               </h1>
-              
+
               <p className="text-xl text-foreground/70 max-w-2xl mx-auto lg:mx-0 mb-10 leading-relaxed">
-                Transform your favorite memories into beautiful custom fridge magnets. 
-                Perfect for preserving special moments, gifting loved ones, or adding 
+                Transform your favorite memories into beautiful custom fridge magnets.
+                Perfect for preserving special moments, gifting loved ones, or adding
                 personal touches to your kitchen.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
                 <Link
                   to="/gallery"
@@ -77,7 +84,7 @@ export default function Home() {
                   Start Creating
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
                 </Link>
-                
+
                 <Link
                   to="/about"
                   className="px-8 py-4 rounded-xl font-semibold text-lg border-2 border-primary/20 text-foreground/80 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300"
@@ -92,7 +99,7 @@ export default function Home() {
               <div className="aspect-square bg-gradient-to-br from-primary/10 to-accent/10 rounded-3xl flex items-center justify-center relative overflow-hidden border border-border/20">
                 {/* Actual Image Placeholder */}
                 <div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center relative">
-                  <img 
+                  <img
                     src="public/designer.jpg"
                     alt="Custom Fridge Magnets Preview"
                     className="w-full h-full object-cover rounded-3xl opacity-80"
@@ -115,51 +122,272 @@ export default function Home() {
               Discover our three unique collections, each designed to serve different needs and styles
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {categories.map((category, index) => (
               <Link
                 key={category.name}
                 to={`/gallery?category=${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                className={`group relative overflow-hidden bg-gradient-to-br ${category.color} rounded-2xl p-8 hover:scale-105 transition-all duration-500 cursor-pointer border border-border/20`}
+                className="group bg-card rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border border-border/50 hover:border-primary/30 hover:-translate-y-2"
               >
-                <div className="relative z-10">
-                  <div className="text-white mb-4 group-hover:scale-110 transition-transform duration-300">
-                    {category.icon}
+                <div className="text-center">
+                  {/* Icon with gradient background */}
+                  <div className={`w-16 h-16 bg-gradient-to-br ${category.color} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <div className="text-white group-hover:scale-110 transition-transform duration-300">
+                      {category.icon}
+                    </div>
                   </div>
-                  
-                  <h3 className="text-2xl font-bold text-white mb-2">
+
+                  <h3 className="text-2xl font-bold text-foreground/80 mb-3 group-hover:text-primary transition-colors duration-300">
                     {category.name}
                   </h3>
-                  
-                  <p className="text-white/90 mb-4 leading-relaxed">
+
+                  <p className="text-foreground/70 mb-6 leading-relaxed">
                     {category.description}
                   </p>
-                  
-                  <div className="text-white/80 text-sm font-medium">
+
+                  {/* Count badge */}
+                  <div className="inline-flex items-center bg-primary/10 text-primary px-3 py-1.5 rounded-full text-sm font-medium">
                     {category.count}
                   </div>
-                </div>
-                
-                {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
-                {/* Background Pattern */}
-                <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
-                  <div className="w-full h-full" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.3'%3E%3Cpath d='M20 20c0 11.046-8.954 20-20 20v-40c11.046 0 20 8.954 20 20z'/%3E%3C/g%3E%3C/svg%3E")`
-                  }}></div>
+
+                  {/* Hover arrow */}
+                  <div className="mt-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <ArrowRight className="h-5 w-5 text-primary mx-auto" />
+                  </div>
                 </div>
               </Link>
             ))}
           </div>
-          
+
           <div className="text-center mt-12">
             <Link
               to="/gallery"
               className="inline-flex items-center bg-secondary text-foreground/80 px-6 py-3 rounded-xl font-medium hover:bg-secondary/80 transition-colors duration-200"
             >
               View All Designs
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+
+
+      {/* Magnet Sizes Section */}
+      <section className="py-24 bg-background">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-foreground/80 mb-4">
+              Available Magnet Sizes
+            </h2>
+            <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+              Choose from our range of sizes to perfectly fit your needs. All magnets feature strong adhesion and premium quality construction.
+            </p>
+          </div>
+
+          {/* Featured Size Comparison */}
+          <div className="mb-16">
+            <div className="bg-card rounded-3xl p-8 shadow-lg border border-border/20 group hover:shadow-xl transition-all duration-300 cursor-pointer relative">
+              <div className="aspect-[16/9] bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl overflow-hidden mb-6 relative">
+                <img
+                  src="/dummy.jpg"
+                  alt="All magnet sizes comparison - Small, Medium, and Large"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-foreground/80 mb-3">Complete Size Range</h3>
+                <p className="text-foreground/70 text-lg">
+                  From compact 2×2" to spacious 4×4" - choose the perfect size for your design
+                </p>
+                <p className="text-foreground/60 text-sm mt-2">Click to view larger image</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Individual Size Details */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            {/* Small Magnets */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="bg-card rounded-3xl p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300">
+                  <div className="aspect-[4/3] bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl mb-8 overflow-hidden relative">
+                    <img
+                      src="/small.jpg"
+                      alt="Small magnets - 2x2 inch size"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                      <div className="bg-white/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
+                        <ZoomIn className="h-4 w-4 text-foreground/80" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold inline-block">
+                      Compact & Cute
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground/80">Small Size</h3>
+                    <div className="text-3xl font-bold text-primary mb-2">2" × 2"</div>
+                    <p className="text-foreground/70 text-base leading-relaxed">
+                      Perfect for delicate designs, logos, or when you need multiple magnets in a small space.
+                      Ideal for refrigerator collections.
+                    </p>
+                    <div className="pt-2 text-sm text-foreground/60">
+                      Pull Strength: 2-3 lbs
+                    </div>
+                  </div>
+                </div>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Small Magnets (2" × 2")</DialogTitle>
+                  <DialogDescription>
+                    Perfect for delicate designs and compact spaces
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="mt-4">
+                  <img
+                    src="/small.jpg"
+                    alt="Detailed view of small magnets"
+                    className="w-full h-auto rounded-xl mb-4"
+                  />
+                  <div className="space-y-3 text-foreground/70">
+                    <p><strong>Dimensions:</strong> 2" × 2" (5.1 × 5.1 cm)</p>
+                    <p><strong>Pull Strength:</strong> 2-3 lbs</p>
+                    <p><strong>Best For:</strong> Logos, small artwork, multiple magnet displays</p>
+                    <p><strong>Material:</strong> Premium vinyl with neodymium magnetic core</p>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            {/* Medium Magnets */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="bg-card rounded-3xl p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 lg:scale-105 cursor-pointer">
+                  <div className="aspect-[4/3] bg-gradient-to-br from-accent/10 to-primary/10 rounded-2xl mb-8 overflow-hidden relative">
+                    <img
+                      src="/medium.jpg"
+                      alt="Medium magnets - 3x3 inch size"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                      <div className="bg-white/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
+                        <ZoomIn className="h-4 w-4 text-foreground/80" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-semibold inline-block">
+                      Most Popular ⭐
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground/80">Medium Size</h3>
+                    <div className="text-3xl font-bold text-accent mb-2">3" × 3"</div>
+                    <p className="text-foreground/70 text-base leading-relaxed">
+                      Our bestseller! The perfect balance of visibility and space efficiency.
+                      Great for photos, artwork, and promotional materials.
+                    </p>
+                    <div className="pt-2 text-sm text-foreground/60">
+                      Pull Strength: 4-5 lbs
+                    </div>
+                  </div>
+                </div>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Medium Magnets (3" × 3") ⭐</DialogTitle>
+                  <DialogDescription>
+                    Our most popular size - perfect balance of impact and practicality
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="mt-4">
+                  <img
+                    src="/medium.jpg"
+                    alt="Detailed view of medium magnets"
+                    className="w-full h-auto rounded-xl mb-4"
+                  />
+                  <div className="space-y-3 text-foreground/70">
+                    <p><strong>Dimensions:</strong> 3" × 3" (7.6 × 7.6 cm)</p>
+                    <p><strong>Pull Strength:</strong> 4-5 lbs</p>
+                    <p><strong>Best For:</strong> Photos, artwork, promotional materials, gifts</p>
+                    <p><strong>Material:</strong> Premium vinyl with neodymium magnetic core</p>
+                    <p className="text-accent font-medium">🏆 Customer favorite - 80% of orders choose this size!</p>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            {/* Large Magnets */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="bg-card rounded-3xl p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 cursor-pointer">
+                  <div className="aspect-[4/3] bg-gradient-to-br from-secondary/10 to-primary/10 rounded-2xl mb-8 overflow-hidden relative">
+                    <img
+                      src="/large.jpg"
+                      alt="Large magnets - 4x4 inch size"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                      <div className="bg-white/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
+                        <ZoomIn className="h-4 w-4 text-foreground/80" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="bg-secondary/30 text-secondary px-4 py-2 rounded-full text-sm font-semibold inline-block">
+                      Detail Rich
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground/80">Large Size</h3>
+                    <div className="text-3xl font-bold text-secondary mb-2">4" × 4"</div>
+                    <p className="text-foreground/70 text-base leading-relaxed">
+                      Maximum impact! Perfect for detailed artwork, family photos, or when you want
+                      your magnet to be the centerpiece.
+                    </p>
+                    <div className="pt-2 text-sm text-foreground/60">
+                      Pull Strength: 6-8 lbs
+                    </div>
+                  </div>
+                </div>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Large Magnets (4" × 4")</DialogTitle>
+                  <DialogDescription>
+                    Maximum impact for detailed artwork and statement pieces
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="mt-4">
+                  <img
+                    src="/large.jpg"
+                    alt="Detailed view of large magnets"
+                    className="w-full h-auto rounded-xl mb-4"
+                  />
+                  <div className="space-y-3 text-foreground/70">
+                    <p><strong>Dimensions:</strong> 4" × 4" (10.2 × 10.2 cm)</p>
+                    <p><strong>Pull Strength:</strong> 6-8 lbs</p>
+                    <p><strong>Best For:</strong> Detailed artwork, family photos, statement pieces</p>
+                    <p><strong>Material:</strong> Premium vinyl with neodymium magnetic core</p>
+                    <p className="text-secondary font-medium">💎 Premium choice for maximum visual impact</p>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          {/* Additional Size Info */}
+          <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl p-8 text-center">
+            <h3 className="text-2xl font-semibold text-foreground/80 mb-4">Custom Sizes Available</h3>
+            <p className="text-foreground/70 mb-6 max-w-3xl mx-auto">
+              Need a different size? We also offer 4" × 6" rectangles and custom dimensions for bulk orders.
+              All magnets feature strong neodymium cores with pull strengths ranging from 2-8 lbs depending on size.
+            </p>
+            <Link
+              to="/contact"
+              className="inline-flex items-center bg-primary text-primary-foreground px-6 py-3 rounded-xl font-medium hover:bg-primary/90 transition-colors duration-200"
+            >
+              Request Custom Size
               <ArrowRight className="h-4 w-4 ml-2" />
             </Link>
           </div>
@@ -177,7 +405,7 @@ export default function Home() {
               Our values guide everything we do, from design to customer service
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center group">
               <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -187,11 +415,11 @@ export default function Home() {
                 Beauty in Details
               </h3>
               <p className="text-foreground/70 leading-relaxed">
-                We believe that the smallest touches can make the biggest impact. Every magnet is designed 
+                We believe that the smallest touches can make the biggest impact. Every magnet is designed
                 to bring a moment of beauty to your everyday life.
               </p>
             </div>
-            
+
             <div className="text-center group">
               <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Sparkles className="h-10 w-10 text-primary" />
@@ -200,11 +428,11 @@ export default function Home() {
                 Quality First
               </h3>
               <p className="text-foreground/70 leading-relaxed">
-                Premium materials, fade-resistant inks, and strong magnets ensure that your purchase 
+                Premium materials, fade-resistant inks, and strong magnets ensure that your purchase
                 will bring joy for years to come.
               </p>
             </div>
-            
+
             <div className="text-center group">
               <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Users className="h-10 w-10 text-primary" />
@@ -213,93 +441,11 @@ export default function Home() {
                 Customer Joy
               </h3>
               <p className="text-foreground/70 leading-relaxed">
-                Your happiness is our success. We're not satisfied until you're absolutely delighted 
+                Your happiness is our success. We're not satisfied until you're absolutely delighted
                 with your magnets and the experience of shopping with us.
               </p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-24 bg-background">
-        <div className="max-w-4xl mx-auto px-6 sm:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground/80 mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
-              Get answers to common questions about our custom magnets and services
-            </p>
-          </div>
-
-          <Accordion type="single" className="space-y-4" collapsible>
-            <AccordionItem value="materials" className="bg-card rounded-xl px-6 border border-border/20">
-              <AccordionTrigger className="text-lg font-semibold text-foreground/80">
-                What materials are your magnets made from?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/70">
-                Our magnets are made from high-quality materials including durable magnetic backing, 
-                weather-resistant coating, and premium printing surfaces. They're designed to last 
-                for years while maintaining their vibrant colors and strong magnetic hold.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="customization" className="bg-card rounded-xl px-6 border border-border/20">
-              <AccordionTrigger className="text-lg font-semibold text-foreground/80">
-                Can I create custom magnets with my own photos?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/70">
-                Absolutely! Our photo magnets are our specialty. Simply upload your favorite photos, 
-                and we'll print them on high-quality magnetic material. We accept various file formats 
-                including JPG, PNG, and PDF. For best results, we recommend high-resolution images.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="sizes" className="bg-card rounded-xl px-6 border border-border/20">
-              <AccordionTrigger className="text-lg font-semibold text-foreground/80">
-                What sizes are available for magnets?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/70">
-                We offer multiple sizes to fit your needs: 2"x2", 3"x3", 4"x4", and 4"x6" rectangles. 
-                Our fridge magnets come in standard sizes, while photo magnets can be customized to 
-                various dimensions. Contact us for special size requests.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="shipping" className="bg-card rounded-xl px-6 border border-border/20">
-              <AccordionTrigger className="text-lg font-semibold text-foreground/80">
-                How long does shipping take?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/70">
-                Standard shipping takes 5-7 business days within the US. We also offer express 
-                shipping (2-3 days) and next-day delivery for urgent orders. International 
-                shipping is available and typically takes 10-14 business days.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="bulk-orders" className="bg-card rounded-xl px-6 border border-border/20">
-              <AccordionTrigger className="text-lg font-semibold text-foreground/80">
-                Do you offer discounts for bulk orders?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/70">
-                Yes! We offer attractive discounts for bulk orders: 10% off for 25+ magnets, 
-                15% off for 50+ magnets, and 20% off for 100+ magnets. Perfect for businesses, 
-                events, or large family gatherings. Contact us for custom quotes on larger orders.
-              </AccordionContent>
-            </AccordionItem>
-
-            <AccordionItem value="returns" className="bg-card rounded-xl px-6 border border-border/20">
-              <AccordionTrigger className="text-lg font-semibold text-foreground/80">
-                What's your return policy?
-              </AccordionTrigger>
-              <AccordionContent className="text-foreground/70">
-                We offer a 30-day satisfaction guarantee. If you're not completely happy with your 
-                magnets, you can return them for a full refund or exchange. Custom photo magnets 
-                can be returned if there's a quality issue or printing error on our end.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
         </div>
       </section>
     </div>

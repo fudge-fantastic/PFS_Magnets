@@ -67,12 +67,13 @@ export function Navigation() {
     { name: 'Home', path: '/' },
     { name: 'Gallery', path: '/gallery' },
     { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
   ];
 
   const currentThemeData = themes.find(theme => theme.id === currentTheme) || themes[0];
 
   return (
-    <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md z-50 border-b border-border/50">
+    <nav className="fixed top-0 w-full bg-background/90 z-50 border-b border-border/50">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -169,7 +170,7 @@ export function Navigation() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-md">
+          <div className="md:hidden border-t border-border/50 bg-background/95">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
                 <Link

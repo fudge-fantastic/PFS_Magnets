@@ -1,7 +1,33 @@
 import type { Route } from "./+types/product";
 import { Link, useParams } from "react-router";
 import { useState } from "react";
-import { ArrowLeft, Heart, Share2, Star, Plus, Minus, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { 
+  ArrowLeft, 
+  Heart, 
+  Share2, 
+  Star, 
+  Plus, 
+  Minus, 
+  MessageCircle, 
+  ChevronLeft, 
+  ChevronRight,
+  Camera,
+  Palette as PaletteIcon,
+  Clock,
+  Gift,
+  Home,
+  Baby,
+  Calendar,
+  GraduationCap,
+  Users,
+  MapPin
+} from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
 
 export function meta({ params }: Route.MetaArgs) {
   // In a real app, you'd fetch the product data here
@@ -16,6 +42,14 @@ export default function Product() {
   const [quantity, setQuantity] = useState(1);
   const [isLiked, setIsLiked] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedSize, setSelectedSize] = useState('small');
+
+  // Size options with updated dimensions
+  const sizeOptions = [
+    { id: 'small', name: 'Small', dimensions: '2.75" × 2.75"', price: 8.99 },
+    { id: 'medium', name: 'Medium', dimensions: '2.75" × 3.5"', price: 9.99 },
+    { id: 'large', name: 'Large', dimensions: '3.25" × 4"', price: 11.99 },
+  ];
 
   // Mock product data - in a real app, you'd fetch this based on params.id
   const magnets = [
@@ -49,6 +83,8 @@ export default function Product() {
   ];
 
   const product = magnets.find(m => m.id === parseInt(params.id || "1")) || magnets[0];
+  const currentSize = sizeOptions.find(size => size.id === selectedSize) || sizeOptions[0];
+  const currentPrice = currentSize.price;
 
   const relatedProducts = magnets.filter(m => m.id !== product.id && m.category === product.category).slice(0, 3);
 
@@ -69,7 +105,7 @@ export default function Product() {
   };
 
   const handleWhatsAppClick = () => {
-    const message = `Hi! I'm interested in the ${product.name} magnet (${quantity} piece${quantity > 1 ? 's' : ''}) - $${(product.price * quantity).toFixed(2)}`;
+    const message = `Hi! I'm interested in the ${product.name} magnet (${currentSize.name} - ${currentSize.dimensions}, ${quantity} piece${quantity > 1 ? 's' : ''}) - $${(currentPrice * quantity).toFixed(2)}`;
     const phoneNumber = "1234567890"; // Replace with actual WhatsApp business number
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
@@ -189,12 +225,34 @@ export default function Product() {
                 </h1>
                 
                 <p className="text-2xl font-bold text-primary mb-4">
-                  ${product.price}
+                  ${currentPrice}
                 </p>
                 
                 <p className="text-foreground/70 leading-relaxed">
                   {product.longDescription}
                 </p>
+              </div>
+
+              {/* Size Selection */}
+              <div className="space-y-4">
+                <label className="font-medium text-foreground/80 text-lg">Choose Size:</label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {sizeOptions.map((size) => (
+                    <button
+                      key={size.id}
+                      onClick={() => setSelectedSize(size.id)}
+                      className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
+                        selectedSize === size.id
+                          ? 'border-primary bg-primary/10 text-primary'
+                          : 'border-border hover:border-primary/50 hover:bg-primary/5'
+                      }`}
+                    >
+                      <div className="font-semibold text-sm">{size.name}</div>
+                      <div className="text-xs opacity-80">{size.dimensions}</div>
+                      <div className="font-bold text-sm mt-1">${size.price}</div>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Quantity and Add to Cart */}
@@ -226,7 +284,7 @@ export default function Product() {
                     className="flex-1 bg-green-500 hover:bg-green-600 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2"
                   >
                     <MessageCircle className="h-5 w-5" />
-                    Chat on WhatsApp
+                    Chat on WhatsApp - ${(currentPrice * quantity).toFixed(2)}
                   </button>
                   <button className="px-6 py-4 border-2 border-primary text-primary rounded-xl font-semibold hover:bg-primary hover:text-primary-foreground transition-all duration-300">
                     Buy Now
@@ -234,28 +292,138 @@ export default function Product() {
                 </div>
               </div>
 
-              {/* Features */}
-              <div className="grid grid-cols-2 gap-4 pt-6 border-t border-border/50">
-                <div className="text-center p-4 bg-secondary/20 rounded-xl">
-                  <div className="text-2xl mb-2">🎨</div>
-                  <div className="font-medium text-foreground/80 text-sm">Premium Quality</div>
-                  <div className="text-foreground/70 text-xs">Fade-resistant inks</div>
-                </div>
-                <div className="text-center p-4 bg-secondary/20 rounded-xl">
-                  <div className="text-2xl mb-2">🚚</div>
-                  <div className="font-medium text-foreground/80 text-sm">Fast Shipping</div>
-                  <div className="text-foreground/70 text-xs">2-3 business days</div>
-                </div>
-                <div className="text-center p-4 bg-secondary/20 rounded-xl">
-                  <div className="text-2xl mb-2">🔒</div>
-                  <div className="font-medium text-foreground/80 text-sm">Secure Payment</div>
-                  <div className="text-foreground/70 text-xs">SSL encrypted</div>
-                </div>
-                <div className="text-center p-4 bg-secondary/20 rounded-xl">
-                  <div className="text-2xl mb-2">↩️</div>
-                  <div className="font-medium text-foreground/80 text-sm">Easy Returns</div>
-                  <div className="text-foreground/70 text-xs">30-day policy</div>
-                </div>
+              {/* Detailed Product Information Accordion */}
+              <div className="pt-8">
+                <Accordion type="single" collapsible className="w-full space-y-4">
+                  <AccordionItem value="moments" className="bg-card rounded-xl px-6 border border-border/20">
+                    <AccordionTrigger className="text-lg font-semibold text-foreground/80 hover:text-primary">
+                      <div className="flex items-center gap-3">
+                        <Camera className="h-5 w-5 text-primary" />
+                        Capture Your Cherished Moments Forever
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 leading-relaxed">
+                      <p className="mb-4">
+                        Turn your favorite photos into stunning custom photo magnets, perfectly designed to showcase the moments you hold dear. From family vacations to baby milestones and unforgettable graduations, our personalized photo magnets make it easy to transform digital memories into physical keepsakes that you can see every day.
+                      </p>
+                      <p>
+                        Our high-quality magnets are crafted to be vibrant and durable, ensuring your special moments stay vivid for years.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="features" className="bg-card rounded-xl px-6 border border-border/20">
+                    <AccordionTrigger className="text-lg font-semibold text-foreground/80 hover:text-primary">
+                      <div className="flex items-center gap-3">
+                        <PaletteIcon className="h-5 w-5 text-primary" />
+                        Why You'll Love Them
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70">
+                      <ul className="space-y-3">
+                        <li className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+                          <span>Custom-made from your photos</span>
+                        </li>
+                        <li className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+                          <span>Vibrant colors and sharp details</span>
+                        </li>
+                        <li className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+                          <span>Long-lasting, high-quality finish</span>
+                        </li>
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="gifts" className="bg-card rounded-xl px-6 border border-border/20">
+                    <AccordionTrigger className="text-lg font-semibold text-foreground/80 hover:text-primary">
+                      <div className="flex items-center gap-3">
+                        <Gift className="h-5 w-5 text-primary" />
+                        Gifts for Any Occasion
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 leading-relaxed">
+                      <p className="mb-4">
+                        Looking for a unique gift that shows how much you care? Our custom photo magnets are the perfect choice for birthdays, anniversaries, weddings, or any special occasion. Surprise your loved ones with a heartfelt gift that brings a smile every time they see it.
+                      </p>
+                      <div className="space-y-3">
+                        <h4 className="font-semibold text-foreground/80 mb-2">Great Gift Ideas:</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                          <div className="flex items-center gap-2">
+                            <Baby className="h-4 w-4 text-primary" />
+                            <span>Baby announcements</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4 text-primary" />
+                            <span>Save the date for weddings</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Users className="h-4 w-4 text-primary" />
+                            <span>Holiday and family photo gifts</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <GraduationCap className="h-4 w-4 text-primary" />
+                            <span>Graduation and milestone keepsakes</span>
+                          </div>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="decor" className="bg-card rounded-xl px-6 border border-border/20">
+                    <AccordionTrigger className="text-lg font-semibold text-foreground/80 hover:text-primary">
+                      <div className="flex items-center gap-3">
+                        <Home className="h-5 w-5 text-primary" />
+                        Stylish Home Decor with a Personal Touch
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 leading-relaxed">
+                      <p className="mb-4">
+                        Enhance your home decor with personalized photo magnets that add a unique and sentimental touch to any space. Whether it's your kitchen fridge, a magnetic board, or any metal surface.
+                      </p>
+                      <div className="space-y-3">
+                        <h4 className="font-semibold text-foreground/80 mb-2">Perfect for Decorating:</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-accent rounded-full flex-shrink-0"></div>
+                            <span>Fridge photo displays</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-accent rounded-full flex-shrink-0"></div>
+                            <span>Magnetic office boards</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-accent rounded-full flex-shrink-0"></div>
+                            <span>Family memory walls</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-accent rounded-full flex-shrink-0"></div>
+                            <span>Holiday decorations</span>
+                          </div>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="shipping" className="bg-card rounded-xl px-6 border border-border/20">
+                    <AccordionTrigger className="text-lg font-semibold text-foreground/80 hover:text-primary">
+                      <div className="flex items-center gap-3">
+                        <MapPin className="h-5 w-5 text-primary" />
+                        Made and Shipped from the USA!
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 leading-relaxed">
+                      <p className="mb-4">
+                        Crafted in the USA, your magnets start production the same day you order.
+                      </p>
+                      <p>
+                        With swift processing and reliable tracked shipping, your purchase will be at your door in 4-6 business days.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </div>
             </div>
           </div>

@@ -5,4 +5,5 @@ export default [
   route("gallery", "routes/gallery.tsx"),
   route("product/:id", "routes/product.tsx"),
   route("about", "routes/about.tsx"),
+  route("contact", "routes/contact.tsx"),
 ] satisfies RouteConfig;

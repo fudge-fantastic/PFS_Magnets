@@ -15,7 +15,7 @@ export default function Gallery() {
   
   // Mock data for magnets
   const magnets = [
-    { id: 1, name: "Vintage Kitchen", category: "fridge-magnets", price: 8.99, image: "�", description: "Retro kitchen utensils design" },
+    { id: 1, name: "Vintage Kitchen", category: "fridge-magnets", price: 8.99, image: "🍽️", description: "Retro kitchen utensils design" },
     { id: 2, name: "Family Portrait", category: "photo-magnets", price: 12.99, image: "👨‍👩‍👧‍👦", description: "Custom family photo magnet" },
     { id: 3, name: "Classic Car", category: "retro-prints", price: 9.99, image: "�", description: "Vintage automobile print" },
     { id: 4, name: "Food Fun", category: "fridge-magnets", price: 7.99, image: "🍕", description: "Colorful food-themed magnet" },
@@ -46,7 +46,7 @@ export default function Gallery() {
       <section className="bg-gradient-to-br from-primary/10 to-accent/10 py-16">
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
           <div className="text-center">
-            <h1 className="text-4xl sm:text-5xl font-bold text-foreground/80 mb-4">
+            <h1 className="text-4xl sm:text-5xl font-semibold text-foreground/80 mb-4">
               Our Magnet Collection
             </h1>
             <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
@@ -70,7 +70,7 @@ export default function Gallery() {
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-full font-medium transition-all duration-200 ${
+                  className={`px-4 py-2 rounded-full font-light transition-all duration-200 ${
                     selectedCategory === category.id
                       ? 'bg-primary text-primary-foreground shadow-lg scale-105'
                       : 'bg-secondary/50 text-foreground hover:bg-secondary hover:scale-105'
@@ -87,11 +87,11 @@ export default function Gallery() {
       {/* Gallery Grid */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredMagnets.map((magnet, index) => (
               <div
                 key={magnet.id}
-                className="group bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:scale-105"
+                className="group bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:scale-105 flex flex-col"
               >
                 {/* Image Container */}
                 <div className="aspect-square bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-6xl relative overflow-hidden">
@@ -99,22 +99,10 @@ export default function Gallery() {
                   <span className="relative z-10 group-hover:scale-110 transition-transform duration-300">
                     {magnet.image}
                   </span>
-                  
-                  {/* Hover Overlay */}
-                  {/* <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="flex gap-3">
-                      <button className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-200">
-                        <Eye className="h-4 w-4" />
-                      </button>
-                      <button className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-200">
-                        <Heart className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div> */}
                 </div>
 
-                {/* Content */}
-                <div className="p-6">
+                {/* Content - flex-grow to fill remaining space */}
+                <div className="p-6 flex flex-col flex-grow">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-semibold text-foreground/80 text-lg group-hover:text-primary transition-colors duration-200">
                       {magnet.name}
@@ -124,13 +112,14 @@ export default function Gallery() {
                     </span>
                   </div>
                   
-                  <p className="text-foreground/70 text-sm mb-4 leading-relaxed">
+                  <p className="text-foreground/70 text-sm mb-4 leading-relaxed flex-grow">
                     {magnet.description}
                   </p>
                   
-                  <div className="flex justify-between items-center">
+                  {/* Bottom section - always at bottom of card */}
+                  <div className="flex justify-between items-center mt-auto">
                     <span className="text-xs font-medium text-primary/70 uppercase tracking-wide">
-                      {magnet.category}
+                      {magnet.category.replace('-', ' ')}
                     </span>
                     
                     <Link
@@ -170,7 +159,7 @@ export default function Gallery() {
             We're always adding new designs and taking custom requests. Get in touch with us!
           </p>
           <Link
-            to="/about"
+            to="/contact"
             className="inline-flex items-center bg-primary text-primary-foreground px-6 py-3 rounded-xl font-medium hover:bg-primary/90 transition-colors duration-200"
           >
             Contact Us

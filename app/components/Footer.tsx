@@ -47,6 +47,12 @@ export function Footer() {
               >
                 About
               </Link>
+              <Link 
+                to="/contact" 
+                className="block text-foreground/70 hover:text-primary transition-colors duration-200"
+              >
+                Contact
+              </Link>
             </div>
           </div>
 
