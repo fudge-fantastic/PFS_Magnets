@@ -54,17 +54,17 @@ export default function Home() {
                 ✨ Custom Designs Available
               </div>
 
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold text-foreground/80 mb-6">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-foreground/80 mb-6">
                 <span className="text-foreground/80">Create</span>
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent pb-3">
                   Personalized
                 </span>
-                <span className="block text-4xl sm:text-5xl lg:text-6xl font-light text-foreground/80">
+                <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-foreground/80">
                   Fridge Magnets
                 </span>
               </h1>
 
-              <p className="text-xl text-foreground/70 max-w-2xl mx-auto lg:mx-0 mb-10 leading-relaxed">
+              <p className="text-lg sm:text-xl text-foreground/70 max-w-2xl mx-auto lg:mx-0 mb-8 lg:mb-10 leading-relaxed">
                 Transform your favorite memories into beautiful custom fridge magnets.
                 Perfect for preserving special moments, gifting loved ones, or adding
                 personal touches to your kitchen.
@@ -73,7 +73,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
                 <Link
                   to="/gallery"
-                  className="group bg-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold text-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center gap-2"
+                  className="w-full sm:w-auto group bg-primary text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2"
                 >
                   Explore Magnets
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -81,7 +81,7 @@ export default function Home() {
 
                 <Link
                   to="/about"
-                  className="px-8 py-4 rounded-xl font-semibold text-lg border-2 border-primary/20 text-foreground/80 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300"
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg border-2 border-primary/20 text-foreground/80 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300 text-center"
                 >
                   Learn More
                 </Link>
@@ -94,7 +94,7 @@ export default function Home() {
                 {/* Actual Image Placeholder */}
                 <div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center relative">
                   <img
-                    src="public/designer.jpg"
+                    src="/designer.jpg"
                     alt="Custom Fridge Magnets Preview"
                     className="w-full h-full object-cover rounded-3xl opacity-80"
                   />
@@ -106,55 +106,55 @@ export default function Home() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground/80 mb-4">
+      <section className="py-16 sm:py-20 lg:py-24 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground/80 mb-4">
               Explore Our Collections
             </h2>
-            <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-foreground/70 max-w-2xl mx-auto px-4">
               Discover our three unique collections, each designed to serve different needs and styles
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {categories.map((category, index) => (
               <Link
                 key={category.name}
                 to={`/gallery?category=${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                className="group bg-card rounded-3xl p-8 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border border-border/50 hover:border-primary/30 hover:-translate-y-2"
+                className="group bg-card rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border border-border/50 hover:border-primary/30 hover:-translate-y-1 lg:hover:-translate-y-2"
               >
                 <div className="text-center">
                   {/* Icon with gradient background */}
-                  <div className={`w-16 h-16 bg-gradient-to-br ${category.color} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-14 h-14 lg:w-16 lg:h-16 bg-gradient-to-br ${category.color} rounded-xl lg:rounded-2xl flex items-center justify-center mx-auto mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <div className="text-white group-hover:scale-110 transition-transform duration-300">
                       {category.icon}
                     </div>
                   </div>
 
-                  <h3 className="text-2xl font-bold text-foreground/80 mb-3 group-hover:text-primary transition-colors duration-300">
+                  <h3 className="text-xl lg:text-2xl font-bold text-foreground/80 mb-2 lg:mb-3 group-hover:text-primary transition-colors duration-300">
                     {category.name}
                   </h3>
 
-                  <p className="text-foreground/70 mb-6 leading-relaxed">
+                  <p className="text-foreground/70 mb-4 lg:mb-6 leading-relaxed text-sm lg:text-base">
                     {category.description}
                   </p>
 
                   {/* Count badge */}
-                  <div className="inline-flex items-center bg-primary/10 text-primary px-3 py-1.5 rounded-full text-sm font-medium">
+                  <div className="inline-flex items-center bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs lg:text-sm font-medium">
                     {category.count}
                   </div>
 
                   {/* Hover arrow */}
-                  <div className="mt-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                    <ArrowRight className="h-5 w-5 text-primary mx-auto" />
+                  <div className="mt-3 lg:mt-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <ArrowRight className="h-4 w-4 lg:h-5 lg:w-5 text-primary mx-auto" />
                   </div>
                 </div>
               </Link>
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-8 lg:mt-12">
             <Link
               to="/gallery"
               className="inline-flex items-center bg-secondary text-foreground/80 px-6 py-3 rounded-xl font-medium hover:bg-secondary/80 transition-colors duration-200"
@@ -169,21 +169,21 @@ export default function Home() {
 
 
       {/* Magnet Sizes Section */}
-      <section className="py-24 bg-background">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-foreground/80 mb-4">
+      <section className="py-16 sm:py-20 lg:py-24 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground/80 mb-4">
               Available Magnet Sizes
             </h2>
-            <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-foreground/70 max-w-2xl mx-auto px-4">
               Choose from our range of sizes to perfectly fit your needs. All magnets feature strong adhesion and premium quality construction.
             </p>
           </div>
 
           {/* Featured Size Comparison */}
-          <div className="mb-16">
-            <div className="bg-card rounded-3xl p-8 shadow-lg border border-border/20 group hover:shadow-xl transition-all duration-300 cursor-pointer relative">
-              <div className="aspect-[16/9] bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl overflow-hidden mb-6 relative">
+          <div className="mb-12 lg:mb-16">
+            <div className="bg-card rounded-2xl lg:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-lg border border-border/20 group hover:shadow-xl transition-all duration-300 cursor-pointer relative">
+              <div className="aspect-[16/9] bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl lg:rounded-2xl overflow-hidden mb-4 lg:mb-6 relative">
                 <img
                   src="/dummy.jpg"
                   alt="All magnet sizes comparison - Small, Medium, and Large"
@@ -191,8 +191,8 @@ export default function Home() {
                 />
               </div>
               <div className="text-center">
-                <h3 className="text-2xl font-bold text-foreground/80 mb-3">Complete Size Range</h3>
-                <p className="text-foreground/70 text-lg">
+                <h3 className="text-xl sm:text-2xl font-bold text-foreground/80 mb-2 lg:mb-3">Complete Size Range</h3>
+                <p className="text-foreground/70 text-base sm:text-lg">
                   From compact 2.75×2.75" to large 3.25×4" - choose the perfect size for your design
                 </p>
                 <p className="text-foreground/60 text-sm mt-2">Click to view larger image</p>
@@ -201,15 +201,15 @@ export default function Home() {
           </div>
 
           {/* Individual Size Details */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-8 lg:mb-12">
             {/* Small Magnets */}
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-card rounded-3xl p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300">
-                  <div className="aspect-[4/4] bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl mb-8 overflow-hidden relative">
+                <div className="bg-card rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 cursor-pointer">
+                  <div className="aspect-[4/4] bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl lg:rounded-2xl mb-6 lg:mb-8 overflow-hidden relative">
                     <img
                       src="/small.jpg"
-                      alt="Small magnets - 2x2 inch size"
+                      alt="Small magnets - 2.75x2.75 inch size"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
@@ -218,23 +218,23 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className="space-y-4">
-                    <div className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold inline-block">
+                  <div className="space-y-3 lg:space-y-4">
+                    <div className="bg-primary/10 text-primary px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-semibold inline-block">
                       Compact & Cute
                     </div>
-                    <h3 className="text-2xl font-bold text-foreground/80">Small Size</h3>
-                    <div className="text-3xl font-bold text-primary mb-2">2.75" × 2.75"</div>
-                    <p className="text-foreground/70 text-base leading-relaxed">
+                    <h3 className="text-xl lg:text-2xl font-bold text-foreground/80">Small Size</h3>
+                    <div className="text-2xl lg:text-3xl font-bold text-primary mb-2">2.75" × 2.75"</div>
+                    <p className="text-foreground/70 text-sm lg:text-base leading-relaxed">
                       Perfect for delicate designs, logos, or when you need multiple magnets in a small space.
                       Ideal for refrigerator collections.
                     </p>
-                    <div className="pt-2 text-sm text-foreground/60">
+                    <div className="pt-2 text-xs lg:text-sm text-foreground/60">
                       Pull Strength: 2-3 lbs
                     </div>
                   </div>
                 </div>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl">
+              <DialogContent className="max-w-[95vw] sm:max-w-2xl mx-4">
                 <DialogHeader>
                   <DialogTitle>Small Magnets (2.75" × 2.75")</DialogTitle>
                   <DialogDescription>
@@ -247,7 +247,7 @@ export default function Home() {
                     alt="Detailed view of small magnets"
                     className="w-full h-auto rounded-xl mb-4"
                   />
-                  <div className="space-y-3 text-foreground/70">
+                  <div className="space-y-3 text-foreground/70 text-sm lg:text-base">
                     <p><strong>Dimensions:</strong> 2.75" × 2.75" (7.0 × 7.0 cm)</p>
                     <p><strong>Pull Strength:</strong> 2-3 lbs</p>
                     <p><strong>Best For:</strong> Logos, small artwork, multiple magnet displays</p>
@@ -260,11 +260,11 @@ export default function Home() {
             {/* Medium Magnets */}
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-card rounded-3xl p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 lg:scale-105 cursor-pointer">
-                  <div className="aspect-[4/4] bg-gradient-to-br from-accent/10 to-primary/10 rounded-2xl mb-8 overflow-hidden relative">
+                <div className="bg-card rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 md:scale-105 cursor-pointer">
+                  <div className="aspect-[4/4] bg-gradient-to-br from-accent/10 to-primary/10 rounded-xl lg:rounded-2xl mb-6 lg:mb-8 overflow-hidden relative">
                     <img
                       src="/medium.jpg"
-                      alt="Medium magnets - 3x3 inch size"
+                      alt="Medium magnets - 2.75x3.5 inch size"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
@@ -273,23 +273,23 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className="space-y-4">
-                    <div className="bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-semibold inline-block">
+                  <div className="space-y-3 lg:space-y-4">
+                    <div className="bg-accent/20 text-accent px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-semibold inline-block">
                       Most Popular ⭐
                     </div>
-                    <h3 className="text-2xl font-bold text-foreground/80">Medium Size</h3>
-                    <div className="text-3xl font-bold text-accent mb-2">2.75" × 3.5"</div>
-                    <p className="text-foreground/70 text-base leading-relaxed">
+                    <h3 className="text-xl lg:text-2xl font-bold text-foreground/80">Medium Size</h3>
+                    <div className="text-2xl lg:text-3xl font-bold text-accent mb-2">2.75" × 3.5"</div>
+                    <p className="text-foreground/70 text-sm lg:text-base leading-relaxed">
                       Our bestseller! The perfect balance of visibility and space efficiency.
                       Great for photos, artwork, and promotional materials.
                     </p>
-                    <div className="pt-2 text-sm text-foreground/60">
+                    <div className="pt-2 text-xs lg:text-sm text-foreground/60">
                       Pull Strength: 4-5 lbs
                     </div>
                   </div>
                 </div>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl">
+              <DialogContent className="max-w-[95vw] sm:max-w-2xl mx-4">
                 <DialogHeader>
                   <DialogTitle>Medium Magnets (2.75" × 3.5") ⭐</DialogTitle>
                   <DialogDescription>
@@ -302,7 +302,7 @@ export default function Home() {
                     alt="Detailed view of medium magnets"
                     className="w-full h-auto rounded-xl mb-4"
                   />
-                  <div className="space-y-3 text-foreground/70">
+                  <div className="space-y-3 text-foreground/70 text-sm lg:text-base">
                     <p><strong>Dimensions:</strong> 2.75" × 3.5" (7.0 × 8.9 cm)</p>
                     <p><strong>Pull Strength:</strong> 4-5 lbs</p>
                     <p><strong>Best For:</strong> Photos, artwork, promotional materials, gifts</p>
@@ -316,11 +316,11 @@ export default function Home() {
             {/* Large Magnets */}
             <Dialog>
               <DialogTrigger asChild>
-                <div className="bg-card rounded-3xl p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 cursor-pointer">
-                  <div className="aspect-[4/4] bg-gradient-to-br from-secondary/10 to-primary/10 rounded-2xl mb-8 overflow-hidden relative">
+                <div className="bg-card rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 cursor-pointer">
+                  <div className="aspect-[4/4] bg-gradient-to-br from-secondary/10 to-primary/10 rounded-xl lg:rounded-2xl mb-6 lg:mb-8 overflow-hidden relative">
                     <img
                       src="/large.jpg"
-                      alt="Large magnets - 4x4 inch size"
+                      alt="Large magnets - 3.25x4 inch size"
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
@@ -329,23 +329,23 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className="space-y-4">
-                    <div className="bg-secondary/30 text-secondary px-4 py-2 rounded-full text-sm font-semibold inline-block">
+                  <div className="space-y-3 lg:space-y-4">
+                    <div className="bg-secondary/30 text-secondary px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-semibold inline-block">
                       Detail Rich
                     </div>
-                    <h3 className="text-2xl font-bold text-foreground/80">Large Size</h3>
-                    <div className="text-3xl font-bold text-secondary mb-2">3.25" × 4"</div>
-                    <p className="text-foreground/70 text-base leading-relaxed">
+                    <h3 className="text-xl lg:text-2xl font-bold text-foreground/80">Large Size</h3>
+                    <div className="text-2xl lg:text-3xl font-bold text-secondary mb-2">3.25" × 4"</div>
+                    <p className="text-foreground/70 text-sm lg:text-base leading-relaxed">
                       Maximum impact! Perfect for detailed artwork, family photos, or when you want
                       your magnet to be the centerpiece.
                     </p>
-                    <div className="pt-2 text-sm text-foreground/60">
+                    <div className="pt-2 text-xs lg:text-sm text-foreground/60">
                       Pull Strength: 6-8 lbs
                     </div>
                   </div>
                 </div>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl">
+              <DialogContent className="max-w-[95vw] sm:max-w-2xl mx-4">
                 <DialogHeader>
                   <DialogTitle>Large Magnets (3.25" × 4")</DialogTitle>
                   <DialogDescription>
@@ -358,7 +358,7 @@ export default function Home() {
                     alt="Detailed view of large magnets"
                     className="w-full h-auto rounded-xl mb-4"
                   />
-                  <div className="space-y-3 text-foreground/70">
+                  <div className="space-y-3 text-foreground/70 text-sm lg:text-base">
                     <p><strong>Dimensions:</strong> 3.25" × 4" (8.3 × 10.2 cm)</p>
                     <p><strong>Pull Strength:</strong> 6-8 lbs</p>
                     <p><strong>Best For:</strong> Detailed artwork, family photos, statement pieces</p>
@@ -389,52 +389,52 @@ export default function Home() {
       </section>
 
       {/* Feature Section */}
-      <section className="py-24 bg-gradient-to-br from-accent/10 to-primary/10">
-        <div className="max-w-7xl mx-auto px-6 sm:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-foreground/80 mb-4">
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-accent/10 to-primary/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground/80 mb-4">
               What We Believe In
             </h2>
-            <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-foreground/70 max-w-2xl mx-auto px-4">
               Our values guide everything we do, from design to customer service
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Heart className="h-10 w-10 text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            <div className="text-center group p-4">
+              <div className="w-16 h-16 lg:w-20 lg:h-20 bg-primary/10 rounded-xl lg:rounded-2xl flex items-center justify-center mx-auto mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Heart className="h-8 w-8 lg:h-10 lg:w-10 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-foreground/80 mb-3">
+              <h3 className="text-lg lg:text-xl font-semibold text-foreground/80 mb-3">
                 Beauty in Details
               </h3>
-              <p className="text-foreground/70 leading-relaxed">
+              <p className="text-foreground/70 leading-relaxed text-sm lg:text-base">
                 We believe that the smallest touches can make the biggest impact. Every magnet is designed
                 to bring a moment of beauty to your everyday life.
               </p>
             </div>
 
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Sparkles className="h-10 w-10 text-primary" />
+            <div className="text-center group p-4">
+              <div className="w-16 h-16 lg:w-20 lg:h-20 bg-primary/10 rounded-xl lg:rounded-2xl flex items-center justify-center mx-auto mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Sparkles className="h-8 w-8 lg:h-10 lg:w-10 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-foreground/80 mb-3">
+              <h3 className="text-lg lg:text-xl font-semibold text-foreground/80 mb-3">
                 Quality First
               </h3>
-              <p className="text-foreground/70 leading-relaxed">
+              <p className="text-foreground/70 leading-relaxed text-sm lg:text-base">
                 Premium materials, fade-resistant inks, and strong magnets ensure that your purchase
                 will bring joy for years to come.
               </p>
             </div>
 
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                <Users className="h-10 w-10 text-primary" />
+            <div className="text-center group p-4">
+              <div className="w-16 h-16 lg:w-20 lg:h-20 bg-primary/10 rounded-xl lg:rounded-2xl flex items-center justify-center mx-auto mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Users className="h-8 w-8 lg:h-10 lg:w-10 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-foreground/80 mb-3">
+              <h3 className="text-lg lg:text-xl font-semibold text-foreground/80 mb-3">
                 Customer Joy
               </h3>
-              <p className="text-foreground/70 leading-relaxed">
+              <p className="text-foreground/70 leading-relaxed text-sm lg:text-base">
                 Your happiness is our success. We're not satisfied until you're absolutely delighted
                 with your magnets and the experience of shopping with us.
               </p>

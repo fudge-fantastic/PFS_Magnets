@@ -278,8 +278,8 @@ export default function Product() {
                   </div>
                 </div>
 
-                <div className="flex gap-4">
-                  <button 
+                <div className="flex flex-col md:flex-row gap-4">
+                  <button
                     onClick={handleWhatsAppClick}
                     className="flex-1 bg-green-500 hover:bg-green-600 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2"
                   >
