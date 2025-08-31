@@ -1,6 +1,7 @@
 import type { Route } from "./+types/home";
 import { Link } from "react-router";
 import { ArrowRight, Sparkles, Heart, Star, Users, ZoomIn } from "lucide-react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +19,68 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  // Conditional wrapper for dialogs - only show on non-mobile devices
+  const ConditionalDialog = ({ children, content }: { 
+    children: React.ReactNode;
+    content?: {
+      title: string;
+      description: string;
+      image: string;
+      imageAlt: string;
+      details: { label: string; value: string }[];
+      note?: string;
+      noteColor?: string;
+    };
+  }) => {
+    if (isMobile || !content) {
+      return <>{children}</>;
+    }
+
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          {children}
+        </DialogTrigger>
+        <DialogContent className="max-w-[95vw] sm:max-w-2xl mx-4">
+          <DialogHeader>
+            <DialogTitle>{content.title}</DialogTitle>
+            <DialogDescription>{content.description}</DialogDescription>
+          </DialogHeader>
+          <div className="mt-4">
+            <img
+              src={content.image}
+              alt={content.imageAlt}
+              className="w-full h-auto rounded-xl mb-4"
+            />
+            <div className="space-y-3 text-foreground/70 text-sm lg:text-base">
+              {content.details.map((detail, index) => (
+                <p key={index}><strong>{detail.label}:</strong> {detail.value}</p>
+              ))}
+              {content.note && (
+                <p className={`font-medium ${content.noteColor || 'text-primary'}`}>
+                  {content.note}
+                </p>
+              )}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  };
+
   const categories = [
     {
       name: "Fridge Magnets",
@@ -106,7 +169,7 @@ export default function Home() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-background">
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground/80 mb-4">
@@ -169,7 +232,7 @@ export default function Home() {
 
 
       {/* Magnet Sizes Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-background">
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-primary/5 to-accent/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground/80 mb-4">
@@ -203,171 +266,149 @@ export default function Home() {
           {/* Individual Size Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-8 lg:mb-12">
             {/* Small Magnets */}
-            <Dialog>
-              <DialogTrigger asChild>
-                <div className="bg-card rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 cursor-pointer">
-                  <div className="aspect-[4/4] bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl lg:rounded-2xl mb-6 lg:mb-8 overflow-hidden relative">
-                    <img
-                      src="/small.jpg"
-                      alt="Small magnets - 2.75x2.75 inch size"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                      <div className="bg-white/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
-                        <ZoomIn className="h-4 w-4 text-foreground/80" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-3 lg:space-y-4">
-                    <div className="bg-primary/10 text-primary px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-semibold inline-block">
-                      Compact & Cute
-                    </div>
-                    <h3 className="text-xl lg:text-2xl font-bold text-foreground/80">Small Size</h3>
-                    <div className="text-2xl lg:text-3xl font-bold text-primary mb-2">2.75" × 2.75"</div>
-                    <p className="text-foreground/70 text-sm lg:text-base leading-relaxed">
-                      Perfect for delicate designs, logos, or when you need multiple magnets in a small space.
-                      Ideal for refrigerator collections.
-                    </p>
-                    <div className="pt-2 text-xs lg:text-sm text-foreground/60">
-                      Pull Strength: 2-3 lbs
-                    </div>
-                  </div>
-                </div>
-              </DialogTrigger>
-              <DialogContent className="max-w-[95vw] sm:max-w-2xl mx-4">
-                <DialogHeader>
-                  <DialogTitle>Small Magnets (2.75" × 2.75")</DialogTitle>
-                  <DialogDescription>
-                    Perfect for delicate designs and compact spaces
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="mt-4">
+            <ConditionalDialog 
+              content={{
+                title: "Small Magnets (2.75\" × 2.75\")",
+                description: "Perfect for delicate designs and compact spaces",
+                image: "/small.jpg",
+                imageAlt: "Detailed view of small magnets",
+                details: [
+                  { label: "Dimensions", value: "2.75\" × 2.75\" (7.0 × 7.0 cm)" },
+                  { label: "Pull Strength", value: "2-3 lbs" },
+                  { label: "Best For", value: "Logos, small artwork, multiple magnet displays" },
+                  { label: "Material", value: "Premium vinyl with neodymium magnetic core" }
+                ]
+              }}
+            >
+              <div className={`bg-card rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 ${!isMobile ? 'cursor-pointer' : ''}`}>
+                <div className="aspect-[4/4] bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl lg:rounded-2xl mb-6 lg:mb-8 overflow-hidden relative">
                   <img
                     src="/small.jpg"
-                    alt="Detailed view of small magnets"
-                    className="w-full h-auto rounded-xl mb-4"
+                    alt="Small magnets - 2.75x2.75 inch size"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="space-y-3 text-foreground/70 text-sm lg:text-base">
-                    <p><strong>Dimensions:</strong> 2.75" × 2.75" (7.0 × 7.0 cm)</p>
-                    <p><strong>Pull Strength:</strong> 2-3 lbs</p>
-                    <p><strong>Best For:</strong> Logos, small artwork, multiple magnet displays</p>
-                    <p><strong>Material:</strong> Premium vinyl with neodymium magnetic core</p>
+                  {!isMobile && (
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                      <div className="bg-white/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
+                        <ZoomIn className="h-4 w-4 text-foreground/80" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-3 lg:space-y-4">
+                  <div className="bg-primary/10 text-primary px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-semibold inline-block">
+                    Compact & Cute
+                  </div>
+                  <h3 className="text-xl lg:text-2xl font-bold text-foreground/80">Small Size</h3>
+                  <div className="text-2xl lg:text-3xl font-bold text-primary mb-2">2.75" × 2.75"</div>
+                  <p className="text-foreground/70 text-sm lg:text-base leading-relaxed">
+                    Perfect for delicate designs, logos, or when you need multiple magnets in a small space.
+                    Ideal for refrigerator collections.
+                  </p>
+                  <div className="pt-2 text-xs lg:text-sm text-foreground/60">
+                    Pull Strength: 2-3 lbs
                   </div>
                 </div>
-              </DialogContent>
-            </Dialog>
+              </div>
+            </ConditionalDialog>
 
             {/* Medium Magnets */}
-            <Dialog>
-              <DialogTrigger asChild>
-                <div className="bg-card rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 md:scale-105 cursor-pointer">
-                  <div className="aspect-[4/4] bg-gradient-to-br from-accent/10 to-primary/10 rounded-xl lg:rounded-2xl mb-6 lg:mb-8 overflow-hidden relative">
-                    <img
-                      src="/medium.jpg"
-                      alt="Medium magnets - 2.75x3.5 inch size"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                      <div className="bg-white/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
-                        <ZoomIn className="h-4 w-4 text-foreground/80" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="space-y-3 lg:space-y-4">
-                    <div className="bg-accent/20 text-accent px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-semibold inline-block">
-                      Most Popular ⭐
-                    </div>
-                    <h3 className="text-xl lg:text-2xl font-bold text-foreground/80">Medium Size</h3>
-                    <div className="text-2xl lg:text-3xl font-bold text-accent mb-2">2.75" × 3.5"</div>
-                    <p className="text-foreground/70 text-sm lg:text-base leading-relaxed">
-                      Our bestseller! The perfect balance of visibility and space efficiency.
-                      Great for photos, artwork, and promotional materials.
-                    </p>
-                    <div className="pt-2 text-xs lg:text-sm text-foreground/60">
-                      Pull Strength: 4-5 lbs
-                    </div>
-                  </div>
-                </div>
-              </DialogTrigger>
-              <DialogContent className="max-w-[95vw] sm:max-w-2xl mx-4">
-                <DialogHeader>
-                  <DialogTitle>Medium Magnets (2.75" × 3.5") ⭐</DialogTitle>
-                  <DialogDescription>
-                    Our most popular size - perfect balance of impact and practicality
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="mt-4">
+            <ConditionalDialog
+              content={{
+                title: "Medium Magnets (2.75\" × 3.5\") ⭐",
+                description: "Our most popular size - perfect balance of impact and practicality",
+                image: "/medium.jpg",
+                imageAlt: "Detailed view of medium magnets",
+                details: [
+                  { label: "Dimensions", value: "2.75\" × 3.5\" (7.0 × 8.9 cm)" },
+                  { label: "Pull Strength", value: "4-5 lbs" },
+                  { label: "Best For", value: "Photos, artwork, promotional materials, gifts" },
+                  { label: "Material", value: "Premium vinyl with neodymium magnetic core" }
+                ],
+                note: "🏆 Customer favorite - 80% of orders choose this size!",
+                noteColor: "text-accent"
+              }}
+            >
+              <div className="bg-card rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 cursor-pointer">
+                <div className="aspect-[4/4] bg-gradient-to-br from-accent/10 to-primary/10 rounded-xl lg:rounded-2xl mb-6 lg:mb-8 overflow-hidden relative">
                   <img
                     src="/medium.jpg"
-                    alt="Detailed view of medium magnets"
-                    className="w-full h-auto rounded-xl mb-4"
+                    alt="Medium magnets - 2.75x3.5 inch size"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="space-y-3 text-foreground/70 text-sm lg:text-base">
-                    <p><strong>Dimensions:</strong> 2.75" × 3.5" (7.0 × 8.9 cm)</p>
-                    <p><strong>Pull Strength:</strong> 4-5 lbs</p>
-                    <p><strong>Best For:</strong> Photos, artwork, promotional materials, gifts</p>
-                    <p><strong>Material:</strong> Premium vinyl with neodymium magnetic core</p>
-                    <p className="text-accent font-medium">🏆 Customer favorite - 80% of orders choose this size!</p>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-
-            {/* Large Magnets */}
-            <Dialog>
-              <DialogTrigger asChild>
-                <div className="bg-card rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 cursor-pointer">
-                  <div className="aspect-[4/4] bg-gradient-to-br from-secondary/10 to-primary/10 rounded-xl lg:rounded-2xl mb-6 lg:mb-8 overflow-hidden relative">
-                    <img
-                      src="/large.jpg"
-                      alt="Large magnets - 3.25x4 inch size"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                    {!isMobile && (
                       <div className="bg-white/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
                         <ZoomIn className="h-4 w-4 text-foreground/80" />
                       </div>
-                    </div>
-                  </div>
-                  <div className="space-y-3 lg:space-y-4">
-                    <div className="bg-secondary/30 text-secondary px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-semibold inline-block">
-                      Detail Rich
-                    </div>
-                    <h3 className="text-xl lg:text-2xl font-bold text-foreground/80">Large Size</h3>
-                    <div className="text-2xl lg:text-3xl font-bold text-secondary mb-2">3.25" × 4"</div>
-                    <p className="text-foreground/70 text-sm lg:text-base leading-relaxed">
-                      Maximum impact! Perfect for detailed artwork, family photos, or when you want
-                      your magnet to be the centerpiece.
-                    </p>
-                    <div className="pt-2 text-xs lg:text-sm text-foreground/60">
-                      Pull Strength: 6-8 lbs
-                    </div>
+                    )}
                   </div>
                 </div>
-              </DialogTrigger>
-              <DialogContent className="max-w-[95vw] sm:max-w-2xl mx-4">
-                <DialogHeader>
-                  <DialogTitle>Large Magnets (3.25" × 4")</DialogTitle>
-                  <DialogDescription>
-                    Maximum impact for detailed artwork and statement pieces
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="mt-4">
+                <div className="space-y-3 lg:space-y-4">
+                  <div className="bg-accent/20 text-accent px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-semibold inline-block">
+                    Most Popular ⭐
+                  </div>
+                  <h3 className="text-xl lg:text-2xl font-bold text-foreground/80">Medium Size</h3>
+                  <div className="text-2xl lg:text-3xl font-bold text-accent mb-2">2.75" × 3.5"</div>
+                  <p className="text-foreground/70 text-sm lg:text-base leading-relaxed">
+                    Our bestseller! The perfect balance of visibility and space efficiency.
+                    Great for photos, artwork, and promotional materials.
+                  </p>
+                  <div className="pt-2 text-xs lg:text-sm text-foreground/60">
+                    Pull Strength: 4-5 lbs
+                  </div>
+                </div>
+              </div>
+            </ConditionalDialog>
+
+            {/* Large Magnets */}
+            <ConditionalDialog
+              content={{
+                title: "Large Magnets (3.25\" × 4\")",
+                description: "Maximum impact for detailed artwork and statement pieces",
+                image: "/large.jpg",
+                imageAlt: "Detailed view of large magnets",
+                details: [
+                  { label: "Dimensions", value: "3.25\" × 4\" (8.3 × 10.2 cm)" },
+                  { label: "Pull Strength", value: "6-8 lbs" },
+                  { label: "Best For", value: "Detailed artwork, family photos, statement pieces" },
+                  { label: "Material", value: "Premium vinyl with neodymium magnetic core" }
+                ],
+                note: "💎 Premium choice for maximum visual impact",
+                noteColor: "text-secondary"
+              }}
+            >
+              <div className="bg-card rounded-2xl lg:rounded-3xl p-6 lg:p-8 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300 cursor-pointer">
+                <div className="aspect-[4/4] bg-gradient-to-br from-secondary/10 to-primary/10 rounded-xl lg:rounded-2xl mb-6 lg:mb-8 overflow-hidden relative">
                   <img
                     src="/large.jpg"
-                    alt="Detailed view of large magnets"
-                    className="w-full h-auto rounded-xl mb-4"
+                    alt="Large magnets - 3.25x4 inch size"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="space-y-3 text-foreground/70 text-sm lg:text-base">
-                    <p><strong>Dimensions:</strong> 3.25" × 4" (8.3 × 10.2 cm)</p>
-                    <p><strong>Pull Strength:</strong> 6-8 lbs</p>
-                    <p><strong>Best For:</strong> Detailed artwork, family photos, statement pieces</p>
-                    <p><strong>Material:</strong> Premium vinyl with neodymium magnetic core</p>
-                    <p className="text-secondary font-medium">💎 Premium choice for maximum visual impact</p>
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                    {!isMobile && (
+                      <div className="bg-white/90 p-2 rounded-full opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
+                        <ZoomIn className="h-4 w-4 text-foreground/80" />
+                      </div>
+                    )}
                   </div>
                 </div>
-              </DialogContent>
-            </Dialog>
+                <div className="space-y-3 lg:space-y-4">
+                  <div className="bg-primary/10 text-primary px-3 lg:px-4 py-1.5 lg:py-2 rounded-full text-xs lg:text-sm font-semibold inline-block">
+                    Detail Rich
+                  </div>
+                  <h3 className="text-xl lg:text-2xl font-bold text-foreground/80">Large Size</h3>
+                  <div className="text-2xl lg:text-3xl font-bold text-primary mb-2">3.25" × 4"</div>
+                  <p className="text-foreground/70 text-sm lg:text-base leading-relaxed">
+                    Maximum impact! Perfect for detailed artwork, family photos, or when you want
+                    your magnet to be the centerpiece.
+                  </p>
+                  <div className="pt-2 text-xs lg:text-sm text-foreground/60">
+                    Pull Strength: 6-8 lbs
+                  </div>
+                </div>
+              </div>
+            </ConditionalDialog>
           </div>
 
           {/* Additional Size Info */}
@@ -389,7 +430,7 @@ export default function Home() {
       </section>
 
       {/* Feature Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-br from-accent/10 to-primary/10">
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-2xl sm:text-3xl font-bold text-foreground/80 mb-4">

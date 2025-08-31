@@ -54,30 +54,30 @@ export default function About() {
                         {/* Size Options */}
                         <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/20 text-center">
                             <Ruler className="h-12 w-12 text-primary mx-auto mb-4" />
-                            <h3 className="text-lg font-semibold text-foreground/80 mb-2">2" × 2"</h3>
+                            <h3 className="text-lg font-semibold text-foreground/80 mb-2">2.75" × 2.75"</h3>
                             <p className="text-foreground/70 text-sm mb-2">Perfect for small spaces</p>
-                            <p className="text-primary font-medium">2 lbs pull strength</p>
+                            <p className="text-primary font-medium">2-3 lbs pull strength</p>
                         </div>
 
                         <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/20 text-center">
                             <Ruler className="h-12 w-12 text-primary mx-auto mb-4" />
-                            <h3 className="text-lg font-semibold text-foreground/80 mb-2">3" × 3"</h3>
+                            <h3 className="text-lg font-semibold text-foreground/80 mb-2">2.75" × 3.5"</h3>
                             <p className="text-foreground/70 text-sm mb-2">Most popular size</p>
-                            <p className="text-primary font-medium">4 lbs pull strength</p>
+                            <p className="text-primary font-medium">4-5 lbs pull strength</p>
                         </div>
 
                         <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/20 text-center">
                             <Ruler className="h-12 w-12 text-primary mx-auto mb-4" />
-                            <h3 className="text-lg font-semibold text-foreground/80 mb-2">4" × 4"</h3>
+                            <h3 className="text-lg font-semibold text-foreground/80 mb-2">3.25" × 4"</h3>
                             <p className="text-foreground/70 text-sm mb-2">Great for detailed designs</p>
-                            <p className="text-primary font-medium">6 lbs pull strength</p>
+                            <p className="text-primary font-medium">6-8 lbs pull strength</p>
                         </div>
 
                         <div className="bg-card rounded-2xl p-6 shadow-sm border border-border/20 text-center">
                             <Ruler className="h-12 w-12 text-primary mx-auto mb-4" />
-                            <h3 className="text-lg font-semibold text-foreground/80 mb-2">4" × 6"</h3>
-                            <p className="text-foreground/70 text-sm mb-2">Rectangular format</p>
-                            <p className="text-primary font-medium">8 lbs pull strength</p>
+                            <h3 className="text-lg font-semibold text-foreground/80 mb-2">Custom Sizes</h3>
+                            <p className="text-foreground/70 text-sm mb-2">Made to order</p>
+                            <p className="text-primary font-medium">Varies by size</p>
                         </div>
                     </div>
 

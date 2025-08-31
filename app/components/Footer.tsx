@@ -12,7 +12,7 @@ export function Footer() {
               to="/" 
               className="text-2xl font-semibold text-primary hover:text-primary/80 transition-colors duration-200"
             >
-              .magnets
+              pfs.magnets
             </Link>
             <p className="text-foreground/70 leading-relaxed">
               Beautiful magnets that bring joy to everyday spaces. 
@@ -21,7 +21,7 @@ export function Footer() {
             <div className="flex items-center gap-2 text-foreground/70">
               <span>Made with</span>
               <Heart className="h-4 w-4 text-red-500 fill-current" />
-              <span>bluesalt</span>
+              <span>Pixel Forge Studio</span>
             </div>
           </div>
 
@@ -87,17 +87,17 @@ export function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-foreground/70">
                 <Mail className="h-4 w-4" />
-                <span className="text-sm">hello@beautifulmagnets.com</span>
+                <span className="text-sm">adi.pandagle@gmail.com</span>
               </div>
               <div className="flex items-center gap-3 text-foreground/70">
                 <Phone className="h-4 w-4" />
-                <span className="text-sm">+1 (555) 123-4567</span>
+                <span className="text-sm">+91 7972567926</span>
               </div>
               <div className="flex items-start gap-3 text-foreground/70">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
                 <span className="text-sm">
                   123 Creative Street<br />
-                  Design District, NY 10001
+                  Design District, Pune - Maharashtra, India
                 </span>
               </div>
             </div>
@@ -107,7 +107,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-border/50 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-foreground/60 text-sm">
-            © 2024 Beautiful Magnets. All rights reserved.
+            © 2025 Beautiful Magnets. All rights reserved.
           </p>
           
           <div className="flex items-center gap-6 text-sm text-foreground/60">
