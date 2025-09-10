@@ -17,6 +17,42 @@ body {
   background-image: linear-gradient(135deg, oklch(var(--background)), oklch(var(--muted)));
 }
 
+/* Responsive container utilities */
+.container-responsive {
+  @apply mx-auto px-4 sm:px-6 lg:px-8;
+  max-width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container-responsive {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-responsive {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-responsive {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container-responsive {
+    max-width: 1400px;
+  }
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -223,6 +259,74 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Responsive text utilities */
+.text-responsive-xs {
+  @apply text-xs md:text-sm;
+}
+
+.text-responsive-sm {
+  @apply text-sm md:text-base;
+}
+
+.text-responsive-base {
+  @apply text-base md:text-lg;
+}
+
+.text-responsive-lg {
+  @apply text-lg md:text-xl lg:text-2xl;
+}
+
+.text-responsive-xl {
+  @apply text-xl md:text-2xl lg:text-3xl;
+}
+
+.text-responsive-2xl {
+  @apply text-2xl md:text-3xl lg:text-4xl;
+}
+
+.text-responsive-3xl {
+  @apply text-3xl md:text-4xl lg:text-5xl;
+}
+
+/* Responsive spacing utilities */
+.space-responsive-sm {
+  @apply space-y-4 md:space-y-6;
+}
+
+.space-responsive-md {
+  @apply space-y-6 md:space-y-8 lg:space-y-12;
+}
+
+.space-responsive-lg {
+  @apply space-y-8 md:space-y-12 lg:space-y-16;
+}
+
+/* Responsive padding utilities */
+.p-responsive-sm {
+  @apply p-4 md:p-6;
+}
+
+.p-responsive-md {
+  @apply p-6 md:p-8 lg:p-12;
+}
+
+.p-responsive-lg {
+  @apply p-8 md:p-12 lg:p-16;
+}
+
+/* Responsive margin utilities */
+.m-responsive-sm {
+  @apply m-4 md:m-6;
+}
+
+.m-responsive-md {
+  @apply m-6 md:m-8 lg:m-12;
+}
+
+.m-responsive-lg {
+  @apply m-8 md:m-12 lg:m-16;
 }
 
 /* Custom Animations */

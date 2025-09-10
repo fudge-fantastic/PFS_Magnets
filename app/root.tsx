@@ -47,7 +47,7 @@ export default function App() {
   return (
     <>
       <Navigation />
-      <main className="pt-16">
+      <main className="pt-14 md:pt-16">
         <Outlet />
       </main>
       <Footer />

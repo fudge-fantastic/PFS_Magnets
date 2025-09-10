@@ -66,7 +66,7 @@ export function Navigation() {
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'Gallery', path: '/gallery' },
-    { name: 'About', path: '/about' },
+    // { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -74,24 +74,24 @@ export function Navigation() {
 
   return (
     <nav className="fixed top-0 w-full bg-background/90 z-50 border-b border-border/50">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8">
-        <div className="flex items-center justify-between h-16">
+      <div className="container-responsive">
+        <div className="flex items-center justify-between h-14 md:h-16">
           {/* Logo */}
           <Link 
             to="/" 
-            className="text-2xl font-semibold text-primary hover:text-primary/80 transition-colors duration-200"
+            className="text-lg md:text-xl font-semibold text-primary hover:text-primary/80 transition-colors duration-200"
           >
             {/* .magnets */}
             pfs.magnets
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-7">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`font-medium transition-colors duration-200 hover:text-primary ${
+                className={`font-semibold text-sm lg:text-base transition-colors duration-200 hover:text-primary ${
                   location.pathname === item.path
                     ? 'text-primary border-b-2 border-primary pb-1'
                     : 'text-foreground/80'
@@ -105,25 +105,25 @@ export function Navigation() {
             <div className="relative" ref={themeMenuRef}>
               <button
                 onClick={() => setIsThemeMenuOpen(!isThemeMenuOpen)}
-                className="p-2 rounded-full bg-secondary/50 hover:bg-secondary transition-colors duration-200 flex items-center space-x-2"
+                className="p-1.5 lg:p-2 rounded-full bg-secondary/50 hover:bg-secondary transition-colors duration-200 flex items-center space-x-1 lg:space-x-2"
                 aria-label="Select theme"
               >
-                <Palette className="h-4 w-4 text-foreground" />
-                <ChevronDown className={`h-3 w-3 text-foreground/60 transition-transform duration-200 ${isThemeMenuOpen ? 'rotate-180' : ''}`} />
+                <Palette className="h-3.5 w-3.5 lg:h-4 lg:w-4 text-foreground" />
+                <ChevronDown className={`h-2.5 w-2.5 lg:h-3 lg:w-3 text-foreground/60 transition-transform duration-200 ${isThemeMenuOpen ? 'rotate-180' : ''}`} />
               </button>
               
               {isThemeMenuOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-background border border-border/50 rounded-lg shadow-lg overflow-hidden">
+                <div className="absolute right-0 mt-2 w-36 lg:w-40 bg-background border border-border/50 rounded-lg shadow-lg overflow-hidden">
                   {themes.map((theme) => (
                     <button
                       key={theme.id}
                       onClick={() => handleThemeChange(theme.id)}
-                      className={`w-full px-4 py-3 text-left hover:bg-secondary/50 transition-colors duration-200 flex items-center space-x-3 ${
+                      className={`w-full px-3 lg:px-4 py-2 lg:py-3 text-left hover:bg-secondary/50 transition-colors duration-200 flex items-center space-x-2 lg:space-x-3 ${
                         currentTheme === theme.id ? 'bg-secondary/30' : ''
                       }`}
                     >
-                      <div className={`w-4 h-4 rounded-full ${theme.color}`} />
-                      <span className="text-sm font-medium text-foreground/80">{theme.name}</span>
+                      <div className={`w-3 h-3 lg:w-4 lg:h-4 rounded-full ${theme.color}`} />
+                      <span className="text-xs lg:text-sm font-medium text-foreground/80">{theme.name}</span>
                     </button>
                   ))}
                 </div>
@@ -136,24 +136,24 @@ export function Navigation() {
             <div className="relative" ref={mobileThemeMenuRef}>
               <button
                 onClick={() => setIsThemeMenuOpen(!isThemeMenuOpen)}
-                className="p-2 rounded-full bg-secondary/50 hover:bg-secondary transition-colors duration-200"
+                className="p-1.5 rounded-full bg-secondary/50 hover:bg-secondary transition-colors duration-200"
                 aria-label="Select theme"
               >
                 <Palette className="h-4 w-4 text-foreground" />
               </button>
               
               {isThemeMenuOpen && (
-                <div className="absolute right-0 mt-2 w-40 bg-background border border-border/50 rounded-lg shadow-lg overflow-hidden">
+                <div className="absolute right-0 mt-2 w-36 bg-background border border-border/50 rounded-lg shadow-lg overflow-hidden">
                   {themes.map((theme) => (
                     <button
                       key={theme.id}
                       onClick={() => handleThemeChange(theme.id)}
-                      className={`w-full px-4 py-3 text-left hover:bg-secondary/50 transition-colors duration-200 flex items-center space-x-3 ${
+                      className={`w-full px-3 py-2 text-left hover:bg-secondary/50 transition-colors duration-200 flex items-center space-x-2 ${
                         currentTheme === theme.id ? 'bg-secondary/30' : ''
                       }`}
                     >
-                      <div className={`w-4 h-4 rounded-full ${theme.color}`} />
-                      <span className="text-sm font-medium text-foreground/80">{theme.name}</span>
+                      <div className={`w-3 h-3 rounded-full ${theme.color}`} />
+                      <span className="text-xs font-medium text-foreground/80">{theme.name}</span>
                     </button>
                   ))}
                 </div>
@@ -162,9 +162,9 @@ export function Navigation() {
             
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-md text-foreground hover:bg-secondary transition-colors duration-200"
+              className="p-1.5 rounded-md text-foreground hover:bg-secondary transition-colors duration-200"
             >
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
