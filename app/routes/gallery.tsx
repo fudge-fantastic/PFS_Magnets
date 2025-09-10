@@ -1,7 +1,7 @@
 import type { Route } from "./+types/gallery";
 import { Link, useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
-import { Heart, Eye, Filter } from "lucide-react";
+import { Heart } from "lucide-react";
 import { api, type Product, type Category } from "~/lib/api";
 
 export function meta({}: Route.MetaArgs) {
@@ -21,31 +21,6 @@ export default function Gallery() {
   const [productsLoading, setProductsLoading] = useState(true);
   const [apiError, setApiError] = useState(false);
 
-  // Dummy data for products when API is not available (20+ products)
-  const dummyProducts: Product[] = [
-    { id: 1, title: "Vintage Rose", description: "Beautiful vintage rose design", short_description: "Classic floral magnet", price: 12.99, category_id: 1, category_name: "Fridge Magnets", rating: 4.5, images: ["/designer.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 2, title: "Modern Geometric", description: "Contemporary geometric patterns", short_description: "Sleek modern design", price: 14.99, category_id: 1, category_name: "Fridge Magnets", rating: 4.7, images: ["/designer1.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 3, title: "Family Photo", description: "Custom family photo magnet", short_description: "Personalized memories", price: 18.99, category_id: 2, category_name: "Photo Magnets", rating: 5.0, images: ["/1.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 4, title: "Retro Sunset", description: "Nostalgic sunset design", short_description: "Vintage sunset vibes", price: 15.99, category_id: 3, category_name: "Retro Prints", rating: 4.8, images: ["/dummy.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 5, title: "Wedding Calendar", description: "Beautiful wedding save the date calendar", short_description: "Special date reminder", price: 19.99, category_id: 4, category_name: "Save the Date", rating: 4.9, images: ["/small.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 6, title: "Coffee Cup", description: "Steaming coffee cup design", short_description: "Morning motivation", price: 11.99, category_id: 1, category_name: "Fridge Magnets", rating: 4.3, images: ["/medium.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 7, title: "City Skyline", description: "Urban city skyline at night", short_description: "Metropolitan view", price: 17.99, category_id: 1, category_name: "Fridge Magnets", rating: 4.4, images: ["/large.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 8, title: "Pet Portrait", description: "Custom pet portrait magnet", short_description: "Beloved pet memories", price: 19.99, category_id: 2, category_name: "Photo Magnets", rating: 4.8, images: ["/all_sizes.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 9, title: "80s Neon", description: "Bright neon 80s style", short_description: "Retro neon vibes", price: 14.99, category_id: 3, category_name: "Retro Prints", rating: 4.5, images: ["/designer.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 10, title: "Anniversary Date", description: "Custom anniversary calendar magnet", short_description: "Love milestone", price: 21.99, category_id: 4, category_name: "Save the Date", rating: 4.7, images: ["/designer1.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 11, title: "Space Galaxy", description: "Cosmic galaxy design", short_description: "Stellar universe", price: 16.99, category_id: 1, category_name: "Fridge Magnets", rating: 4.8, images: ["/1.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 12, title: "Wedding Photo", description: "Beautiful wedding memory", short_description: "Special day keepsake", price: 22.99, category_id: 2, category_name: "Photo Magnets", rating: 5.0, images: ["/dummy.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 13, title: "Vintage Car", description: "Classic vintage automobile", short_description: "Retro automobile", price: 15.99, category_id: 3, category_name: "Retro Prints", rating: 4.4, images: ["/small.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 14, title: "Birthday Calendar", description: "Special birthday calendar magnet", short_description: "Birthday reminder", price: 17.99, category_id: 4, category_name: "Save the Date", rating: 4.6, images: ["/medium.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 15, title: "Pizza Slice", description: "Delicious pizza slice design", short_description: "Food lover's choice", price: 12.99, category_id: 1, category_name: "Fridge Magnets", rating: 4.4, images: ["/large.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 16, title: "Baby Photo", description: "Adorable baby photo magnet", short_description: "Precious moments", price: 17.99, category_id: 2, category_name: "Photo Magnets", rating: 4.9, images: ["/all_sizes.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 17, title: "Disco Ball", description: "Glittery disco ball design", short_description: "Party vibes", price: 16.99, category_id: 3, category_name: "Retro Prints", rating: 4.6, images: ["/designer.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 18, title: "Graduation Date", description: "Graduation ceremony calendar", short_description: "Achievement milestone", price: 20.99, category_id: 4, category_name: "Save the Date", rating: 5.0, images: ["/designer1.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 19, title: "Vintage Coffee", description: "Classic coffee shop design", short_description: "Retro café style", price: 13.99, category_id: 1, category_name: "Fridge Magnets", rating: 4.5, images: ["/1.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 20, title: "Graduation Photo", description: "Proud graduation moment", short_description: "Achievement celebration", price: 20.99, category_id: 2, category_name: "Photo Magnets", rating: 5.0, images: ["/dummy.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 21, title: "Vinyl Record", description: "Classic vinyl record design", short_description: "Music nostalgia", price: 14.99, category_id: 3, category_name: "Retro Prints", rating: 4.5, images: ["/small.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 22, title: "Holiday Calendar", description: "Special holiday calendar magnet", short_description: "Holiday memories", price: 18.99, category_id: 4, category_name: "Save the Date", rating: 4.8, images: ["/medium.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" }
-  ];
 
   // Get category from URL params on component mount, or default to first category
   useEffect(() => {
@@ -53,35 +28,27 @@ export default function Gallery() {
     if (categoryParam) {
       setSelectedCategory(categoryParam);
     } else if (categories.length > 0 && !selectedCategory) {
-      setSelectedCategory(categories[0].id.toString());
+      setSelectedCategory(categories[0].id);
     }
   }, [searchParams, categories]);
 
-  // Fetch categories
+  // Fetch categories from API
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await api.getCategories(true);
-        if (response.success && response.data && response.data.length > 0) {
+        if (response.success && response.data) {
           setCategories(response.data);
+          setApiError(false);
         } else {
-          // Use dummy categories if API returns no data
-          setCategories([
-            { id: 1, name: "Fridge Magnets", description: "Fun and functional magnets", is_active: true, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-            { id: 2, name: "Photo Magnets", description: "Personalized photo magnets", is_active: true, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-            { id: 3, name: "Retro Prints", description: "Vintage-inspired designs", is_active: true, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-            { id: 4, name: "Save the Date", description: "Calendar magnets for special occasions", is_active: true, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" }
-          ]);
+          console.warn('API returned no categories data');
+          setCategories([]);
+          setApiError(true);
         }
       } catch (error) {
         console.error('Failed to fetch categories:', error);
-        // Use dummy categories on API error
-        setCategories([
-          { id: 1, name: "Fridge Magnets", description: "Fun and functional magnets", is_active: true, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-          { id: 2, name: "Photo Magnets", description: "Personalized photo magnets", is_active: true, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-          { id: 3, name: "Retro Prints", description: "Vintage-inspired designs", is_active: true, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-          { id: 4, name: "Save the Date", description: "Calendar magnets for special occasions", is_active: true, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" }
-        ]);
+        setCategories([]);
+        setApiError(true);
       } finally {
         setLoading(false);
       }
@@ -90,42 +57,41 @@ export default function Gallery() {
     fetchCategories();
   }, []);
 
-  // Fetch products when category changes
+  // Fetch products from API
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setProductsLoading(true);
-        setApiError(false);
-        const response = await api.getProducts(0, 50); // Always get all products first
-        if (response.success && response.data && response.data.length > 0) {
-          setAllProducts(response.data); // Store all products for count calculations
-          setProducts(response.data); // Initially show all products
+        const response = await api.getProducts(0, 100); // Get more products
+        if (response.success && response.data) {
+          setAllProducts(response.data);
+          setProducts(response.data);
+          setApiError(false);
         } else {
-          // If API returns no data, use dummy data
+          console.warn('API returned no products data');
+          setAllProducts([]);
+          setProducts([]);
           setApiError(true);
-          setAllProducts(dummyProducts);
-          setProducts(dummyProducts);
         }
       } catch (error) {
         console.error('Failed to fetch products:', error);
-        // API failed, use dummy data
+        setAllProducts([]);
+        setProducts([]);
         setApiError(true);
-        setAllProducts(dummyProducts);
-        setProducts(dummyProducts);
       } finally {
         setProductsLoading(false);
       }
     };
 
-    if (!loading) { // Only fetch products after categories are loaded
+    if (!loading) {
       fetchProducts();
     }
-  }, [loading]); // Remove selectedCategory dependency since we fetch all products once
+  }, [loading]);
 
   // Filter products based on selected category
   useEffect(() => {
     if (selectedCategory) {
-      const filtered = allProducts.filter(product => product.category_id === parseInt(selectedCategory));
+      const filtered = allProducts.filter(product => product.category_id === selectedCategory);
       setProducts(filtered);
     }
   }, [selectedCategory, allProducts]);
@@ -133,7 +99,7 @@ export default function Gallery() {
 
   // Build category filter options (no 'All')
   const categoryOptions = categories.map(cat => ({
-    id: cat.id.toString(),
+    id: cat.id,
     name: cat.name,
     count: allProducts.filter(p => p.category_id === cat.id).length
   }));
@@ -192,11 +158,11 @@ export default function Gallery() {
       {/* Gallery Grid */}
       <section className="py-12 md:py-16">
         <div className="container-responsive">
-          {/* API Error Message (only when using dummy data) */}
+          {/* API Error Message */}
           {apiError && (
             <div className="mb-6 md:mb-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
               <p className="text-yellow-800 text-sm md:text-base">
-                ⚠️ Currently showing sample products. Live product data will appear when the API is connected.
+                ⚠️ Unable to connect to the API. Please check your connection or try again later.
               </p>
             </div>
           )}
@@ -279,15 +245,28 @@ export default function Gallery() {
             )}
           </div>
 
-          {/* Empty State */}
-          {!productsLoading && allProducts.length > 0 && filteredProducts.length === 0 && (
+          {/* Empty State for no products */}
+          {!productsLoading && !apiError && allProducts.length === 0 && (
+            <div className="text-center py-12 md:py-16">
+              <div className="text-4xl md:text-6xl mb-4">📦</div>
+              <h3 className="text-xl md:text-2xl font-semibold text-foreground/80 mb-2">
+                No products available
+              </h3>
+              <p className="text-foreground/70">
+                Check back later for new magnet designs.
+              </p>
+            </div>
+          )}
+
+          {/* Empty State for filtered results */}
+          {!productsLoading && !apiError && allProducts.length > 0 && filteredProducts.length === 0 && (
             <div className="text-center py-12 md:py-16">
               <div className="text-4xl md:text-6xl mb-4">🔍</div>
               <h3 className="text-xl md:text-2xl font-semibold text-foreground/80 mb-2">
-                No products found
+                No products found in this category
               </h3>
               <p className="text-foreground/70">
-                Try selecting a different category or check back later for new designs.
+                Try selecting a different category to see more designs.
               </p>
             </div>
           )}

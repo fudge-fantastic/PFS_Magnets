@@ -1,5 +1,5 @@
 // API configuration and client for PixelForge Studio backend
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://pfs-backend-3v9p.onrender.com';
 
 // API response type matching the backend format
 interface ApiResponse<T> {
@@ -11,12 +11,12 @@ interface ApiResponse<T> {
 
 // Product interface matching backend response
 export interface Product {
-  id: number;
+  id: string;
   title: string;
   description: string;
   short_description: string;
   price: number;
-  category_id: number;
+  category_id: string;
   category_name: string;
   rating: number;
   images: string[];
@@ -27,7 +27,7 @@ export interface Product {
 
 // Category interface matching backend response
 export interface Category {
-  id: number;
+  id: string;
   name: string;
   description: string;
   is_active: boolean;

@@ -6,6 +6,7 @@ export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentTheme, setCurrentTheme] = useState('lavender');
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const location = useLocation();
   const themeMenuRef = useRef<HTMLDivElement>(null);
   const mobileThemeMenuRef = useRef<HTMLDivElement>(null);
@@ -18,15 +19,23 @@ export function Navigation() {
   ];
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'lavender';
-    setCurrentTheme(savedTheme);
-    applyTheme(savedTheme);
+    setIsHydrated(true);
   }, []);
 
   useEffect(() => {
-    applyTheme(currentTheme);
-    localStorage.setItem('theme', currentTheme);
-  }, [currentTheme]);
+    if (isHydrated) {
+      const savedTheme = localStorage.getItem('theme') || 'lavender';
+      setCurrentTheme(savedTheme);
+      applyTheme(savedTheme);
+    }
+  }, [isHydrated]);
+
+  useEffect(() => {
+    if (isHydrated) {
+      applyTheme(currentTheme);
+      localStorage.setItem('theme', currentTheme);
+    }
+  }, [currentTheme, isHydrated]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -46,15 +55,17 @@ export function Navigation() {
   }, [isThemeMenuOpen]);
 
   const applyTheme = (theme: string) => {
-    // Remove all theme classes
-    document.documentElement.className = document.documentElement.className
-      .split(' ')
-      .filter(cls => !cls.startsWith('theme-'))
-      .join(' ');
-    
-    // Apply new theme class if not lavender (default)
-    if (theme !== 'lavender') {
-      document.documentElement.classList.add(`theme-${theme}`);
+    if (typeof window !== 'undefined') {
+      // Remove all theme classes
+      document.documentElement.className = document.documentElement.className
+        .split(' ')
+        .filter(cls => !cls.startsWith('theme-'))
+        .join(' ');
+      
+      // Apply new theme class if not lavender (default)
+      if (theme !== 'lavender') {
+        document.documentElement.classList.add(`theme-${theme}`);
+      }
     }
   };
 

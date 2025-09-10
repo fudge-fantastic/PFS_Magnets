@@ -58,7 +58,7 @@ export default function Product() {
 
       try {
         setLoading(true);
-        const productId = parseInt(params.id);
+        const productId = params.id;
         const response = await api.getProduct(productId);
         
         if (response.success && response.data) {
