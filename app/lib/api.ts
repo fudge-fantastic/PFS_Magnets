@@ -68,7 +68,7 @@ class ApiClient {
   }
 
   // Products API methods
-  async getPublicProducts(page: number = 0, limit: number = 12, categoryId?: number): Promise<ApiResponse<Product[]>> {
+  async getPublicProducts(page: number = 0, limit: number = 12, categoryId?: string): Promise<ApiResponse<Product[]>> {
     const skip = page * limit;
     let url = `/products/unlocked?skip=${skip}&limit=${limit}`;
     
@@ -79,7 +79,7 @@ class ApiClient {
     return this.request<Product[]>(url);
   }
 
-  async getAllProducts(page: number = 0, limit: number = 12, categoryId?: number): Promise<ApiResponse<Product[]>> {
+  async getAllProducts(page: number = 0, limit: number = 12, categoryId?: string): Promise<ApiResponse<Product[]>> {
     const skip = page * limit;
     let url = `/products/?skip=${skip}&limit=${limit}`;
     
@@ -90,7 +90,7 @@ class ApiClient {
     return this.request<Product[]>(url);
   }
 
-  async getProductDetails(productId: number): Promise<ApiResponse<Product>> {
+  async getProductDetails(productId: string): Promise<ApiResponse<Product>> {
     return this.request<Product>(`/products/${productId}`);
   }
 
@@ -109,7 +109,7 @@ class ApiClient {
     return this.request<Category[]>(url);
   }
 
-  async getCategoryDetails(categoryId: number): Promise<ApiResponse<Category>> {
+  async getCategoryDetails(categoryId: string): Promise<ApiResponse<Category>> {
     return this.request<Category>(`/categories/${categoryId}`);
   }
 
@@ -125,14 +125,14 @@ export const apiClient = new ApiClient();
 // Utility functions for common API operations
 export const api = {
   // Get products (defaults to public/unlocked only)
-  getProducts: (page?: number, limit?: number, categoryId?: number, includeAll: boolean = false) => {
+  getProducts: (page?: number, limit?: number, categoryId?: string, includeAll: boolean = false) => {
     return includeAll 
       ? apiClient.getAllProducts(page, limit, categoryId)
       : apiClient.getPublicProducts(page, limit, categoryId);
   },
 
   // Get product by ID
-  getProduct: (id: number) => apiClient.getProductDetails(id),
+  getProduct: (id: string) => apiClient.getProductDetails(id),
 
   // Get categories (defaults to active only)
   getCategories: (activeOnly: boolean = true) => {
@@ -142,7 +142,7 @@ export const api = {
   },
 
   // Get category by ID
-  getCategory: (id: number) => apiClient.getCategoryDetails(id),
+  getCategory: (id: string) => apiClient.getCategoryDetails(id),
 
   // Health check
   health: () => apiClient.checkHealth()
