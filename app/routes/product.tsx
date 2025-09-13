@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { api, type Product } from "~/lib/api";
 import { 
   ArrowLeft, 
-  Heart, 
   Share2, 
   Star, 
   Plus, 
@@ -43,7 +42,6 @@ export default function Product() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [isLiked, setIsLiked] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState('small');
 
@@ -93,6 +91,11 @@ export default function Product() {
     setQuantity(Math.max(1, quantity + change));
   };
 
+  const handleQuantityInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value) || 1;
+    setQuantity(Math.max(1, value));
+  };
+
   const nextImage = () => {
     if (product?.images && product.images.length > 0) {
       setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
@@ -107,6 +110,24 @@ export default function Product() {
 
   const goToImage = (index: number) => {
     setCurrentImageIndex(index);
+  };
+
+  const handleShareClick = () => {
+    if (navigator.share && product) {
+      navigator.share({
+        title: product.title,
+        text: `Check out this amazing ${product.title} magnet!`,
+        url: window.location.href
+      }).catch(console.error);
+    } else if (product) {
+      // Fallback: copy to clipboard
+      const shareText = `Check out this amazing ${product.title} magnet! ${window.location.href}`;
+      navigator.clipboard.writeText(shareText).then(() => {
+        alert('Link copied to clipboard!');
+      }).catch(() => {
+        alert('Share feature not available');
+      });
+    }
   };
 
   const handleWhatsAppClick = () => {
@@ -207,10 +228,10 @@ export default function Product() {
                   <img
                     src={`${product.images[currentImageIndex]}`}
                     alt={product.title}
-                    className="w-full h-full object-cover relative z-10 group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover relative z-10 transition-transform duration-300"
                   />
                 ) : (
-                  <span className="text-9xl relative z-10 group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-9xl relative z-10 transition-transform duration-300">
                     🖼️
                   </span>
                 )}
@@ -220,13 +241,13 @@ export default function Product() {
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white hover:scale-110 transition-all duration-200 shadow-lg"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white transition-all duration-200 shadow-lg z-20"
                     >
                       <ChevronLeft className="h-6 w-6" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white hover:scale-110 transition-all duration-200 shadow-lg"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white transition-all duration-200 shadow-lg z-20"
                     >
                       <ChevronRight className="h-6 w-6" />
                     </button>
@@ -234,25 +255,18 @@ export default function Product() {
                 )}
                 
                 {/* Action Buttons */}
-                <div className="absolute top-4 right-4 flex flex-col gap-2">
-                  <button
-                    onClick={() => setIsLiked(!isLiked)}
-                    className={`w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-200 shadow-lg ${
-                      isLiked 
-                        ? 'bg-red-500 text-white' 
-                        : 'bg-white/90 text-foreground hover:bg-white hover:scale-105'
-                    }`}
+                <div className="absolute top-4 right-4 flex flex-col gap-2 z-20">
+                  <button 
+                    onClick={handleShareClick}
+                    className="w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white transition-all duration-200 shadow-lg"
                   >
-                    <Heart className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
-                  </button>
-                  <button className="w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white hover:scale-105 transition-all duration-200 shadow-lg">
                     <Share2 className="h-5 w-5" />
                   </button>
                 </div>
                 
                 {/* Image Counter */}
                 {product.images && product.images.length > 1 && (
-                  <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 text-white text-sm font-medium">
+                  <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 text-white text-sm font-medium z-20">
                     {currentImageIndex + 1} / {product.images.length}
                   </div>
                 )}
@@ -261,13 +275,12 @@ export default function Product() {
               {/* Thumbnail Carousel */}
               {product.images && product.images.length > 1 && (
                 <div className="space-y-3">
-                  <h3 className="text-sm font-medium text-foreground/80">All Views</h3>
-                  <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+                  <div className="flex gap-3 overflow-x-auto pb-2 pt-4 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent justify-center">
                     {product.images.map((image, i) => (
                       <button
                         key={i}
                         onClick={() => goToImage(i)}
-                        className={`flex-shrink-0 w-20 h-20 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center cursor-pointer hover:scale-105 transition-all duration-200 overflow-hidden border-2 ${
+                        className={`flex-shrink-0 w-20 h-20 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-200 overflow-hidden border-2 ${
                           i === currentImageIndex 
                             ? 'border-primary shadow-lg' 
                             : 'border-transparent opacity-60 hover:opacity-80 hover:border-primary/30'
@@ -362,21 +375,13 @@ export default function Product() {
                 <div className="flex items-center gap-4">
                   <label className="font-medium text-foreground/80">Quantity:</label>
                   <div className="flex items-center border border-border rounded-lg overflow-hidden">
-                    <button
-                      onClick={() => updateQuantity(-1)}
-                      className="p-2 hover:bg-secondary transition-colors duration-200"
-                    >
-                      <Minus className="h-4 w-4" />
-                    </button>
-                    <span className="px-4 py-2 bg-secondary/20 min-w-[3rem] text-center font-medium">
-                      {quantity}
-                    </span>
-                    <button
-                      onClick={() => updateQuantity(1)}
-                      className="p-2 hover:bg-secondary transition-colors duration-200"
-                    >
-                      <Plus className="h-4 w-4" />
-                    </button>
+                    <input
+                      type="number"
+                      value={quantity}
+                      onChange={handleQuantityInput}
+                      min="1"
+                      className="px-4 py-2 bg-secondary/20 min-w-[3rem] text-center font-medium border-none outline-none focus:bg-secondary/30 transition-colors duration-200"
+                    />
                   </div>
                 </div>
 
@@ -394,12 +399,12 @@ export default function Product() {
                 <div className="flex flex-col md:flex-row gap-4">
                   <button
                     onClick={handleWhatsAppClick}
-                    className="flex-1 bg-green-500 hover:bg-green-600 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2"
+                    className="flex-1 bg-green-500 hover:bg-green-600 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2"
                   >
                     <MessageCircle className="h-5 w-5" />
                     Chat on WhatsApp - ₹{totalValue.toFixed(2)}
                   </button>
-                  <button className="px-6 py-4 border-2 border-primary text-primary rounded-xl font-semibold hover:bg-primary hover:text-primary-foreground transition-all duration-300">
+                  <button className="px-6 py-4 border-1 border-primary text-primary rounded-xl font-semibold hover:bg-primary/10 transition-all duration-300">
                     Buy Now
                   </button>
                 </div>

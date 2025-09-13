@@ -118,14 +118,14 @@ export default function Gallery() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <section className="bg-gradient-to-br from-primary/10 to-accent/10 py-12 md:py-16">
+      <section className="bg-gradient-to-br from-primary/10 to-accent/10 py-12 md:py-12">
         <div className="container-responsive">
           <div className="text-center">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground/80 mb-3 md:mb-4">
-              Our Magnet Collection
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground/80 mb-2">
+              Our Fridge Magnet Collection
             </h1>
-            <p className="text-base md:text-xl text-foreground/70 max-w-2xl mx-auto">
-              Discover beautifully crafted magnets that bring personality and style to any space
+            <p className="text-sm md:text-base text-foreground/70 max-w-2xl mx-auto">
+              Discover beautifully crafted fridge magnets that bring personality and style to any space
             </p>
           </div>
         </div>
@@ -202,7 +202,7 @@ export default function Gallery() {
               filteredProducts.map((product, index) => (
                 <div
                   key={product.id}
-                  className="group bg-card rounded-xl lg:rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:scale-105 flex flex-col"
+                  className="group bg-card rounded-xl lg:rounded-2xl overflow-hidden shadow-md transition-all duration-300 flex flex-col hover:ring-1 hover:ring-primary/40 hover:shadow-[0_0_24px_0_rgba(80,120,255,0.15)]"
                 >
                   {/* Image Container */}
                   <div className="aspect-square bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center relative overflow-hidden">
@@ -279,24 +279,6 @@ export default function Gallery() {
               </p>
             </div>
           )}
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-12 md:py-16 bg-gradient-to-br from-accent/10 to-primary/10">
-        <div className="container-responsive text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground/80">
-            Don't see what you're looking for?
-          </h2>
-          <p className="text-base md:text-xl text-foreground/70 mb-6 md:mb-8">
-            We're always adding new designs and taking custom requests. Get in touch with us!
-          </p>
-          <Link
-            to="/contact"
-            className="inline-flex items-center bg-primary text-primary-foreground px-5 md:px-6 py-2.5 md:py-3 rounded-xl font-medium hover:bg-primary/90 transition-colors duration-200"
-          >
-            Contact Us
-          </Link>
         </div>
       </section>
     </div>
