@@ -20,7 +20,7 @@ export default function Home() {
   // Dummy data for fallback when API is not available
   const dummyCategories: Category[] = [
     { 
-      id: 1, 
+      id: "1", 
       name: "Fridge Magnets", 
       description: "Fun and functional magnets for your kitchen and home", 
       is_active: true, 
@@ -28,7 +28,7 @@ export default function Home() {
       updated_at: "2024-01-01T00:00:00Z" 
     },
     { 
-      id: 2, 
+      id: "2", 
       name: "Photo Magnets", 
       description: "Personalized magnets featuring your favorite memories", 
       is_active: true, 
@@ -36,7 +36,7 @@ export default function Home() {
       updated_at: "2024-01-01T00:00:00Z" 
     },
     { 
-      id: 3, 
+      id: "3", 
       name: "Retro Prints", 
       description: "Vintage-inspired designs with a nostalgic charm", 
       is_active: true, 
@@ -44,7 +44,7 @@ export default function Home() {
       updated_at: "2024-01-01T00:00:00Z" 
     },
     { 
-      id: 4, 
+      id: "4", 
       name: "Save the Date", 
       description: "Calendar magnets for special occasions and events", 
       is_active: true, 
@@ -55,10 +55,10 @@ export default function Home() {
 
   // Sample products for each category (1 product per category for preview)
   const dummyProducts: Product[] = [
-    { id: 1, title: "Vintage Rose", description: "Beautiful vintage rose design", short_description: "Classic floral magnet", price: 12.99, category_id: 1, category_name: "Fridge Magnets", rating: 4.5, images: ["/designer.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 3, title: "Family Photo", description: "Custom family photo magnet", short_description: "Personalized memories", price: 18.99, category_id: 2, category_name: "Photo Magnets", rating: 5.0, images: ["/1.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 4, title: "Retro Sunset", description: "Nostalgic sunset design", short_description: "Vintage sunset vibes", price: 15.99, category_id: 3, category_name: "Retro Prints", rating: 4.8, images: ["/dummy.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
-    { id: 7, title: "Wedding Calendar", description: "Beautiful wedding save the date calendar", short_description: "Special date reminder", price: 19.99, category_id: 4, category_name: "Save the Date", rating: 4.9, images: ["/small.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" }
+    { id: "1", title: "Vintage Rose", description: "Beautiful vintage rose design", short_description: "Classic floral magnet", price: 699, category_id: "1", category_name: "Fridge Magnets", rating: 4.5, images: ["/designer.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
+    { id: "3", title: "Family Photo", description: "Custom family photo magnet", short_description: "Personalized memories", price: 899, category_id: "2", category_name: "Photo Magnets", rating: 5.0, images: ["/1.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
+    { id: "4", title: "Retro Sunset", description: "Nostalgic sunset design", short_description: "Vintage sunset vibes", price: 799, category_id: "3", category_name: "Retro Prints", rating: 4.8, images: ["/dummy.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" },
+    { id: "7", title: "Wedding Calendar", description: "Beautiful wedding save the date calendar", short_description: "Special date reminder", price: 999, category_id: "4", category_name: "Save the Date", rating: 4.9, images: ["/small.jpg"], is_locked: false, created_at: "2024-01-01T00:00:00Z", updated_at: "2024-01-01T00:00:00Z" }
   ];
 
   useEffect(() => {
@@ -156,7 +156,7 @@ export default function Home() {
                 </span>
               </h1>
 
-              <p className="text-base md:text-lg text-foreground/70 max-w-2xl mx-auto lg:mx-0 mb-6 md:mb-8 lg:mb-10 leading-relaxed">
+              <p className="text-base md:text-lg text-foreground/70 max-w-2xl mx-auto lg:mx-0 mb-6 leading-relaxed">
                 Transform your favorite memories into beautiful custom fridge magnets.
                 Perfect for preserving special moments, gifting loved ones, or adding
                 personal touches to your kitchen.
@@ -169,13 +169,6 @@ export default function Home() {
                 >
                   Explore Magnets
                   <ArrowRight className="h-4 w-4 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform duration-200" />
-                </Link>
-
-                <Link
-                  to="/about"
-                  className="w-full sm:w-auto px-4 md:px-5 py-2 md:py-2.5 rounded-xl font-semibold text-sm md:text-base lg:text-lg border-2 border-primary/20 text-foreground/80 hover:border-primary/40 hover:bg-primary/5 transition-all duration-300 text-center"
-                >
-                  Learn More
                 </Link>
               </div>
             </div>
@@ -250,7 +243,7 @@ export default function Home() {
                           }}
                         />
                         <div className="absolute top-2 right-2 md:top-3 md:right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-medium text-primary">
-                          ${sampleProduct.price}
+                          ₹{sampleProduct.price}
                         </div>
                       </div>
                     )}
@@ -293,7 +286,7 @@ export default function Home() {
 
           <div className="text-center mt-6 md:mt-8 lg:mt-12">
             <Link
-              to="/gallery"
+              to="/gallery?category=all"
               className="inline-flex items-center bg-secondary text-foreground/80 px-4 md:px-5 py-2 md:py-2.5 rounded-xl font-medium hover:bg-secondary/80 transition-colors duration-200"
             >
               View All Designs
@@ -352,13 +345,10 @@ export default function Home() {
                 </div>
                 <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-foreground/80">Small Size</h3>
                 <div className="text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-2">2.75" × 2.75"</div>
-                <p className="text-foreground/70 text-xs md:text-sm lg:text-base leading-relaxed">
+                <p className="text-foreground/70 text-xs md:text-sm lg:text-base leading-relaxed pb-2">
                   Perfect for delicate designs, logos, or when you need multiple magnets in a small space.
                   Ideal for refrigerator collections.
                 </p>
-                <div className="pt-1 md:pt-2 text-xs lg:text-sm text-foreground/60">
-                  Pull Strength: 2-3 lbs
-                </div>
               </div>
             </div>
 
@@ -377,13 +367,10 @@ export default function Home() {
                 </div>
                 <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-foreground/80">Medium Size</h3>
                 <div className="text-xl md:text-2xl lg:text-3xl font-bold text-accent mb-2">2.75" × 3.5"</div>
-                <p className="text-foreground/70 text-xs md:text-sm lg:text-base leading-relaxed">
+                <p className="text-foreground/70 text-xs md:text-sm lg:text-base leading-relaxed pb-2">
                   Our bestseller! The perfect balance of visibility and space efficiency.
                   Great for photos, artwork, and promotional materials.
                 </p>
-                <div className="pt-1 md:pt-2 text-xs lg:text-sm text-foreground/60">
-                  Pull Strength: 4-5 lbs
-                </div>
               </div>
             </div>
 
@@ -402,13 +389,10 @@ export default function Home() {
                 </div>
                 <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-foreground/80">Large Size</h3>
                 <div className="text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-2">3.25" × 4"</div>
-                <p className="text-foreground/70 text-xs md:text-sm lg:text-base leading-relaxed">
+                <p className="text-foreground/70 text-xs md:text-sm lg:text-base leading-relaxed pb-2">
                   Maximum impact! Perfect for detailed artwork, family photos, or when you want
                   your magnet to be the centerpiece.
                 </p>
-                <div className="pt-1 md:pt-2 text-xs lg:text-sm text-foreground/60">
-                  Pull Strength: 6-8 lbs
-                </div>
               </div>
             </div>
           </div>

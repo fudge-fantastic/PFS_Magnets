@@ -78,14 +78,16 @@ export default function Product() {
     fetchProduct();
   }, [params.id]);
 
-  // Size options with updated dimensions
+  // Size options with updated pricing structure - small is base price, medium +8, large +12
   const sizeOptions = [
-    { id: 'small', name: 'Small', dimensions: '2.75" × 2.75"', price: 8.99 },
-    { id: 'medium', name: 'Medium', dimensions: '2.75" × 3.5"', price: 9.99 },
-    { id: 'large', name: 'Large', dimensions: '3.25" × 4"', price: 11.99 },
+    { id: 'small', name: 'Small', dimensions: '2.75" × 2.75"', priceAdjustment: 0 },
+    { id: 'medium', name: 'Medium', dimensions: '2.75" × 3.5"', priceAdjustment: 8 },
+    { id: 'large', name: 'Large', dimensions: '3.25" × 4"', priceAdjustment: 12 },
   ];
   const currentSize = sizeOptions.find(size => size.id === selectedSize) || sizeOptions[0];
-  const currentPrice = product?.price || currentSize.price;
+  const basePrice = product?.price || 699; // Default base price if product price not available
+  const currentPrice = basePrice + currentSize.priceAdjustment;
+  const totalValue = currentPrice * quantity;
 
   const updateQuantity = (change: number) => {
     setQuantity(Math.max(1, quantity + change));
@@ -109,8 +111,8 @@ export default function Product() {
 
   const handleWhatsAppClick = () => {
     if (!product) return;
-    const message = `Hi! I'm interested in the ${product.title} magnet (${currentSize.name} - ${currentSize.dimensions}, ${quantity} piece${quantity > 1 ? 's' : ''}) - $${(currentPrice * quantity).toFixed(2)}`;
-    const phoneNumber = "1234567890"; // Replace with actual WhatsApp business number
+    const message = `Hi! I'm interested in the ${product.title} magnet (${currentSize.name} - ${currentSize.dimensions}, ${quantity} piece${quantity > 1 ? 's' : ''}) - ₹${totalValue.toFixed(2)}`;
+    const phoneNumber = "917219846935"; // Updated with Indian WhatsApp business number
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
@@ -198,6 +200,7 @@ export default function Product() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Product Image Carousel */}
             <div className="space-y-4">
+              {/* Main Image Display */}
               <div className="aspect-square bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-primary/10"></div>
                 {product.images && product.images.length > 0 ? (
@@ -217,15 +220,15 @@ export default function Product() {
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white hover:scale-105 transition-all duration-200"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white hover:scale-110 transition-all duration-200 shadow-lg"
                     >
-                      <ChevronLeft className="h-5 w-5" />
+                      <ChevronLeft className="h-6 w-6" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white hover:scale-105 transition-all duration-200"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white hover:scale-110 transition-all duration-200 shadow-lg"
                     >
-                      <ChevronRight className="h-5 w-5" />
+                      <ChevronRight className="h-6 w-6" />
                     </button>
                   </>
                 )}
@@ -234,55 +237,65 @@ export default function Product() {
                 <div className="absolute top-4 right-4 flex flex-col gap-2">
                   <button
                     onClick={() => setIsLiked(!isLiked)}
-                    className={`w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-200 ${
+                    className={`w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-200 shadow-lg ${
                       isLiked 
                         ? 'bg-red-500 text-white' 
-                        : 'bg-white/80 text-foreground hover:bg-white hover:scale-105'
+                        : 'bg-white/90 text-foreground hover:bg-white hover:scale-105'
                     }`}
                   >
                     <Heart className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
                   </button>
-                  <button className="w-12 h-12 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white hover:scale-105 transition-all duration-200">
+                  <button className="w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white hover:scale-105 transition-all duration-200 shadow-lg">
                     <Share2 className="h-5 w-5" />
                   </button>
                 </div>
                 
-                {/* Image Indicators */}
+                {/* Image Counter */}
                 {product.images && product.images.length > 1 && (
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                  <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 text-white text-sm font-medium">
+                    {currentImageIndex + 1} / {product.images.length}
+                  </div>
+                )}
+              </div>
+              
+              {/* Thumbnail Carousel */}
+              {product.images && product.images.length > 1 && (
+                <div className="space-y-3">
+                  <h3 className="text-sm font-medium text-foreground/80">All Views</h3>
+                  <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+                    {product.images.map((image, i) => (
+                      <button
+                        key={i}
+                        onClick={() => goToImage(i)}
+                        className={`flex-shrink-0 w-20 h-20 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center cursor-pointer hover:scale-105 transition-all duration-200 overflow-hidden border-2 ${
+                          i === currentImageIndex 
+                            ? 'border-primary shadow-lg' 
+                            : 'border-transparent opacity-60 hover:opacity-80 hover:border-primary/30'
+                        }`}
+                      >
+                        <img
+                          src={`${image}`}
+                          alt={`${product.title} view ${i + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                  
+                  {/* Thumbnail Navigation Dots */}
+                  <div className="flex justify-center gap-2 pt-2">
                     {product.images.map((_, index) => (
                       <button
                         key={index}
                         onClick={() => goToImage(index)}
                         className={`w-2 h-2 rounded-full transition-all duration-200 ${
                           index === currentImageIndex 
-                            ? 'bg-white scale-125' 
-                            : 'bg-white/50 hover:bg-white/75'
+                            ? 'bg-primary scale-125' 
+                            : 'bg-primary/30 hover:bg-primary/60'
                         }`}
                       />
                     ))}
                   </div>
-                )}
-              </div>
-              
-              {/* Thumbnails */}
-              {product.images && product.images.length > 1 && (
-                <div className="grid grid-cols-4 gap-3">
-                  {product.images.map((image, i) => (
-                    <button
-                      key={i}
-                      onClick={() => goToImage(i)}
-                      className={`aspect-square bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200 overflow-hidden ${
-                        i === currentImageIndex ? 'ring-2 ring-primary' : 'opacity-60 hover:opacity-80'
-                      }`}
-                    >
-                      <img
-                        src={`${image}`}
-                        alt={`${product.title} view ${i + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
                 </div>
               )}
             </div>
@@ -301,13 +314,13 @@ export default function Product() {
                     <span className="text-sm text-foreground/70 ml-1">({product.rating.toFixed(1)})</span>
                   </div>
                 </div>
-                
-                <h1 className="text-3xl font-bold text-foreground/80 mb-2">
+
+                <h1 className="text-3xl font-semibold text-foreground/80 mb-2">
                   {product.title}
                 </h1>
                 
-                <p className="text-2xl font-bold text-primary mb-4">
-                  ${currentPrice.toFixed(2)}
+                <p className="text-2xl font-semibold text-primary mb-4">
+                  ₹{currentPrice.toFixed(2)}
                 </p>
                 
                 <p className="text-foreground/70 leading-relaxed">
@@ -323,15 +336,22 @@ export default function Product() {
                     <button
                       key={size.id}
                       onClick={() => setSelectedSize(size.id)}
-                      className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
+                      className={`p-4 rounded-xl border-1 transition-all duration-200 text-left ${
                         selectedSize === size.id
                           ? 'border-primary bg-primary/10 text-primary'
                           : 'border-border hover:border-primary/50 hover:bg-primary/5'
                       }`}
                     >
-                      <div className="font-semibold text-sm">{size.name}</div>
-                      <div className="text-xs opacity-80">{size.dimensions}</div>
-                      <div className="font-bold text-sm mt-1">${size.price}</div>
+                      <div className="font-semibold text-muted-foreground text-md">{size.name}</div>
+                      <div className="text-sm">{size.dimensions}</div>
+                      <div className="font-bold text-sm mt-1">
+                        ₹{basePrice + size.priceAdjustment}
+                        {size.priceAdjustment > 0 && (
+                          <span className="text-sm text-primary/70 ml-1">
+                            (+₹{size.priceAdjustment})
+                          </span>
+                        )}
+                      </div>
                     </button>
                   ))}
                 </div>
@@ -360,13 +380,24 @@ export default function Product() {
                   </div>
                 </div>
 
+                {/* Total Value Display */}
+                <div className="bg-primary/10 rounded-lg p-4 border border-primary/20">
+                  <div className="flex justify-between items-center">
+                    <span className="text-foreground/80 font-medium">Total Value:</span>
+                    <span className="text-2xl font-bold text-primary">₹{totalValue.toFixed(2)}</span>
+                  </div>
+                  <div className="text-sm text-foreground/60 mt-1">
+                    {quantity} × {currentSize.name} (₹{currentPrice.toFixed(2)} each)
+                  </div>
+                </div>
+
                 <div className="flex flex-col md:flex-row gap-4">
                   <button
                     onClick={handleWhatsAppClick}
                     className="flex-1 bg-green-500 hover:bg-green-600 text-white px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2"
                   >
                     <MessageCircle className="h-5 w-5" />
-                    Chat on WhatsApp - ${(currentPrice * quantity).toFixed(2)}
+                    Chat on WhatsApp - ₹{totalValue.toFixed(2)}
                   </button>
                   <button className="px-6 py-4 border-2 border-primary text-primary rounded-xl font-semibold hover:bg-primary hover:text-primary-foreground transition-all duration-300">
                     Buy Now
@@ -493,15 +524,15 @@ export default function Product() {
                     <AccordionTrigger className="text-lg font-semibold text-foreground/80 hover:text-primary">
                       <div className="flex items-center gap-3">
                         <MapPin className="h-5 w-5 text-primary" />
-                        Made and Shipped from the USA!
+                        Made and Shipped from India!
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="text-foreground/70 leading-relaxed">
                       <p className="mb-4">
-                        Crafted in the USA, your magnets start production the same day you order.
+                        Crafted in India by Pixel Forge Studio, your magnets start production the same day you order.
                       </p>
                       <p>
-                        With swift processing and reliable tracked shipping, your purchase will be at your door in 4-6 business days.
+                        With swift processing and reliable tracked shipping across India, your purchase will be at your door in 3-7 business days. Express delivery available for major cities.
                       </p>
                     </AccordionContent>
                   </AccordionItem>

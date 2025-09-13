@@ -41,35 +41,12 @@ export default function Contact() {
                   </p>
                 </div>
 
-                {/* Business Hours */}
-                <div className="bg-secondary/40 rounded-2xl p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Clock className="h-6 w-6 text-primary" />
-                    <h3 className="text-xl font-semibold text-foreground/80">Business Hours</h3>
-                  </div>
-                  
-                  <div className="space-y-2 text-foreground/70">
-                    <div className="flex justify-between">
-                      <span>Monday - Friday</span>
-                      <span className="font-medium">9:00 AM - 6:00 PM</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Saturday</span>
-                      <span className="font-medium">10:00 AM - 4:00 PM</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Sunday</span>
-                      <span className="font-medium">Closed</span>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Response Time */}
                 <div className="bg-primary/10 rounded-2xl p-6">
                   <h3 className="text-lg font-semibold text-foreground/80 mb-2">Quick Response Guarantee</h3>
                   <p className="text-foreground/70">
                     We typically respond to all inquiries within 2-4 hours during business hours. 
-                    For urgent requests, please call us directly.
+                    For urgent requests, please call us directly at +91 7219846935.
                   </p>
                 </div>
               </div>
@@ -93,7 +70,7 @@ export default function Contact() {
                     <Input
                       type="text"
                       required
-                      placeholder="John"
+                      placeholder="Rahul"
                     />
                   </div>
                   <div>
@@ -103,7 +80,7 @@ export default function Contact() {
                     <Input
                       type="text"
                       required
-                      placeholder="Doe"
+                      placeholder="Sharma"
                     />
                   </div>
                 </div>
@@ -115,7 +92,7 @@ export default function Contact() {
                   <Input
                     type="email"
                     required
-                    placeholder="john@example.com"
+                    placeholder="rahul.sharma@gmail.com"
                   />
                 </div>
 
@@ -125,7 +102,7 @@ export default function Contact() {
                   </label>
                   <Input
                     type="tel"
-                    placeholder="+1 (555) 123-4567"
+                    placeholder="+91 98765 43210"
                   />
                 </div>
 
@@ -155,17 +132,10 @@ export default function Contact() {
                   <Textarea
                     rows={5}
                     required
-                    placeholder="Tell us about your project, questions, or how we can help you..."
+                    placeholder="I am looking for custom wedding invitation magnets for 50 guests. Can you help me design something beautiful with our photo and wedding details? Please let me know the pricing and timeline."
                   />
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <Checkbox id="newsletter" />
-                  <label htmlFor="newsletter" className="text-sm text-foreground/70">
-                    Subscribe to our newsletter for design updates and special offers
-                  </label>
-                </div>
-                
                 <button
                   type="submit"
                   className="w-full bg-primary text-primary-foreground px-6 py-4 rounded-xl font-semibold text-lg hover:bg-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2"

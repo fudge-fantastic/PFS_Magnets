@@ -42,12 +42,6 @@ export function Footer() {
                 Gallery
               </Link>
               <Link 
-                to="/about" 
-                className="block text-foreground/70 hover:text-primary transition-colors duration-200 text-sm md:text-base"
-              >
-                About
-              </Link>
-              <Link 
                 to="/contact" 
                 className="block text-foreground/70 hover:text-primary transition-colors duration-200 text-sm md:text-base"
               >
@@ -78,6 +72,12 @@ export function Footer() {
               >
                 Retro Prints
               </Link>
+              <Link 
+                to="/gallery?category=save-the-date" 
+                className="block text-foreground/70 hover:text-primary transition-colors duration-200 text-sm md:text-base"
+              >
+                Save the Date
+              </Link>
             </div>
           </div>
 
@@ -87,17 +87,16 @@ export function Footer() {
             <div className="space-y-2 md:space-y-3">
               <div className="flex items-center gap-3 text-foreground/70">
                 <Mail className="h-4 w-4" />
-                <span className="text-xs md:text-sm">adi.pandagle@gmail.com</span>
+                <span className="text-xs md:text-sm">support@pixelforgestudio.in</span>
               </div>
               <div className="flex items-center gap-3 text-foreground/70">
                 <Phone className="h-4 w-4" />
-                <span className="text-xs md:text-sm">+91 7972567926</span>
+                <span className="text-xs md:text-sm">+91 7219846935</span>
               </div>
               <div className="flex items-start gap-3 text-foreground/70">
                 <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
                 <span className="text-xs md:text-sm">
-                  123 Creative Street<br />
-                  Design District, Pune - Maharashtra, India
+                  Raga Homes in Chikhali is Newale Wasti, Chikhali, Vitthal Nagar, Pimpri-Chinchwad, Maharashtra 411062
                 </span>
               </div>
             </div>
@@ -107,19 +106,19 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-border/50 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-foreground/60 text-xs md:text-sm">
-            © 2025 Beautiful Magnets. All rights reserved.
+            © 2025 Pixel Forge Studio. All rights reserved.
           </p>
           
           <div className="flex items-center gap-4 md:gap-6 text-xs md:text-sm text-foreground/60">
-            <a href="#" className="hover:text-primary transition-colors duration-200">
+            <Link to="/privacy-policy" className="hover:text-primary transition-colors duration-200">
               Privacy Policy
-            </a>
-            <a href="#" className="hover:text-primary transition-colors duration-200">
+            </Link>
+            <Link to="/terms-of-service" className="hover:text-primary transition-colors duration-200">
               Terms of Service
-            </a>
-            <a href="#" className="hover:text-primary transition-colors duration-200">
+            </Link>
+            <Link to="/shipping-info" className="hover:text-primary transition-colors duration-200">
               Shipping Info
-            </a>
+            </Link>
           </div>
         </div>
       </div>

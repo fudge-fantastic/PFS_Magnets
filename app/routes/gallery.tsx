@@ -22,15 +22,15 @@ export default function Gallery() {
   const [apiError, setApiError] = useState(false);
 
 
-  // Get category from URL params on component mount, or default to first category
+  // Get category from URL params on component mount, or default to 'all'
   useEffect(() => {
     const categoryParam = searchParams.get('category');
     if (categoryParam) {
       setSelectedCategory(categoryParam);
-    } else if (categories.length > 0 && !selectedCategory) {
-      setSelectedCategory(categories[0].id);
+    } else {
+      setSelectedCategory('all'); // Default to 'all' instead of first category
     }
-  }, [searchParams, categories]);
+  }, [searchParams]);
 
   // Fetch categories from API
   useEffect(() => {
@@ -90,19 +90,28 @@ export default function Gallery() {
 
   // Filter products based on selected category
   useEffect(() => {
-    if (selectedCategory) {
+    if (selectedCategory === 'all') {
+      setProducts(allProducts);
+    } else if (selectedCategory) {
       const filtered = allProducts.filter(product => product.category_id === selectedCategory);
       setProducts(filtered);
     }
   }, [selectedCategory, allProducts]);
   
 
-  // Build category filter options (no 'All')
-  const categoryOptions = categories.map(cat => ({
-    id: cat.id,
-    name: cat.name,
-    count: allProducts.filter(p => p.category_id === cat.id).length
-  }));
+  // Build category filter options with 'All' option first
+  const categoryOptions = [
+    {
+      id: 'all',
+      name: 'All',
+      count: allProducts.length
+    },
+    ...categories.map(cat => ({
+      id: cat.id,
+      name: cat.name,
+      count: allProducts.filter(p => p.category_id === cat.id).length
+    }))
+  ];
 
   const filteredProducts = products; // Products are already filtered by the useEffect
 
@@ -129,7 +138,7 @@ export default function Gallery() {
             <div className="flex flex-wrap gap-2 md:gap-3">
               {loading || categories.length === 0 ? (
                 // Loading skeleton for filters
-                [...Array(4)].map((_, index) => (
+                [...Array(5)].map((_, index) => (
                   <div
                     key={index}
                     className="h-8 md:h-10 w-20 md:w-24 bg-secondary/50 rounded-full animate-pulse"
@@ -146,7 +155,7 @@ export default function Gallery() {
                         : 'bg-secondary/50 text-foreground hover:bg-secondary hover:scale-105'
                     }`}
                   >
-                    {category.name}
+                    {category.name} ({category.count})
                   </button>
                 ))
               )}
@@ -218,7 +227,7 @@ export default function Gallery() {
                         {product.title}
                       </h3>
                       <span className="text-base md:text-lg font-bold text-primary">
-                        ${product.price}
+                        ₹{product.price}
                       </span>
                     </div>
                     
@@ -276,7 +285,7 @@ export default function Gallery() {
       {/* Call to Action */}
       <section className="py-12 md:py-16 bg-gradient-to-br from-accent/10 to-primary/10">
         <div className="container-responsive text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground/80 mb-3 md:mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground/80">
             Don't see what you're looking for?
           </h2>
           <p className="text-base md:text-xl text-foreground/70 mb-6 md:mb-8">
