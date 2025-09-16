@@ -2,18 +2,15 @@ import type { Route } from "./+types/product";
 import { Link, useParams } from "react-router";
 import { useState, useEffect } from "react";
 import { api, type Product } from "~/lib/api";
-import { 
-  ArrowLeft, 
-  Share2, 
-  Star, 
-  Plus, 
-  Minus, 
-  MessageCircle, 
-  ChevronLeft, 
+import {
+  ArrowLeft,
+  Share2,
+  Star,
+  MessageCircle,
+  ChevronLeft,
   ChevronRight,
   Camera,
   Palette as PaletteIcon,
-  Clock,
   Gift,
   Home,
   Baby,
@@ -58,7 +55,7 @@ export default function Product() {
         setLoading(true);
         const productId = params.id;
         const response = await api.getProduct(productId);
-        
+
         if (response.success && response.data) {
           setProduct(response.data);
           setError(null);
@@ -220,7 +217,7 @@ export default function Product() {
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Product Image Carousel */}
-            <div className="space-y-4">
+            <div className="space-y-4 lg:sticky lg:top-20 lg:self-start">
               {/* Main Image Display */}
               <div className="aspect-square bg-gradient-to-br from-primary/20 to-accent/20 rounded-2xl flex items-center justify-center relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-primary/10"></div>
@@ -235,7 +232,7 @@ export default function Product() {
                     🖼️
                   </span>
                 )}
-                
+
                 {/* Carousel Navigation */}
                 {product.images && product.images.length > 1 && (
                   <>
@@ -253,17 +250,17 @@ export default function Product() {
                     </button>
                   </>
                 )}
-                
+
                 {/* Action Buttons */}
                 <div className="absolute top-4 right-4 flex flex-col gap-2 z-20">
-                  <button 
+                  <button
                     onClick={handleShareClick}
                     className="w-12 h-12 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center text-foreground hover:bg-white transition-all duration-200 shadow-lg"
                   >
                     <Share2 className="h-5 w-5" />
                   </button>
                 </div>
-                
+
                 {/* Image Counter */}
                 {product.images && product.images.length > 1 && (
                   <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md rounded-full px-3 py-1 text-white text-sm font-medium z-20">
@@ -271,7 +268,7 @@ export default function Product() {
                   </div>
                 )}
               </div>
-              
+
               {/* Thumbnail Carousel */}
               {product.images && product.images.length > 1 && (
                 <div className="space-y-3">
@@ -280,11 +277,10 @@ export default function Product() {
                       <button
                         key={i}
                         onClick={() => goToImage(i)}
-                        className={`flex-shrink-0 w-20 h-20 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-200 overflow-hidden border-2 ${
-                          i === currentImageIndex 
-                            ? 'border-primary shadow-lg' 
-                            : 'border-transparent opacity-60 hover:opacity-80 hover:border-primary/30'
-                        }`}
+                        className={`flex-shrink-0 w-20 h-20 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-200 overflow-hidden border-2 ${i === currentImageIndex
+                          ? 'border-primary shadow-lg'
+                          : 'border-transparent opacity-60 hover:opacity-80 hover:border-primary/30'
+                          }`}
                       >
                         <img
                           src={`${image}`}
@@ -294,18 +290,17 @@ export default function Product() {
                       </button>
                     ))}
                   </div>
-                  
+
                   {/* Thumbnail Navigation Dots */}
                   <div className="flex justify-center gap-2 pt-2">
                     {product.images.map((_, index) => (
                       <button
                         key={index}
                         onClick={() => goToImage(index)}
-                        className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                          index === currentImageIndex 
-                            ? 'bg-primary scale-125' 
-                            : 'bg-primary/30 hover:bg-primary/60'
-                        }`}
+                        className={`w-2 h-2 rounded-full transition-all duration-200 ${index === currentImageIndex
+                          ? 'bg-primary scale-125'
+                          : 'bg-primary/30 hover:bg-primary/60'
+                          }`}
                       />
                     ))}
                   </div>
@@ -331,13 +326,9 @@ export default function Product() {
                 <h1 className="text-3xl font-semibold text-foreground/80 mb-2">
                   {product.title}
                 </h1>
-                
+
                 <p className="text-2xl font-semibold text-primary mb-4">
                   ₹{currentPrice.toFixed(2)}
-                </p>
-                
-                <p className="text-foreground/70 leading-relaxed">
-                  {product.description}
                 </p>
               </div>
 
@@ -349,11 +340,10 @@ export default function Product() {
                     <button
                       key={size.id}
                       onClick={() => setSelectedSize(size.id)}
-                      className={`p-4 rounded-xl border-1 transition-all duration-200 text-left ${
-                        selectedSize === size.id
-                          ? 'border-primary bg-primary/10 text-primary'
-                          : 'border-border hover:border-primary/50 hover:bg-primary/5'
-                      }`}
+                      className={`p-4 rounded-xl border-1 transition-all duration-200 text-left ${selectedSize === size.id
+                        ? 'border-primary bg-primary/10 text-primary'
+                        : 'border-border hover:border-primary/50 hover:bg-primary/5'
+                        }`}
                     >
                       <div className="font-semibold text-muted-foreground text-md">{size.name}</div>
                       <div className="text-sm">{size.dimensions}</div>
@@ -372,7 +362,7 @@ export default function Product() {
 
               {/* Quantity and Add to Cart */}
               <div className="space-y-4">
-                <div className="flex items-center gap-4">
+                {/* <div className="flex items-center gap-4">
                   <label className="font-medium text-foreground/80">Quantity:</label>
                   <div className="flex items-center border border-border rounded-lg overflow-hidden">
                     <input
@@ -383,7 +373,7 @@ export default function Product() {
                       className="px-4 py-2 bg-secondary/20 min-w-[3rem] text-center font-medium border-none outline-none focus:bg-secondary/30 transition-colors duration-200"
                     />
                   </div>
-                </div>
+                </div> */}
 
                 {/* Total Value Display */}
                 <div className="bg-primary/10 rounded-lg p-4 border border-primary/20">
@@ -410,8 +400,15 @@ export default function Product() {
                 </div>
               </div>
 
+              {/* Product Description */}
+              <div className="space-y-6">
+                <p className="text-foreground/70 leading-relaxed">
+                  {product.description}
+                </p>
+              </div>
+
               {/* Detailed Product Information Accordion */}
-              <div className="pt-8">
+              <div className="pt-2">
                 <Accordion type="single" collapsible className="w-full space-y-4">
                   <AccordionItem value="moments" className="bg-card rounded-xl px-6 border border-border/20">
                     <AccordionTrigger className="text-lg font-semibold text-foreground/80 hover:text-primary">

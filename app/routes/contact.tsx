@@ -1,5 +1,5 @@
 import type { Route } from "./+types/contact";
-import { Mail, MapPin, Phone, Clock, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { Checkbox } from "~/components/ui/checkbox";
