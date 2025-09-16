@@ -1,8 +1,14 @@
 import type { Route } from "./+types/gallery";
 import { Link, useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
-import { Heart } from "lucide-react";
+import { Heart, Search, SlidersHorizontal, Grid3X3, LayoutGrid, Star, Eye, ShoppingCart, ChevronDown } from "lucide-react";
 import { api, type Product, type Category } from "~/lib/api";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -20,10 +26,14 @@ export default function Gallery() {
   const [loading, setLoading] = useState(true);
   const [productsLoading, setProductsLoading] = useState(true);
   const [apiError, setApiError] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
+  const [viewMode, setViewMode] = useState<"grid" | "compact">("grid");
+  const [wishlistedItems, setWishlistedItems] = useState<Set<string>>(new Set());
 
 
   // Get category from URL params on component mount, or default to 'all'
-  useEffect(() => {
+  useEffect(() => { 
     const categoryParam = searchParams.get('category');
     if (categoryParam) {
       setSelectedCategory(categoryParam);
@@ -88,15 +98,56 @@ export default function Gallery() {
     }
   }, [loading]);
 
-  // Filter products based on selected category
+  // Filter products based on selected category, search, and sort
   useEffect(() => {
-    if (selectedCategory === 'all') {
-      setProducts(allProducts);
-    } else if (selectedCategory) {
-      const filtered = allProducts.filter(product => product.category_id === selectedCategory);
-      setProducts(filtered);
+    let filtered = allProducts;
+
+    // Filter by category
+    if (selectedCategory !== 'all' && selectedCategory) {
+      filtered = filtered.filter(product => product.category_id === selectedCategory);
     }
-  }, [selectedCategory, allProducts]);
+
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(product =>
+        product.title.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query) ||
+        product.category_name.toLowerCase().includes(query)
+      );
+    }
+
+    // Sort products
+    const sortedFiltered = [...filtered].sort((a, b) => {
+      switch (sortBy) {
+        case "price-low":
+          return a.price - b.price;
+        case "price-high":
+          return b.price - a.price;
+        case "rating":
+          return b.rating - a.rating;
+        case "name":
+          return a.title.localeCompare(b.title);
+        case "newest":
+        default:
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      }
+    });
+
+    setProducts(sortedFiltered);
+  }, [selectedCategory, allProducts, searchQuery, sortBy]);
+
+  const toggleWishlist = (productId: string) => {
+    setWishlistedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(productId)) {
+        newSet.delete(productId);
+      } else {
+        newSet.add(productId);
+      }
+      return newSet;
+    });
+  };
   
 
   // Build category filter options with 'All' option first
@@ -115,57 +166,31 @@ export default function Gallery() {
 
   const filteredProducts = products; // Products are already filtered by the useEffect
 
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <section className="bg-gradient-to-br from-primary/10 to-accent/10 py-12 md:py-12">
-        <div className="container-responsive">
-          <div className="text-center">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground/80 mb-2">
-              Our Fridge Magnet Collection
-            </h1>
-            <p className="text-sm md:text-base text-foreground/70 max-w-2xl mx-auto">
-              Discover beautifully crafted fridge magnets that bring personality and style to any space
-            </p>
-          </div>
-        </div>
-      </section>
+  const sortOptions = [
+    { value: "newest", label: "Newest First" },
+    { value: "price-low", label: "Price: Low to High" },
+    { value: "price-high", label: "Price: High to Low" },
+    { value: "rating", label: "Highest Rated" },
+    { value: "name", label: "Name: A to Z" }
+  ];
 
-      {/* Filters */}
-      <section className="py-6 md:py-8 border-b border-border/50">
+  return (
+    <div className="min-h-screen bg-background py-4 md:py-8">
+      {/* Filters and Controls */}
+      <section>
         <div className="container-responsive">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="flex flex-wrap gap-2 md:gap-3">
-              {loading || categories.length === 0 ? (
-                // Loading skeleton for filters
-                [...Array(5)].map((_, index) => (
-                  <div
-                    key={index}
-                    className="h-8 md:h-10 w-20 md:w-24 bg-secondary/50 rounded-full animate-pulse"
-                  />
-                ))
-              ) : (
-                categoryOptions.map(category => (
-                  <button
-                    key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full font-light transition-all duration-200 text-sm md:text-base ${
-                      selectedCategory === category.id
-                        ? 'bg-primary text-primary-foreground shadow-lg scale-105'
-                        : 'bg-secondary/50 text-foreground hover:bg-secondary hover:scale-105'
-                    }`}
-                  >
-                    {category.name} ({category.count})
-                  </button>
-                ))
-              )}
+          {/* Filters and Controls */}
+          <div className="flex justify-end items-center mb-6">
+            {/* Mobile Filter Toggle - could be added later */}
+            <div className="lg:hidden">
+              {/* Mobile filter button placeholder */}
             </div>
           </div>
         </div>
       </section>
 
       {/* Gallery Grid */}
-      <section className="py-12 md:py-16">
+      <section className="">
         <div className="container-responsive">
           {/* API Error Message */}
           {apiError && (
@@ -176,64 +201,240 @@ export default function Gallery() {
             </div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+          {/* Main Layout: Sidebar + Grid */}
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Left Sidebar - Filters */}
+            <div className="lg:w-64 flex-shrink-0">
+              <div className="bg-card rounded-xl p-4 border border-border shadow-sm sticky top-8">
+                {/* Search Filter */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-foreground/80 mb-3">Search</h4>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/50" />
+                    <input
+                      type="text"
+                      placeholder="Search products..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200 text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* Category Filters */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-foreground/80 mb-3">Categories</h4>
+                  <div className="space-y-2">
+                    {loading || categories.length === 0 ? (
+                      // Loading skeleton for filters
+                      [...Array(5)].map((_, index) => (
+                        <div
+                          key={index}
+                          className="h-8 bg-secondary/50 rounded animate-pulse"
+                        />
+                      ))
+                    ) : (
+                      categoryOptions.map(category => (
+                        <button
+                          key={category.id}
+                          onClick={() => setSelectedCategory(category.id)}
+                          className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 flex justify-between items-center ${
+                            selectedCategory === category.id
+                              ? 'bg-primary text-primary-foreground'
+                              : 'hover:bg-primary/10 text-foreground/80'
+                          }`}
+                        >
+                          <span>{category.name}</span>
+                          <span className={`text-xs px-2 py-1 rounded-full ${
+                            selectedCategory === category.id
+                              ? 'bg-primary-foreground/20 text-primary-foreground'
+                              : 'bg-primary/10 text-primary'
+                          }`}>
+                            {category.count}
+                          </span>
+                        </button>
+                      ))
+                    )}
+                  </div>
+                </div>
+
+                {/* Sort Options */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-foreground/80 mb-3">Sort By</h4>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button className="w-full flex items-center justify-between bg-background border border-border rounded-lg px-3 py-2 text-sm hover:bg-primary/5 hover:border-primary/30 transition-colors">
+                        {sortOptions.find(option => option.value === sortBy)?.label}
+                        <ChevronDown className="h-4 w-4" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-full">
+                      {sortOptions.map(option => (
+                        <DropdownMenuItem
+                          key={option.value}
+                          onClick={() => setSortBy(option.value)}
+                          className={sortBy === option.value ? "bg-primary/10 text-primary" : ""}
+                        >
+                          {option.label}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                {/* View Mode Toggle */}
+                <div>
+                  <h4 className="text-sm font-medium text-foreground/80 mb-3">View</h4>
+                  <div className="flex bg-background border border-border rounded-lg p-1">
+                    <button
+                      onClick={() => setViewMode("grid")}
+                      className={`flex-1 p-2 rounded-md transition-all duration-200 flex items-center justify-center ${
+                        viewMode === "grid"
+                          ? 'bg-primary text-primary-foreground shadow-sm'
+                          : 'text-foreground/60 hover:text-foreground/80'
+                      }`}
+                    >
+                      <LayoutGrid className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode("compact")}
+                      className={`flex-1 p-2 rounded-md transition-all duration-200 flex items-center justify-center ${
+                        viewMode === "compact"
+                          ? 'bg-primary text-primary-foreground shadow-sm'
+                          : 'text-foreground/60 hover:text-foreground/80'
+                      }`}
+                    >
+                      <Grid3X3 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Results Count */}
+                <div className="mt-6 pt-4 border-t border-border">
+                  <p className="text-sm text-foreground/70">
+                    {productsLoading ? 'Loading...' : `${filteredProducts.length} product${filteredProducts.length !== 1 ? 's' : ''} found`}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - Product Grid */}
+            <div className="flex-1">
+              <div className={`grid gap-4 md:gap-6 ${
+                viewMode === "grid" 
+                  ? "grid-cols-1 sm:grid-cols-2 xl:grid-cols-3" 
+                  : "grid-cols-1 sm:grid-cols-2 xl:grid-cols-4"
+              }`}>
             {productsLoading || allProducts.length === 0 ? (
               // Loading skeleton for products
-              [...Array(6)].map((_, index) => (
+              [...Array(8)].map((_, index) => (
                 <div
                   key={index}
-                  className="bg-card rounded-xl lg:rounded-2xl overflow-hidden shadow-sm flex flex-col animate-pulse"
+                  className={`bg-card rounded-xl overflow-hidden shadow-sm flex flex-col animate-pulse ${
+                    viewMode === "compact" ? "h-64" : "h-80"
+                  }`}
                 >
-                  <div className="aspect-square bg-primary/20"></div>
-                  <div className="p-4 md:p-6 flex flex-col flex-grow">
+                  <div className={`bg-primary/20 ${viewMode === "grid" ? "aspect-square" : "aspect-[4/3]"}`}></div>
+                  <div className="p-3 md:p-4 flex flex-col flex-grow">
                     <div className="flex justify-between items-start mb-2">
-                      <div className="h-5 md:h-6 bg-primary/20 rounded w-3/4"></div>
-                      <div className="h-5 md:h-6 bg-primary/20 rounded w-12 md:w-16"></div>
+                      <div className="h-4 md:h-5 bg-primary/20 rounded w-3/4"></div>
+                      <div className="h-4 md:h-5 bg-primary/20 rounded w-12 md:w-16"></div>
                     </div>
-                    <div className="h-4 bg-primary/10 rounded mb-3 md:mb-4 flex-grow"></div>
+                    <div className="h-3 bg-primary/10 rounded mb-2 md:mb-3 flex-grow"></div>
                     <div className="flex justify-between items-center mt-auto">
-                      <div className="h-3 md:h-4 bg-primary/10 rounded w-16 md:w-20"></div>
-                      <div className="h-7 md:h-8 bg-primary/20 rounded w-20 md:w-24"></div>
+                      <div className="h-3 bg-primary/10 rounded w-16 md:w-20"></div>
+                      <div className="h-6 md:h-7 bg-primary/20 rounded w-16 md:w-20"></div>
                     </div>
                   </div>
                 </div>
               ))
             ) : (
               filteredProducts.map((product, index) => (
-                <div
+                <Link
                   key={product.id}
-                  className="group bg-card rounded-xl lg:rounded-2xl overflow-hidden shadow-md transition-all duration-300 flex flex-col hover:ring-1 hover:ring-primary/40 hover:shadow-[0_0_24px_0_rgba(80,120,255,0.15)]"
+                  to={`/product/${product.id}`}
+                  className={`group bg-card rounded-xl overflow-hidden shadow-md transition-all duration-300 flex flex-col hover:shadow-xl hover:scale-[1.02] border border-transparent hover:border-primary/20 ${
+                    viewMode === "compact" ? "h-64" : "h-80"
+                  }`}
                 >
                   {/* Image Container */}
-                  <div className="aspect-square bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-primary/10 group-hover:to-primary/20 transition-all duration-300"></div>
+                  <div className={`bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center relative overflow-hidden ${
+                    viewMode === "grid" ? "aspect-square" : "aspect-[4/3]"
+                  }`}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-primary/5 group-hover:to-primary/10 transition-all duration-300"></div>
+                    
+                    {/* Quick Action Buttons */}
+                    <div className="absolute top-2 right-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleWishlist(product.id);
+                        }}
+                        className={`w-8 h-8 rounded-full backdrop-blur-md flex items-center justify-center transition-all duration-200 hover:scale-110 ${
+                          wishlistedItems.has(product.id)
+                            ? 'bg-red-500 text-white'
+                            : 'bg-white/90 text-foreground hover:bg-white'
+                        }`}
+                      >
+                        <Heart className={`h-3 w-3 ${wishlistedItems.has(product.id) ? 'fill-current' : ''}`} />
+                      </button>
+                    </div>
+
+                    {/* Product Badge */}
+                    {product.rating >= 4.5 && (
+                      <div className="absolute top-2 left-2 bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 z-20">
+                        <Star className="h-2 w-2 fill-current" />
+                        Best
+                      </div>
+                    )}
+
                     {product.images && product.images.length > 0 ? (
                       <img
-                        src={`${product.images[0]}`}
+                        src={product.images[0]}
                         alt={product.title}
                         className="w-full h-full object-cover relative z-10"
+                        loading={index < 8 ? "eager" : "lazy"}
+                        style={{ imageRendering: 'auto' }}
                       />
                     ) : (
-                      <span className="text-4xl md:text-6xl relative z-10">
+                      <span className={`relative z-10 ${viewMode === "grid" ? "text-3xl md:text-4xl" : "text-2xl md:text-3xl"}`}>
                         🖼️
                       </span>
                     )}
+
+                    {/* Hover Overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all duration-300 z-15"></div>
                   </div>
 
                   {/* Content - flex-grow to fill remaining space */}
-                  <div className="p-4 md:p-6 flex flex-col flex-grow">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="font-semibold text-foreground/80 text-base md:text-lg group-hover:text-primary transition-colors duration-200">
+                  <div className={`flex flex-col flex-grow ${viewMode === "grid" ? "p-3 md:p-4" : "p-2 md:p-3"}`}>
+                    <div className="flex justify-between items-start mb-1">
+                      <h3 className={`font-semibold text-foreground/90 group-hover:text-primary transition-colors duration-200 line-clamp-2 ${
+                        viewMode === "grid" ? "text-sm md:text-base" : "text-xs md:text-sm"
+                      }`}>
                         {product.title}
                       </h3>
-                      <span className="text-base md:text-lg font-bold text-primary">
+                      <span className={`font-bold text-primary flex-shrink-0 ml-2 ${
+                        viewMode === "grid" ? "text-base md:text-lg" : "text-sm md:text-base"
+                      }`}>
                         ₹{product.price}
                       </span>
                     </div>
                     
-                    <p className="text-foreground/70 text-xs md:text-sm mb-3 md:mb-4 leading-relaxed flex-grow">
-                      {product.short_description || product.description}
-                    </p>
+                    {/* Rating */}
+                    <div className="flex items-center gap-1 mb-2">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className={`h-2.5 w-2.5 ${i < Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
+                      ))}
+                      <span className="text-xs text-foreground/60 ml-1">({product.rating.toFixed(1)})</span>
+                    </div>
+
+                    {viewMode === "grid" && (
+                      <p className="text-foreground/70 text-xs leading-relaxed flex-grow line-clamp-2 mb-2">
+                        {product.short_description || product.description}
+                      </p>
+                    )}
                     
                     {/* Bottom section - always at bottom of card */}
                     <div className="flex justify-between items-center mt-auto">
@@ -241,44 +442,90 @@ export default function Gallery() {
                         {product.category_name}
                       </span>
                       
-                      <Link
-                        to={`/product/${product.id}`}
-                        className="bg-primary text-primary-foreground px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium hover:bg-primary/90 transition-colors duration-200"
-                      >
-                        View Details
-                      </Link>
+                      <div className="flex gap-1">
+                        {viewMode === "compact" && (
+                          <button 
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                            }}
+                            className="bg-primary/10 text-primary p-1.5 rounded-lg hover:bg-primary/20 transition-colors duration-200"
+                          >
+                            <ShoppingCart className="h-3 w-3" />
+                          </button>
+                        )}
+                        <span
+                          className={`bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-200 hover:shadow-lg flex items-center justify-center ${
+                            viewMode === "grid" 
+                              ? "px-2 md:px-3 py-1 md:py-1.5 text-xs" 
+                              : "px-2 py-1 text-xs"
+                          }`}
+                        >
+                          {viewMode === "grid" ? "View" : "View"}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))
             )}
           </div>
 
           {/* Empty State for no products */}
           {!productsLoading && !apiError && allProducts.length === 0 && (
-            <div className="text-center py-12 md:py-16">
-              <div className="text-4xl md:text-6xl mb-4">📦</div>
-              <h3 className="text-xl md:text-2xl font-semibold text-foreground/80 mb-2">
+            <div className="text-center py-16 md:py-24">
+              <div className="text-6xl md:text-8xl mb-6">📦</div>
+              <h3 className="text-2xl md:text-3xl font-bold text-foreground/80 mb-4">
                 No products available
               </h3>
-              <p className="text-foreground/70">
-                Check back later for new magnet designs.
+              <p className="text-foreground/70 mb-8 max-w-md mx-auto">
+                We're working hard to bring you amazing magnet designs. Check back later for new arrivals!
               </p>
+              <Link
+                to="/"
+                className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors duration-200"
+              >
+                Back to Home
+              </Link>
             </div>
           )}
 
           {/* Empty State for filtered results */}
           {!productsLoading && !apiError && allProducts.length > 0 && filteredProducts.length === 0 && (
-            <div className="text-center py-12 md:py-16">
-              <div className="text-4xl md:text-6xl mb-4">🔍</div>
-              <h3 className="text-xl md:text-2xl font-semibold text-foreground/80 mb-2">
-                No products found in this category
+            <div className="text-center py-16 md:py-24">
+              <div className="text-6xl md:text-8xl mb-6">🔍</div>
+              <h3 className="text-2xl md:text-3xl font-bold text-foreground/80 mb-4">
+                No products found
               </h3>
-              <p className="text-foreground/70">
-                Try selecting a different category to see more designs.
+              <p className="text-foreground/70 mb-8 max-w-md mx-auto">
+                {searchQuery 
+                  ? `No products match your search for "${searchQuery}". Try different keywords or browse all products.`
+                  : `No products found in this category. Try selecting a different category to see more designs.`
+                }
               </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors duration-200"
+                  >
+                    Clear Search
+                  </button>
+                )}
+                <button
+                  onClick={() => {
+                    setSelectedCategory("all");
+                    setSearchQuery("");
+                  }}
+                  className="bg-background border border-border text-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/5 transition-colors duration-200"
+                >
+                  View All Products
+                </button>
+              </div>
             </div>
           )}
+            </div>
+          </div>
         </div>
       </section>
     </div>

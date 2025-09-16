@@ -5,6 +5,7 @@
 @custom-variant theme-mint (&:is(.theme-mint *));
 @custom-variant theme-peach (&:is(.theme-peach *));
 @custom-variant theme-sky (&:is(.theme-sky *));
+@custom-variant theme-zinc (&:is(.theme-zinc *));
 
 @theme {
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif,
@@ -49,7 +50,7 @@ body {
 
 @media (min-width: 1536px) {
   .container-responsive {
-    max-width: 1400px;
+    max-width: 1600px;
   }
 }
 
@@ -250,6 +251,43 @@ body {
   --sidebar-accent-foreground: oklch(0.25 0.03 240);
   --sidebar-border: oklch(0.88 0.03 220);
   --sidebar-ring: oklch(0.65 0.15 220);
+}
+
+/* Zinc Theme - Black and White */
+.theme-zinc {
+  --background: oklch(0.98 0 0);
+  --foreground: oklch(0.15 0 0);
+  --card: oklch(0.99 0 0);
+  --card-foreground: oklch(0.15 0 0);
+  --popover: oklch(0.99 0 0);
+  --popover-foreground: oklch(0.15 0 0);
+  --primary: oklch(0.25 0 0);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.9 0 0);
+  --secondary-foreground: oklch(0.15 0 0);
+  --muted: oklch(0.94 0 0);
+  --muted-foreground: oklch(0.45 0 0);
+  --accent: oklch(0.7 0 0);
+  --accent-foreground: oklch(0.15 0 0);
+  --destructive: oklch(0.65 0.2 25);
+  --border: oklch(0.85 0 0);
+  --input: oklch(0.9 0 0);
+  --ring: oklch(0.25 0 0);
+  --sidebar: oklch(0.97 0 0);
+  --sidebar-foreground: oklch(0.15 0 0);
+  --sidebar-primary: oklch(0.25 0 0);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.9 0 0);
+  --sidebar-accent-foreground: oklch(0.15 0 0);
+  --sidebar-border: oklch(0.85 0 0);
+  --sidebar-ring: oklch(0.25 0 0);
+}
+
+/* Remove gradient for Zinc theme */
+.theme-zinc html,
+.theme-zinc body {
+  background-image: none;
+  background: oklch(var(--background));
 }
 
 @layer base {

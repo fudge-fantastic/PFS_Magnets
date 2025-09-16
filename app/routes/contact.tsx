@@ -42,7 +42,7 @@ export default function Contact() {
                 </div>
 
                 {/* Response Time */}
-                <div className="bg-primary/10 rounded-2xl p-6">
+                <div className="bg-primary/10 rounded-lg p-6">
                   <h3 className="text-lg font-semibold text-foreground/80 mb-2">Quick Response Guarantee</h3>
                   <p className="text-foreground/70">
                     We typically respond to all inquiries within 2-4 hours during business hours. 
@@ -53,7 +53,7 @@ export default function Contact() {
             </div>
 
             {/* Contact Form */}
-            <div className="bg-card rounded-2xl p-8 shadow-xl">
+            <div className="bg-card rounded-lg p-8 shadow-xl">
               <div className="flex items-center gap-3 mb-6">
                 <Send className="h-6 w-6 text-primary" />
                 <h3 className="text-2xl font-semibold text-foreground/80">
@@ -138,7 +138,7 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full bg-primary text-primary-foreground px-6 py-4 rounded-xl font-semibold text-lg hover:bg-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2"
+                  className="w-full bg-primary text-primary-foreground px-6 py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center gap-2"
                 >
                   <Send className="h-5 w-5" />
                   Send Message
@@ -166,7 +166,7 @@ export default function Contact() {
           </div>
 
           <Accordion type="single" className="space-y-4" collapsible>
-            <AccordionItem value="materials" className="bg-card rounded-xl px-6 border border-border/20">
+            <AccordionItem value="materials" className="bg-card rounded-lg px-6 border border-border/20">
               <AccordionTrigger className="text-lg font-semibold text-foreground/80">
                 What materials are your magnets made from?
               </AccordionTrigger>
@@ -177,7 +177,7 @@ export default function Contact() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="customization" className="bg-card rounded-xl px-6 border border-border/20">
+            <AccordionItem value="customization" className="bg-card rounded-lg px-6 border border-border/20">
               <AccordionTrigger className="text-lg font-semibold text-foreground/80">
                 Can I create custom magnets with my own photos?
               </AccordionTrigger>
@@ -188,7 +188,7 @@ export default function Contact() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="sizes" className="bg-card rounded-xl px-6 border border-border/20">
+            <AccordionItem value="sizes" className="bg-card rounded-lg px-6 border border-border/20">
               <AccordionTrigger className="text-lg font-semibold text-foreground/80">
                 What sizes are available for magnets?
               </AccordionTrigger>
@@ -199,7 +199,7 @@ export default function Contact() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="shipping" className="bg-card rounded-xl px-6 border border-border/20">
+            <AccordionItem value="shipping" className="bg-card rounded-lg px-6 border border-border/20">
               <AccordionTrigger className="text-lg font-semibold text-foreground/80">
                 How long does shipping take?
               </AccordionTrigger>
@@ -210,7 +210,7 @@ export default function Contact() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="bulk-orders" className="bg-card rounded-xl px-6 border border-border/20">
+            <AccordionItem value="bulk-orders" className="bg-card rounded-lg px-6 border border-border/20">
               <AccordionTrigger className="text-lg font-semibold text-foreground/80">
                 Do you offer discounts for bulk orders?
               </AccordionTrigger>
@@ -221,7 +221,7 @@ export default function Contact() {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="returns" className="bg-card rounded-xl px-6 border border-border/20">
+            <AccordionItem value="returns" className="bg-card rounded-lg px-6 border border-border/20">
               <AccordionTrigger className="text-lg font-semibold text-foreground/80">
                 What's your return policy?
               </AccordionTrigger>

@@ -4,7 +4,7 @@ import { Menu, X, Palette, ChevronDown } from "lucide-react";
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState('lavender');
+  const [currentTheme, setCurrentTheme] = useState('zinc');
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const location = useLocation();
@@ -12,6 +12,7 @@ export function Navigation() {
   const mobileThemeMenuRef = useRef<HTMLDivElement>(null);
 
   const themes = [
+    { id: 'zinc', name: 'Zinc', color: 'bg-gradient-to-r from-zinc-300 to-zinc-500', class: 'theme-zinc' },
     { id: 'lavender', name: 'Lavender', color: 'bg-gradient-to-r from-purple-300/70 to-pink-300/70', class: '' },
     { id: 'mint', name: 'Mint', color: 'bg-gradient-to-r from-emerald-300/70 to-cyan-300/70', class: 'theme-mint' },
     { id: 'peach', name: 'Peach', color: 'bg-gradient-to-r from-orange-300/70 to-rose-300/70', class: 'theme-peach' },
@@ -24,7 +25,7 @@ export function Navigation() {
 
   useEffect(() => {
     if (isHydrated) {
-      const savedTheme = localStorage.getItem('theme') || 'lavender';
+      const savedTheme = localStorage.getItem('theme') || 'zinc';
       setCurrentTheme(savedTheme);
       applyTheme(savedTheme);
     }
@@ -62,9 +63,11 @@ export function Navigation() {
         .filter(cls => !cls.startsWith('theme-'))
         .join(' ');
       
-      // Apply new theme class if not lavender (default)
-      if (theme !== 'lavender') {
+      // Apply new theme class if not zinc (default)
+      if (theme !== 'zinc') {
         document.documentElement.classList.add(`theme-${theme}`);
+      } else {
+        document.documentElement.classList.add('theme-zinc');
       }
     }
   };

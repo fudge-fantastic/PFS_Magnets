@@ -142,7 +142,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Hero Content */}
             <div className="text-center lg:text-left">
-              <div className="inline-flex items-center bg-primary/10 text-primary px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium mb-4 md:mb-6">
+              <div className="inline-flex items-center bg-primary/10 text-primary px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium mb-4 md:mb-6">
                 ✨ Custom Designs Available
               </div>
 
@@ -165,7 +165,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start items-center">
                 <Link
                   to="/gallery"
-                  className="w-full sm:w-auto group bg-primary text-primary-foreground px-4 md:px-5 py-2 md:py-2.5 rounded-xl font-medium text-sm md:text-base lg:text-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto group bg-primary text-primary-foreground px-4 md:px-5 py-2 md:py-2.5 rounded-lg font-medium text-sm md:text-base lg:text-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2"
                 >
                   Explore Magnets
                   <ArrowRight className="h-4 w-4 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -175,13 +175,13 @@ export default function Home() {
 
             {/* Hero Image Placeholder */}
             <div className="relative">
-              <div className="aspect-square bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl md:rounded-3xl flex items-center justify-center relative overflow-hidden border border-border/20">
+              <div className="aspect-square bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg flex items-center justify-center relative overflow-hidden border border-border/20">
                 {/* Actual Image Placeholder */}
                 <div className="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center relative">
-                  <img
+                                    <img
                     src="/designer.jpg"
-                    alt="Custom Fridge Magnets Preview"
-                    className="w-full h-full object-cover rounded-2xl md:rounded-3xl opacity-80"
+                    alt="Beautiful magnet collection"
+                    className="w-full h-full object-cover rounded-lg opacity-80"
                   />
                 </div>
               </div>
@@ -208,7 +208,7 @@ export default function Home() {
               [...Array(4)].map((_, index) => (
                 <div
                   key={index}
-                  className="bg-card rounded-xl lg:rounded-2xl shadow-sm border border-border/50 animate-pulse overflow-hidden"
+                  className="bg-card rounded-lg shadow-sm border border-border/50 animate-pulse overflow-hidden"
                 >
                   <div className="aspect-square bg-primary/20"></div>
                   <div className="p-4 md:p-6">
@@ -229,7 +229,7 @@ export default function Home() {
                   <Link
                     key={category.id}
                     to={`/gallery?category=${category.id}`}
-                    className="group bg-card rounded-xl lg:rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border border-border/50 hover:border-primary/30 hover:-translate-y-1 lg:hover:-translate-y-2 overflow-hidden"
+                    className="group bg-card rounded-lg shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer border border-border/50 hover:border-primary/30 hover:-translate-y-1 lg:hover:-translate-y-2 overflow-hidden"
                   >
                     {/* Product Image */}
                     {sampleProduct && (
@@ -287,7 +287,7 @@ export default function Home() {
           <div className="text-center mt-6 md:mt-8 lg:mt-12">
             <Link
               to="/gallery?category=all"
-              className="inline-flex items-center bg-secondary text-foreground/80 px-4 md:px-5 py-2 md:py-2.5 rounded-xl font-medium hover:bg-secondary/80 transition-colors duration-200"
+              className="inline-flex items-center bg-secondary text-foreground/80 px-4 md:px-5 py-2 md:py-2.5 rounded-lg font-medium hover:bg-secondary/80 transition-colors duration-200"
             >
               View All Designs
               <ArrowRight className="h-4 w-4 ml-2" />
@@ -312,7 +312,7 @@ export default function Home() {
           {/* Featured Size Comparison */}
           <div className="mb-12 md:mb-16">
             <div>
-              <div className="aspect-[16/9] bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl lg:rounded-2xl overflow-hidden mb-3 md:mb-4 lg:mb-6 relative">
+              <div className="aspect-[16/9] bg-gradient-to-br from-primary/5 to-accent/5 rounded-lg overflow-hidden mb-3 md:mb-4 lg:mb-6 relative">
                 <img
                   src="/dummy.jpg"
                   alt="All magnet sizes comparison - Small, Medium, and Large"
@@ -331,8 +331,8 @@ export default function Home() {
           {/* Individual Size Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-6 md:mb-8 lg:mb-12">
             {/* Small Magnets */}
-            <div className="bg-card rounded-xl lg:rounded-2xl xl:rounded-3xl p-4 md:p-5 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300">
-              <div className="aspect-[4/4] bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg lg:rounded-xl xl:rounded-2xl mb-4 md:mb-6 lg:mb-8 overflow-hidden relative">
+            <div className="bg-card rounded-lg p-4 md:p-5 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-[4/4] bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg mb-4 md:mb-6 lg:mb-8 overflow-hidden relative">
                 <img
                   src="/small.jpg"
                   alt="Small magnets - 2.75x2.75 inch size"
@@ -340,7 +340,7 @@ export default function Home() {
                 />
               </div>
               <div className="space-y-2 md:space-y-3 lg:space-y-4">
-                <div className="bg-primary/10 text-primary px-2.5 md:px-3 lg:px-4 py-1 md:py-1.5 lg:py-2 rounded-full text-xs md:text-sm font-semibold inline-block">
+                <div className="bg-primary/10 text-primary px-2.5 md:px-3 lg:px-4 py-1 md:py-1.5 lg:py-2 rounded-lg text-xs md:text-sm font-semibold inline-block">
                   Compact & Cute
                 </div>
                 <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-foreground/80">Small Size</h3>
@@ -353,8 +353,8 @@ export default function Home() {
             </div>
 
             {/* Medium Magnets */}
-            <div className="bg-card rounded-xl lg:rounded-2xl xl:rounded-3xl p-4 md:p-5 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300">
-              <div className="aspect-[4/4] bg-gradient-to-br from-accent/10 to-primary/10 rounded-lg lg:rounded-xl xl:rounded-2xl mb-4 md:mb-6 lg:mb-8 overflow-hidden relative">
+            <div className="bg-card rounded-lg p-4 md:p-5 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-[4/4] bg-gradient-to-br from-accent/10 to-primary/10 rounded-lg mb-4 md:mb-6 lg:mb-8 overflow-hidden relative">
                 <img
                   src="/medium.jpg"
                   alt="Medium magnets - 2.75x3.5 inch size"
@@ -362,7 +362,7 @@ export default function Home() {
                 />
               </div>
               <div className="space-y-2 md:space-y-3 lg:space-y-4">
-                <div className="bg-accent/20 text-accent px-2.5 md:px-3 lg:px-4 py-1 md:py-1.5 lg:py-2 rounded-full text-xs md:text-sm font-semibold inline-block">
+                <div className="bg-accent/20 text-accent px-2.5 md:px-3 lg:px-4 py-1 md:py-1.5 lg:py-2 rounded-lg text-xs md:text-sm font-semibold inline-block">
                   Most Popular ⭐
                 </div>
                 <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-foreground/80">Medium Size</h3>
@@ -375,8 +375,8 @@ export default function Home() {
             </div>
 
             {/* Large Magnets */}
-            <div className="bg-card rounded-xl lg:rounded-2xl xl:rounded-3xl p-4 md:p-5 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300">
-              <div className="aspect-[4/4] bg-gradient-to-br from-secondary/10 to-primary/10 rounded-lg lg:rounded-xl xl:rounded-2xl mb-4 md:mb-6 lg:mb-8 overflow-hidden relative">
+            <div className="bg-card rounded-lg p-4 md:p-5 shadow-sm border border-border/20 text-center group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-[4/4] bg-gradient-to-br from-secondary/10 to-primary/10 rounded-lg mb-4 md:mb-6 lg:mb-8 overflow-hidden relative">
                 <img
                   src="/large.jpg"
                   alt="Large magnets - 3.25x4 inch size"
@@ -384,7 +384,7 @@ export default function Home() {
                 />
               </div>
               <div className="space-y-2 md:space-y-3 lg:space-y-4">
-                <div className="bg-primary/10 text-primary px-2.5 md:px-3 lg:px-4 py-1 md:py-1.5 lg:py-2 rounded-full text-xs md:text-sm font-semibold inline-block">
+                <div className="bg-primary/10 text-primary px-2.5 md:px-3 lg:px-4 py-1 md:py-1.5 lg:py-2 rounded-lg text-xs md:text-sm font-semibold inline-block">
                   Detail Rich
                 </div>
                 <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-foreground/80">Large Size</h3>
@@ -398,7 +398,7 @@ export default function Home() {
           </div>
 
           {/* Additional Size Info */}
-          <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl lg:rounded-2xl p-6 md:p-8 text-center">
+          <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-lg p-6 md:p-8 text-center">
             <h3 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground/80 mb-3 md:mb-4">Custom Sizes Available</h3>
             <p className="text-foreground/70 mb-4 md:mb-6 max-w-3xl mx-auto text-sm md:text-base">
               Need a different size? We also offer 4" × 6" rectangles and custom dimensions for bulk orders.
@@ -406,7 +406,7 @@ export default function Home() {
             </p>
             <Link
               to="/contact"
-              className="inline-flex items-center bg-primary text-primary-foreground px-4 md:px-6 py-2.5 md:py-3 rounded-xl font-medium hover:bg-primary/90 transition-colors duration-200"
+              className="inline-flex items-center bg-primary text-primary-foreground px-4 md:px-6 py-2.5 md:py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors duration-200"
             >
               Request Custom Size
               <ArrowRight className="h-4 w-4 ml-2" />
@@ -429,7 +429,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6 lg:gap-8">
             <div className="text-center group p-3 md:p-4">
-              <div className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 bg-primary/10 rounded-xl lg:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-3 md:mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Heart className="h-7 w-7 md:h-8 md:w-8 lg:h-10 lg:w-10 text-primary" />
               </div>
               <h3 className="text-base md:text-lg lg:text-xl font-semibold text-foreground/80 mb-2 md:mb-3">
@@ -442,7 +442,7 @@ export default function Home() {
             </div>
 
             <div className="text-center group p-3 md:p-4">
-              <div className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 bg-primary/10 rounded-xl lg:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-3 md:mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Sparkles className="h-7 w-7 md:h-8 md:w-8 lg:h-10 lg:w-10 text-primary" />
               </div>
               <h3 className="text-base md:text-lg lg:text-xl font-semibold text-foreground/80 mb-2 md:mb-3">
@@ -455,7 +455,7 @@ export default function Home() {
             </div>
 
             <div className="text-center group p-3 md:p-4">
-              <div className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 bg-primary/10 rounded-xl lg:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-3 md:mb-4 lg:mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Users className="h-7 w-7 md:h-8 md:w-8 lg:h-10 lg:w-10 text-primary" />
               </div>
               <h3 className="text-base md:text-lg lg:text-xl font-semibold text-foreground/80 mb-2 md:mb-3">
