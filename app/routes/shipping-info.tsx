@@ -7,23 +7,23 @@ export function meta() {
 
 export default function ShippingInfo() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-zinc-50">
       <div className="container-responsive py-16">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground/80 mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-zinc-800 mb-4">
               Shipping Information
             </h1>
-            <p className="text-lg text-foreground/70">
+            <p className="text-lg text-zinc-700">
               Fast, reliable delivery of your custom magnets across India
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             {/* Quick Info Cards */}
-            <div className="bg-card rounded-lg p-6 border border-border/20">
-              <h3 className="text-xl font-semibold mb-4 text-primary">📦 Standard Delivery</h3>
-              <ul className="space-y-2 text-foreground/70">
+            <div className="bg-white rounded-lg p-6 border border-zinc-200/20">
+              <h3 className="text-xl font-semibold mb-4 text-zinc-900">📦 Standard Delivery</h3>
+              <ul className="space-y-2 text-zinc-700">
                 <li>• 3-7 business days within India</li>
                 <li>• Free shipping on orders above ₹999</li>
                 <li>• Tracking provided for all orders</li>
@@ -31,9 +31,9 @@ export default function ShippingInfo() {
               </ul>
             </div>
 
-            <div className="bg-card rounded-lg p-6 border border-border/20">
-              <h3 className="text-xl font-semibold mb-4 text-primary">⚡ Express Delivery</h3>
-              <ul className="space-y-2 text-foreground/70">
+            <div className="bg-white rounded-lg p-6 border border-zinc-200/20">
+              <h3 className="text-xl font-semibold mb-4 text-zinc-900">⚡ Express Delivery</h3>
+              <ul className="space-y-2 text-zinc-700">
                 <li>• 1-3 business days (major cities)</li>
                 <li>• Available for urgent orders</li>
                 <li>• Additional charges apply</li>
@@ -42,12 +42,12 @@ export default function ShippingInfo() {
             </div>
           </div>
 
-          <div className="prose prose-lg max-w-none text-foreground/80">
+          <div className="prose prose-lg max-w-none text-zinc-800">
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Shipping Areas and Timeline</h2>
               
               <h3 className="text-xl font-medium mb-3">Local Delivery (Maharashtra)</h3>
-              <div className="bg-card rounded-lg p-6 border border-border/20 mb-4">
+              <div className="bg-white rounded-lg p-6 border border-zinc-200/20 mb-4">
                 <ul className="space-y-2">
                   <li><strong>Pune, Pimpri-Chinchwad:</strong> 1-2 business days (Same-day available)</li>
                   <li><strong>Mumbai, Nashik, Aurangabad:</strong> 2-3 business days</li>
@@ -56,7 +56,7 @@ export default function ShippingInfo() {
               </div>
 
               <h3 className="text-xl font-medium mb-3">Metro Cities</h3>
-              <div className="bg-card rounded-lg p-6 border border-border/20 mb-4">
+              <div className="bg-white rounded-lg p-6 border border-zinc-200/20 mb-4">
                 <ul className="space-y-2">
                   <li><strong>Delhi NCR, Bangalore, Chennai, Hyderabad:</strong> 3-5 business days</li>
                   <li><strong>Kolkata, Ahmedabad, Jaipur, Lucknow:</strong> 4-6 business days</li>
@@ -65,7 +65,7 @@ export default function ShippingInfo() {
               </div>
 
               <h3 className="text-xl font-medium mb-3">Tier 2 & Tier 3 Cities</h3>
-              <div className="bg-card rounded-lg p-6 border border-border/20 mb-4">
+              <div className="bg-white rounded-lg p-6 border border-zinc-200/20 mb-4">
                 <ul className="space-y-2">
                   <li><strong>Major tier 2 cities:</strong> 5-7 business days</li>
                   <li><strong>Smaller cities and towns:</strong> 6-10 business days</li>
@@ -78,35 +78,35 @@ export default function ShippingInfo() {
               <h2 className="text-2xl font-semibold mb-4">Shipping Costs</h2>
               
               <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-border/20 rounded-lg">
-                  <thead className="bg-secondary/20">
+                <table className="w-full border-collapse border border-zinc-200/20 rounded-lg">
+                  <thead className="bg-zinc-100">
                     <tr>
-                      <th className="border border-border/20 p-4 text-left">Order Value</th>
-                      <th className="border border-border/20 p-4 text-left">Standard Shipping</th>
-                      <th className="border border-border/20 p-4 text-left">Express Shipping</th>
+                      <th className="border border-zinc-200/20 p-4 text-left">Order Value</th>
+                      <th className="border border-zinc-200/20 p-4 text-left">Standard Shipping</th>
+                      <th className="border border-zinc-200/20 p-4 text-left">Express Shipping</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="border border-border/20 p-4">Below ₹999</td>
-                      <td className="border border-border/20 p-4">₹99 - ₹149</td>
-                      <td className="border border-border/20 p-4">₹199 - ₹299</td>
+                      <td className="border border-zinc-200/20 p-4">Below ₹999</td>
+                      <td className="border border-zinc-200/20 p-4">₹99 - ₹149</td>
+                      <td className="border border-zinc-200/20 p-4">₹199 - ₹299</td>
                     </tr>
-                    <tr className="bg-secondary/10">
-                      <td className="border border-border/20 p-4">₹999 and above</td>
-                      <td className="border border-border/20 p-4 text-green-600 font-semibold">FREE</td>
-                      <td className="border border-border/20 p-4">₹149 - ₹199</td>
+                    <tr className="bg-zinc-50">
+                      <td className="border border-zinc-200/20 p-4">₹999 and above</td>
+                      <td className="border border-zinc-200/20 p-4 text-green-600 font-semibold">FREE</td>
+                      <td className="border border-zinc-200/20 p-4">₹149 - ₹199</td>
                     </tr>
                     <tr>
-                      <td className="border border-border/20 p-4">Bulk orders (25+ pieces)</td>
-                      <td className="border border-border/20 p-4 text-green-600 font-semibold">FREE</td>
-                      <td className="border border-border/20 p-4">₹99 - ₹149</td>
+                      <td className="border border-zinc-200/20 p-4">Bulk orders (25+ pieces)</td>
+                      <td className="border border-zinc-200/20 p-4 text-green-600 font-semibold">FREE</td>
+                      <td className="border border-zinc-200/20 p-4">₹99 - ₹149</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               
-              <p className="mt-4 text-sm text-foreground/60">
+              <p className="mt-4 text-sm text-zinc-600">
                 *Shipping costs may vary based on weight, dimensions, and delivery location. 
                 Final shipping charges will be calculated at checkout.
               </p>
@@ -151,7 +151,7 @@ export default function ShippingInfo() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">International Shipping</h2>
-              <div className="bg-card rounded-lg p-6 border border-border/20">
+              <div className="bg-white rounded-lg p-6 border border-zinc-200/20">
                 <h3 className="text-lg font-medium mb-3">Available Countries</h3>
                 <ul className="list-disc list-inside mb-4 space-y-2">
                   <li><strong>USA, UK, Canada, Australia:</strong> 10-15 business days</li>
@@ -167,7 +167,7 @@ export default function ShippingInfo() {
                   <li>Express international shipping available</li>
                 </ul>
                 
-                <p className="text-sm text-foreground/60">
+                <p className="text-sm text-zinc-600">
                   Note: International shipping may require additional documentation and 
                   is subject to customs regulations of the destination country.
                 </p>
@@ -235,7 +235,7 @@ export default function ShippingInfo() {
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">Contact for Shipping Support</h2>
-              <div className="bg-card rounded-lg p-6 border border-border/20">
+              <div className="bg-white rounded-lg p-6 border border-zinc-200/20">
                 <h3 className="text-lg font-medium mb-3">Pixel Forge Studio - Shipping Department</h3>
                 <p className="mb-2"><strong>Email:</strong> shipping@pixelforgestudio.in</p>
                 <p className="mb-2"><strong>Phone:</strong> +91 7219846935</p>
@@ -243,7 +243,7 @@ export default function ShippingInfo() {
                 <p className="mb-2"><strong>Support Hours:</strong> Monday-Saturday, 9:00 AM - 6:00 PM IST</p>
                 <p className="mb-4"><strong>Address:</strong> Raga Homes in Chikhali, Newale Wasti, Chikhali, Vitthal Nagar, Pimpri-Chinchwad, Maharashtra 411062, India</p>
                 
-                <div className="bg-primary/10 rounded-lg p-4 mt-4">
+                <div className="bg-zinc-100 rounded-lg p-4 mt-4">
                   <p className="text-sm">
                     <strong>Need urgent delivery?</strong> Call us directly for same-day or express delivery options. 
                     We'll do our best to accommodate your timeline!
@@ -263,7 +263,7 @@ export default function ShippingInfo() {
                 <li><strong>Regional festivals:</strong> May affect local deliveries</li>
                 <li><strong>Monsoon season:</strong> Possible delays in certain regions</li>
               </ul>
-              <p className="text-sm text-foreground/60">
+              <p className="text-sm text-zinc-600">
                 We recommend placing orders early during festival seasons to ensure timely delivery.
               </p>
             </section>
