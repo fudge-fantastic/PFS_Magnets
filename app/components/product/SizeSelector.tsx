@@ -1,4 +1,4 @@
-import { Palette as PaletteIcon } from "lucide-react";
+import { Palette as PaletteIcon, Calendar } from "lucide-react";
 
 interface SizeOption {
   id: string;
@@ -12,16 +12,21 @@ interface SizeSelectorProps {
   selectedSize: string;
   onSizeChange: (sizeId: string) => void;
   basePrice: number;
+  isSetBased?: boolean;
 }
 
-export function SizeSelector({ sizeOptions, selectedSize, onSizeChange, basePrice }: SizeSelectorProps) {
+export function SizeSelector({ sizeOptions, selectedSize, onSizeChange, basePrice, isSetBased = false }: SizeSelectorProps) {
   if (sizeOptions.length === 0) return null;
 
   return (
     <div className="space-y-4">
       <label className="font-semibold text-neutral-800 text-md flex items-center gap-2">
-        <PaletteIcon className="h-5 w-5 text-rose-500" />
-        Choose Size:
+        {isSetBased ? (
+          <Calendar className="h-5 w-5 text-rose-500" />
+        ) : (
+          <PaletteIcon className="h-5 w-5 text-rose-500" />
+        )}
+        Choose Size{isSetBased ? ' (per set of 12)' : ''}:
       </label>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {sizeOptions.map((size) => (
@@ -36,11 +41,21 @@ export function SizeSelector({ sizeOptions, selectedSize, onSizeChange, basePric
           >
             <div className="font-semibold text-md">{size.name}</div>
             <div className="text-sm text-neutral-600 mt-1">{size.dimensions}</div>
-            <div className="font-semibold text-md mt-2 text-neutral-800">
-              ₹{(basePrice + size.priceAdjustment).toFixed(2)}
-              {size.priceAdjustment > 0 && (
-                <span className="text-sm text-neutral-600 ml-1">
-                  (+₹{size.priceAdjustment})
+            <div className="font-semibold text-md mt-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-neutral-400 line-through text-sm">
+                  ₹{((basePrice + size.priceAdjustment) * 1.25).toFixed(2)}
+                </span>
+                <span className="text-neutral-800">
+                  ₹{(basePrice + size.priceAdjustment).toFixed(2)}
+                </span>
+                <span className="bg-green-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">
+                  20% OFF
+                </span>
+              </div>
+              {isSetBased && (
+                <span className="text-xs text-neutral-600 block mt-1">
+                  per set (12 magnets)
                 </span>
               )}
             </div>

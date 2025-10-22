@@ -12,7 +12,7 @@ import {
   ProductAccordion,
   RelatedProducts
 } from "~/components/product";
-import { getSizeOptions } from "~/utils/productUtils";
+import { getSizeOptions, isSetBasedCategory, getSetMultiplier } from "~/utils/productUtils";
 
 export function meta({ params }: Route.MetaArgs) {
   return [
@@ -87,6 +87,8 @@ export default function Product() {
   }, [params.id]);
 
   const sizeOptions = getSizeOptions(product);
+  const isSetBased = product ? isSetBasedCategory(product.category_name) : false;
+  const setMultiplier = product ? getSetMultiplier(product.category_name) : 1;
   
   // Update selected size if current selection is not available
   useEffect(() => {
@@ -102,10 +104,14 @@ export default function Product() {
   const basePrice = product?.price || 699;
   const currentPrice = currentSize ? basePrice + currentSize.priceAdjustment : basePrice;
   const totalValue = currentPrice * quantity;
+  const totalMagnets = quantity * setMultiplier;
 
   const handleWhatsAppClick = () => {
     if (!product || !currentSize) return;
-    const message = `Hi! I'm interested in the ${product.title} magnet (${currentSize.name} - ${currentSize.dimensions}, ${quantity} piece${quantity > 1 ? 's' : ''}) - ₹${totalValue.toFixed(2)}`;
+    const quantityText = isSetBased 
+      ? `${quantity} ${quantity === 1 ? 'set' : 'sets'} (${totalMagnets} magnets)`
+      : `${quantity} piece${quantity > 1 ? 's' : ''}`;
+    const message = `Hi! I'm interested in the ${product.title} magnet (${currentSize.name} - ${currentSize.dimensions}, ${quantityText}) - ₹${totalValue.toFixed(2)}`;
     const phoneNumber = "917219846935";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
@@ -220,6 +226,7 @@ export default function Product() {
                 selectedSize={selectedSize}
                 onSizeChange={setSelectedSize}
                 basePrice={basePrice}
+                isSetBased={isSetBased}
               />
 
               <PurchaseSection
@@ -229,6 +236,8 @@ export default function Product() {
                 currentPrice={currentPrice}
                 currentSize={currentSize}
                 onWhatsAppClick={handleWhatsAppClick}
+                isSetBased={isSetBased}
+                setMultiplier={setMultiplier}
               />
 
               <RelatedProducts products={relatedProducts} />
@@ -242,6 +251,8 @@ export default function Product() {
       <MobileStickyFooter
         totalValue={totalValue}
         onWhatsAppClick={handleWhatsAppClick}
+        isSetBased={isSetBased}
+        totalMagnets={totalMagnets}
       />
     </div>
   );

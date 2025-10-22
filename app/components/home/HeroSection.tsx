@@ -11,7 +11,7 @@ export function HeroSection() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-sage-200/10 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="container-responsive py-20 md:py-28 lg:py-36">
+      <div className="container-responsive">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Hero Content */}
           <div className="text-center lg:text-left space-y-8 animate-fade-in-up">
@@ -21,7 +21,7 @@ export function HeroSection() {
             </div>
 
             <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight">
+              <h1 className="text-5xl font-bold tracking-tight">
                 <span className="block text-neutral-800 mb-2">Memories That</span>
                 <span className="block text-rose-500">Stick Around</span>
               </h1>
@@ -35,7 +35,7 @@ export function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link
                 to="/gallery"
-                className="group inline-flex items-center justify-center gap-2 bg-rose-500 text-white px-8 py-4 rounded-full font-medium text-base transition-all duration-300 hover:scale-105"
+                className="group inline-flex items-center justify-center gap-2 bg-rose-500 text-white px-6 py-4 rounded-full font-medium text-base transition-all duration-300 hover:scale-105"
               >
                 Explore Collection
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -66,11 +66,7 @@ export function HeroSection() {
           {/* Hero Image */}
           <div className="relative animate-scale-in">
             <div className="relative aspect-square rounded-[3rem] overflow-hidden">
-              {/* Decorative elements */}
-              <div className="absolute -top-6 -right-6 w-32 h-32 bg-rose-200 rounded-3xl blur-2xl opacity-60 animate-pulse-soft"></div>
-              <div className="absolute -bottom-6 -left-6 w-40 h-40 bg-sage-200 rounded-3xl blur-2xl opacity-60 animate-pulse-soft" style={{ animationDelay: '1s' }}></div>
-              
-              <div className="relative w-full h-full bg-beige-100 flex items-center justify-center p-8">
+              <div className="relative w-full h-full flex items-center justify-center p-4">
                 <img
                   src="/designer.jpg"
                   alt="Beautiful magnet collection showcasing custom designs"

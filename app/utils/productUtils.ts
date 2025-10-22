@@ -28,6 +28,14 @@ export function getSizeOptions(product: Product | null): SizeOption[] {
     ];
   }
   
+  // Calendar - only Medium and Large (sold in sets of 12)
+  if (categoryName.includes('calendar') || categoryName.includes('calender')) {
+    return [
+      { id: 'medium', name: 'Medium', dimensions: '2.5" × 3.25"', priceAdjustment: 0 },
+      { id: 'large', name: 'Large', dimensions: '3" × 3.75"', priceAdjustment: 192 }
+    ];
+  }
+  
   // Save the Date - three specific sizes
   if (categoryName.includes('save') || categoryName.includes('date') || categoryName.includes('wedding')) {
     return [
@@ -43,6 +51,20 @@ export function getSizeOptions(product: Product | null): SizeOption[] {
     { id: 'medium', name: 'Medium', dimensions: '2.75" × 3.5"', priceAdjustment: 8 },
     { id: 'large', name: 'Large', dimensions: '3.25" × 4"', priceAdjustment: 12 }
   ];
+}
+
+// Check if a product category requires set-based quantity (e.g., Calendar)
+export function isSetBasedCategory(categoryName: string): boolean {
+  return categoryName.toLowerCase().includes('calendar') || 
+         categoryName.toLowerCase().includes('calender');
+}
+
+// Get the quantity multiplier for set-based categories
+export function getSetMultiplier(categoryName: string): number {
+  if (isSetBasedCategory(categoryName)) {
+    return 12; // Calendar magnets sold in sets of 12
+  }
+  return 1;
 }
 
 export function getProductBadges(product: Product | null) {

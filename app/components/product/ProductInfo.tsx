@@ -41,15 +41,22 @@ export function ProductInfo({ product, currentPrice, basePrice, currentSize }: P
         {product.title}
       </h1>
 
-      <div className="flex items-baseline gap-4">
-        <p className="text-xl font-bold text-neutral-800">
-          ₹{currentPrice.toFixed(2)}
+      {/* Price with Discount */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="text-xl font-semibold text-neutral-400 line-through">
+            ₹{(currentPrice * 1.25).toFixed(2)}
+          </span>
+          <span className="text-3xl font-bold text-neutral-800">
+            ₹{currentPrice.toFixed(2)}
+          </span>
+          <span className="bg-gradient-to-r from-green-500 to-green-600 text-white text-sm px-3 py-1.5 rounded-full font-bold shadow-soft">
+            SAVE 20%
+          </span>
+        </div>
+        <p className="text-sm text-green-600 font-medium">
+          🎉 Limited Time Offer - You save ₹{(currentPrice * 0.25).toFixed(2)}!
         </p>
-        {currentSize && currentSize.priceAdjustment > 0 && (
-          <p className="text-lg text-neutral-600 line-through">
-            ₹{basePrice.toFixed(2)}
-          </p>
-        )}
       </div>
 
       <p className="text-neutral-700 leading-relaxed text-sm">

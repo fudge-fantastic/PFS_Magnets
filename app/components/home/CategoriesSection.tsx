@@ -50,11 +50,11 @@ export function CategoriesSection({ categories, loading, categoryProducts }: Cat
   };
 
   return (
-    <section className="py-20 md:py-28 lg:py-36 bg-gradient-to-b from-transparent via-rose-50/30 to-transparent">
+    <section className="py-20 md:py-28 lg:py-36 bg-gradient-to-b from-transparent via-rose-50/30 to-transparent overflow-hidden">
       <div className="container-responsive">
         <div className="text-center mb-16 space-y-4 animate-fade-in-up">
           <p className="text-rose-500 font-medium text-sm tracking-wide uppercase">Collections</p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-800">
+          <h2 className="text-5xl font-bold text-neutral-800">
             Explore Our Collections
           </h2>
           <p className="text-lg md:text-xl text-neutral-600 max-w-2xl mx-auto font-light">
@@ -62,36 +62,51 @@ export function CategoriesSection({ categories, loading, categoryProducts }: Cat
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
-          {loading ? (
-            [...Array(4)].map((_, index) => (
+        {loading ? (
+          <div className="grid grid-cols-12 gap-4 auto-rows-[280px]">
+            {[...Array(4)].map((_, index) => (
               <div
                 key={index}
-                className="bg-white/60 rounded-3xl shadow-soft border border-beige-200/50 animate-pulse overflow-hidden"
-              >
-                <div className="aspect-square bg-beige-200"></div>
-                <div className="p-6 md:p-8">
-                  <div className="space-y-3">
-                    <div className="h-6 bg-beige-200 rounded-xl"></div>
-                    <div className="h-4 bg-beige-100 rounded-lg"></div>
-                    <div className="h-4 w-20 bg-beige-200 rounded-full mx-auto"></div>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            categories.map((category, index) => {
+                className={`
+                  ${index === 0 ? 'col-span-12 md:col-span-7 row-span-2' : ''}
+                  ${index === 1 ? 'col-span-12 md:col-span-5 row-span-1' : ''}
+                  ${index === 2 ? 'col-span-12 md:col-span-5 row-span-1' : ''}
+                  ${index === 3 ? 'col-span-12 md:col-span-7 row-span-2' : ''}
+                  bg-beige-200 rounded-2xl animate-pulse
+                `}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-12 gap-4 auto-rows-[280px]">
+            {categories.map((category, index) => {
               const displayInfo = getCategoryDisplayInfo(category.name);
               const sampleProduct = categoryProducts[category.id];
+              
+              // Create a magazine-style layout with varying sizes
+              const layoutClasses = [
+                'col-span-12 md:col-span-7 row-span-2', // Large
+                'col-span-12 md:col-span-5 row-span-1', // Medium
+                'col-span-12 md:col-span-5 row-span-1', // Medium
+                'col-span-12 md:col-span-7 row-span-2', // Large
+              ];
+              
               return (
                 <Link
                   key={category.id}
                   to={`/gallery?category=${category.id}`}
-                  className="group card-minimal overflow-hidden animate-fade-in-up"
+                  className={`
+                    ${layoutClasses[index % layoutClasses.length]}
+                    group relative overflow-hidden rounded-2xl
+                    animate-fade-in-up
+                    transform hover:scale-[1.02] transition-all duration-500
+                    shadow-lg hover:shadow-2xl
+                  `}
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
+                  {/* Background Image */}
                   {sampleProduct && (
-                    <div className={`aspect-square bg-gradient-to-br ${displayInfo.gradient} relative overflow-hidden rounded-2xl mb-4`}>
+                    <div className="absolute inset-0">
                       <img
                         src={sampleProduct.images[0] || '/dummy.jpg'}
                         alt={sampleProduct.title}
@@ -100,54 +115,69 @@ export function CategoriesSection({ categories, loading, categoryProducts }: Cat
                           e.currentTarget.src = '/dummy.jpg';
                         }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      <div className="absolute top-3 right-3 bg-white/90 px-3 py-1.5 rounded-full text-sm font-semibold text-neutral-800 shadow-soft">
-                        ₹{sampleProduct.price}
-                      </div>
+                      {/* Gradient Overlay */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${displayInfo.gradient} opacity-40 group-hover:opacity-30 transition-opacity duration-500`}></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                     </div>
                   )}
                   
-                  <div className="text-center space-y-3">
-                    <div className={`w-12 h-12 bg-gradient-to-br ${displayInfo.gradient} rounded-2xl flex items-center justify-center mx-auto text-neutral-700 group-hover:scale-110 transition-transform duration-300`}>
-                      {displayInfo.icon}
-                    </div>
-
-                    <h3 className="text-xl font-semibold text-neutral-800 group-hover:text-rose-600 transition-colors duration-300">
-                      {category.name}
-                    </h3>
-
-                    <p className="text-neutral-600 leading-relaxed text-sm font-light">
-                      {category.description}
-                    </p>
-
-                    {sampleProduct && (
-                      <div className="p-3 bg-gradient-to-br from-beige-50 to-rose-50/30 rounded-2xl">
-                        <p className="text-sm font-medium text-neutral-800">{sampleProduct.title}</p>
-                        <p className="text-xs text-neutral-500 mt-1">{sampleProduct.short_description}</p>
+                  {/* Content Overlay */}
+                  <div className="relative h-full flex flex-col justify-between p-6 md:p-8">
+                    {/* Top Section - Badge & Icon */}
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-2 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+                        <span className="text-neutral-700">{displayInfo.icon}</span>
+                        <span className="text-sm font-semibold text-neutral-800">{displayInfo.badge}</span>
                       </div>
-                    )}
-
-                    <div className="inline-flex items-center bg-white border border-beige-200 text-neutral-700 px-3 py-1.5 rounded-full text-xs font-medium">
-                      {displayInfo.badge}
+                      
+                      {sampleProduct && (
+                        <div className="bg-rose-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                          ₹{sampleProduct.price}
+                        </div>
+                      )}
                     </div>
 
-                    <div className="pt-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                      <ArrowRight className="h-5 w-5 text-rose-500 mx-auto" />
+                    {/* Bottom Section - Category Info */}
+                    <div className="space-y-3">
+                      <div className="space-y-2">
+                        <h3 className="text-2xl md:text-3xl font-bold text-white drop-shadow-lg">
+                          {category.name}
+                        </h3>
+                        <p className="text-white/90 text-sm md:text-base font-light leading-relaxed line-clamp-2">
+                          {category.description}
+                        </p>
+                      </div>
+
+                      {sampleProduct && (
+                        <div className="bg-white/95 backdrop-blur-sm p-3 rounded-xl space-y-1 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                          <p className="text-sm font-semibold text-neutral-800 line-clamp-1">{sampleProduct.title}</p>
+                          <p className="text-xs text-neutral-600 line-clamp-1">{sampleProduct.short_description}</p>
+                        </div>
+                      )}
+
+                      {/* Explore Arrow */}
+                      <div className="flex items-center gap-2 text-white font-medium">
+                        <span className="text-sm uppercase tracking-wider">Explore</span>
+                        <ArrowRight className="h-5 w-5 transform group-hover:translate-x-2 transition-transform duration-300" />
+                      </div>
                     </div>
                   </div>
+
+                  {/* Decorative Corner Element */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </Link>
               );
-            })
-          )}
-        </div>
+            })}
+          </div>
+        )}
 
-        <div className="text-center mt-12 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+        <div className="text-center mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
           <Link
             to="/gallery?category=all"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-rose-400 to-rose-500 text-white px-8 py-4 rounded-full font-medium hover:shadow-soft-lg transition-all duration-300 hover:scale-105"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-rose-400 to-rose-500 text-white px-10 py-5 rounded-full font-semibold text-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 group"
           >
             View All Designs
-            <ArrowRight className="h-5 w-5" />
+            <ArrowRight className="h-6 w-6 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>

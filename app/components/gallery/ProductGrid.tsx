@@ -51,6 +51,13 @@ export function ProductGrid({ products, loading, wishlistedItems, onToggleWishli
           <div className="bg-gradient-to-br from-beige-100 via-rose-50 to-lavender-100 flex items-center justify-center relative overflow-hidden aspect-square">
             <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-rose-100/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
+            {/* Discount Badge */}
+            <div className="absolute top-3 left-3 z-20">
+              <div className="bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-soft">
+                20% OFF
+              </div>
+            </div>
+
             {/* Quick Action Buttons */}
             <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
               <button
@@ -101,9 +108,14 @@ export function ProductGrid({ products, loading, wishlistedItems, onToggleWishli
             </p>
 
             <div className="flex justify-between items-center mt-auto pt-3 border-t border-beige-200/50">
-              <p className="text-xl font-bold text-neutral-800">
-                ₹{product.price}
-              </p>
+              <div>
+                <p className="text-sm text-neutral-400 line-through">
+                  ₹{(product.price * 1.25).toFixed(2)}
+                </p>
+                <p className="text-xl font-bold text-neutral-800">
+                  ₹{product.price}
+                </p>
+              </div>
 
               <div className="flex gap-2">
                 <button

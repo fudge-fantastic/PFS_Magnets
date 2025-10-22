@@ -15,7 +15,7 @@ export function Navigation() {
   return (
     <nav className="fixed top-0 w-full bg-beige-50/95 border-b border-beige-200/30 z-50">
       <div className="container-responsive">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between h-18">
           {/* Logo */}
           <Link 
             to="/" 
