@@ -3,15 +3,15 @@ import { clsx } from "clsx";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:pointer-events-none hover:scale-105",
+  "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-rose-300/50 focus:ring-offset-2 focus:ring-offset-beige-50 disabled:opacity-50 disabled:pointer-events-none hover:scale-105 shadow-soft hover:shadow-soft-lg",
   {
     variants: {
       variant: {
-        primary: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        outline: "border-2 border-primary/20 text-foreground hover:border-primary/40 hover:bg-primary/5",
-        ghost: "hover:bg-secondary/50",
-        destructive: "bg-destructive text-white hover:bg-destructive/90",
+        primary: "bg-gradient-to-r from-rose-400 to-rose-500 text-white hover:from-rose-500 hover:to-rose-600",
+        secondary: "bg-white/80 text-neutral-700 border border-beige-200 hover:border-rose-200",
+        outline: "border-2 border-neutral-300 text-neutral-700 hover:border-rose-400 hover:bg-rose-50/50",
+        ghost: "hover:bg-rose-50/50 text-neutral-700",
+        destructive: "bg-gradient-to-r from-red-400 to-red-500 text-white hover:from-red-500 hover:to-red-600",
       },
       size: {
         sm: "px-4 py-2 text-sm",

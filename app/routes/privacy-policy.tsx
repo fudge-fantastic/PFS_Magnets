@@ -7,19 +7,19 @@ export function meta() {
 
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-zinc-50">
       <div className="container-responsive py-16">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground/80 mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-zinc-800 mb-4">
               Privacy Policy
             </h1>
-            <p className="text-lg text-foreground/70">
+            <p className="text-lg text-zinc-700">
               Effective Date: January 1, 2025 | Last Updated: January 1, 2025
             </p>
           </div>
 
-          <div className="prose prose-lg max-w-none text-foreground/80">
+          <div className="prose prose-lg max-w-none text-zinc-800">
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
               <p className="mb-4">
@@ -161,7 +161,7 @@ export default function PrivacyPolicy() {
                 If you have any questions, concerns, or requests regarding this Privacy Policy 
                 or our data practices, please contact us:
               </p>
-              <div className="bg-card rounded-lg p-6 border border-border/20">
+              <div className="bg-white rounded-lg p-6 border border-zinc-200/20">
                 <h3 className="text-lg font-medium mb-3">Pixel Forge Studio</h3>
                 <p className="mb-2"><strong>Email:</strong> privacy@pixelforgestudio.in</p>
                 <p className="mb-2"><strong>Phone:</strong> +91 7219846935</p>
