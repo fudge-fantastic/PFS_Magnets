@@ -6,10 +6,12 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
+import { Toaster } from "sonner";
 
 import type { Route } from "./+types/root";
 import { Navigation } from "./components/Navigation";
 import { Footer } from "./components/Footer";
+import { AuthProvider } from "./hooks/useAuth";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -36,6 +38,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
+        <Toaster position="top-right" richColors />
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -45,13 +48,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-beige-50">
-      <Navigation />
-      <main className="pt-16 sm:pt-20 md:pt-24">
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
   );
 }
 

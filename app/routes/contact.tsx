@@ -1,5 +1,6 @@
 import type { Route } from "./+types/contact";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { useState } from "react";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { Checkbox } from "~/components/ui/checkbox";
@@ -11,6 +12,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~/components/ui/accordion";
+import { api, type Inquiry } from "~/lib/api";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -20,6 +22,101 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone_number: '',
+    subject: '',
+    message: '',
+    subscribe_newsletter: false
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [referenceId, setReferenceId] = useState<string | null>(null);
+
+  const handleInputChange = (field: string, value: string | boolean) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    if (error) setError(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validate required fields
+    if (!formData.first_name || !formData.last_name || !formData.email || !formData.subject || !formData.message) {
+      setError('Please fill in all required fields');
+      return;
+    }
+
+    // Validate message length
+    if (formData.message.length < 10) {
+      setError('Message must be at least 10 characters long');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const inquiry: Inquiry = {
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        email: formData.email,
+        phone_number: formData.phone_number || undefined,
+        subject: formData.subject,
+        message: formData.message,
+        subscribe_newsletter: formData.subscribe_newsletter
+      };
+
+      const response = await api.submitInquiry(inquiry);
+
+      if (response.success) {
+        // Inquiry saved to database successfully
+        const referenceId = response.data.reference_id;
+
+        // Send emails via SMTP (don't fail if emails fail)
+        try {
+          const emailResponse = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...inquiry,
+              reference_id: referenceId
+            })
+          });
+
+          if (!emailResponse.ok) {
+            console.warn('Email sending failed, but inquiry was saved');
+          }
+        } catch (emailError) {
+          console.warn('Email sending error:', emailError);
+          // Don't fail the whole process if email fails
+        }
+
+        setSuccess(true);
+        setReferenceId(referenceId);
+        // Reset form
+        setFormData({
+          first_name: '',
+          last_name: '',
+          email: '',
+          phone_number: '',
+          subject: '',
+          message: '',
+          subscribe_newsletter: false
+        });
+      } else {
+        setError(response.message || 'Failed to submit inquiry. Please try again.');
+      }
+    } catch (err: any) {
+      console.error('Contact form error:', err);
+      setError(err.message || 'An unexpected error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-beige-50">
       {/* Contact Form Section */}
@@ -60,8 +157,39 @@ export default function Contact() {
                   Send us a message
                 </h3>
               </div>
-              
-              <form className="space-y-6">
+
+              {/* Success Message */}
+              {success && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-2xl">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="h-5 w-5 text-green-600 mt-0.5" />
+                    <div>
+                      <p className="text-green-800 font-semibold">Message sent successfully!</p>
+                      <p className="text-green-700 text-sm mt-1">
+                        Your inquiry has been submitted. Reference ID: <span className="font-mono font-bold">{referenceId}</span>
+                      </p>
+                      <p className="text-green-600 text-sm mt-1">
+                        We'll get back to you within 2-4 hours.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Error Message */}
+              {error && (
+                <div className="mb-6 p-4 bg-rose-50 border border-rose-200 rounded-2xl">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-rose-600 mt-0.5" />
+                    <div>
+                      <p className="text-rose-800 font-semibold">Error</p>
+                      <p className="text-rose-700 text-sm mt-1">{error}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-neutral-800 mb-2">
@@ -71,7 +199,10 @@ export default function Contact() {
                       type="text"
                       required
                       placeholder="Rahul"
+                      value={formData.first_name}
+                      onChange={(e) => handleInputChange('first_name', e.target.value)}
                       className="border-beige-200 focus:border-rose-300 focus:ring-rose-300/50"
+                      disabled={loading}
                     />
                   </div>
                   <div>
@@ -82,11 +213,14 @@ export default function Contact() {
                       type="text"
                       required
                       placeholder="Sharma"
+                      value={formData.last_name}
+                      onChange={(e) => handleInputChange('last_name', e.target.value)}
                       className="border-beige-200 focus:border-rose-300 focus:ring-rose-300/50"
+                      disabled={loading}
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-neutral-800 mb-2">
                     Email Address *
@@ -95,7 +229,10 @@ export default function Contact() {
                     type="email"
                     required
                     placeholder="rahul.sharma@gmail.com"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
                     className="border-beige-200 focus:border-rose-300 focus:ring-rose-300/50"
+                    disabled={loading}
                   />
                 </div>
 
@@ -106,7 +243,10 @@ export default function Contact() {
                   <Input
                     type="tel"
                     placeholder="+91 98765 43210"
+                    value={formData.phone_number}
+                    onChange={(e) => handleInputChange('phone_number', e.target.value)}
                     className="border-beige-200 focus:border-rose-300 focus:ring-rose-300/50"
+                    disabled={loading}
                   />
                 </div>
 
@@ -114,21 +254,26 @@ export default function Contact() {
                   <label className="block text-sm font-medium text-neutral-800 mb-2">
                     Subject *
                   </label>
-                  <Select required>
+                  <Select
+                    required
+                    value={formData.subject}
+                    onValueChange={(value) => handleInputChange('subject', value)}
+                    disabled={loading}
+                  >
                     <SelectTrigger className="w-full border-beige-200 focus:border-rose-300 focus:ring-rose-300/50">
                       <SelectValue placeholder="Choose a subject..." />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="custom-order">Custom Order Request</SelectItem>
-                      <SelectItem value="product-inquiry">Product Inquiry</SelectItem>
-                      <SelectItem value="bulk-order">Bulk Order</SelectItem>
-                      <SelectItem value="support">Customer Support</SelectItem>
-                      <SelectItem value="partnership">Partnership Inquiry</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value="Custom Order Request">Custom Order Request</SelectItem>
+                      <SelectItem value="Product Inquiry">Product Inquiry</SelectItem>
+                      <SelectItem value="Bulk Order">Bulk Order</SelectItem>
+                      <SelectItem value="Customer Support">Customer Support</SelectItem>
+                      <SelectItem value="Partnership Inquiry">Partnership Inquiry</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-neutral-800 mb-2">
                     Message *
@@ -137,16 +282,41 @@ export default function Contact() {
                     rows={5}
                     required
                     placeholder="I am looking for custom wedding invitation magnets for 50 guests. Can you help me design something beautiful with our photo and wedding details? Please let me know the pricing and timeline."
+                    value={formData.message}
+                    onChange={(e) => handleInputChange('message', e.target.value)}
                     className="border-beige-200 focus:border-rose-300 focus:ring-rose-300/50"
+                    disabled={loading}
                   />
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Checkbox
+                    id="newsletter"
+                    checked={formData.subscribe_newsletter}
+                    onCheckedChange={(checked) => handleInputChange('subscribe_newsletter', checked as boolean)}
+                    disabled={loading}
+                  />
+                  <label htmlFor="newsletter" className="text-sm text-neutral-700 cursor-pointer">
+                    Subscribe to our newsletter for updates on new products and special offers
+                  </label>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-rose-400 to-rose-500 hover:from-rose-500 hover:to-rose-600 text-white px-6 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-soft-lg flex items-center justify-center gap-2"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-rose-400 to-rose-500 hover:from-rose-500 hover:to-rose-600 text-white px-6 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-soft-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
-                  <Send className="h-5 w-5" />
-                  Send Message
+                  {loading ? (
+                    <>
+                      <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-5 w-5" />
+                      Send Message
+                    </>
+                  )}
                 </button>
 
                 <p className="text-xs text-neutral-600 text-center">
