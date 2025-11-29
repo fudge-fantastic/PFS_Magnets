@@ -3,6 +3,9 @@ import { useSearchParams } from "react-router";
 import { useState, useEffect } from "react";
 import { api, type Product, type Category } from "~/lib/api";
 import { FilterSidebar, ProductGrid, EmptyState } from "~/components/gallery";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "~/components/ui/drawer";
+import { Button } from "~/components/Button";
+import { SlidersHorizontal } from "lucide-react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -23,6 +26,7 @@ export default function Gallery() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [wishlistedItems, setWishlistedItems] = useState<Set<string>>(new Set());
+  const [filterOpen, setFilterOpen] = useState(false);
 
   // Get category from URL params on component mount
   useEffect(() => {
@@ -192,19 +196,59 @@ export default function Gallery() {
 
           {/* Main Layout: Sidebar + Grid */}
           <div className="flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-10">
-            <FilterSidebar
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              categories={categoryOptions}
-              selectedCategories={selectedCategories}
-              onCategoryToggle={toggleCategory}
-              onClearCategories={clearAllCategories}
-              sortBy={sortBy}
-              onSortChange={setSortBy}
-              loading={loading}
-              resultsCount={products.length}
-              productsLoading={productsLoading}
-            />
+            {/* Desktop Sidebar */}
+            <aside className="hidden lg:block">
+              <FilterSidebar
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                categories={categoryOptions}
+                selectedCategories={selectedCategories}
+                onCategoryToggle={toggleCategory}
+                onClearCategories={clearAllCategories}
+                sortBy={sortBy}
+                onSortChange={setSortBy}
+                loading={loading}
+                resultsCount={products.length}
+                productsLoading={productsLoading}
+              />
+            </aside>
+
+            {/* Mobile Filter Drawer */}
+            <div className="lg:hidden fixed bottom-6 right-6 z-40">
+              <Drawer open={filterOpen} onOpenChange={setFilterOpen}>
+                <DrawerTrigger asChild>
+                  <Button size="lg" className="shadow-soft-lg relative">
+                    <SlidersHorizontal className="h-5 w-5" />
+                    Filters
+                    {selectedCategories.size > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-rose-500 text-white text-xs font-semibold rounded-full h-6 w-6 flex items-center justify-center">
+                        {selectedCategories.size}
+                      </span>
+                    )}
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent className="max-h-[85vh] overflow-y-auto">
+                  <DrawerHeader>
+                    <DrawerTitle>Filter Products</DrawerTitle>
+                  </DrawerHeader>
+                  <div className="px-4 pb-6">
+                    <FilterSidebar
+                      searchQuery={searchQuery}
+                      onSearchChange={setSearchQuery}
+                      categories={categoryOptions}
+                      selectedCategories={selectedCategories}
+                      onCategoryToggle={toggleCategory}
+                      onClearCategories={clearAllCategories}
+                      sortBy={sortBy}
+                      onSortChange={setSortBy}
+                      loading={loading}
+                      resultsCount={products.length}
+                      productsLoading={productsLoading}
+                    />
+                  </div>
+                </DrawerContent>
+              </Drawer>
+            </div>
 
             <div className="flex-1">
               {!productsLoading && !apiError && allProducts.length === 0 ? (

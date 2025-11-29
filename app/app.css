@@ -18,28 +18,44 @@
   --color-rose-100: #fdeef0;
   --color-rose-200: #fad8dc;
   --color-rose-300: #f5b8bf;
-  --color-rose-400: #e9949e;
-  --color-rose-500: #d97583;
-  
+  --color-rose-400: #f098a8;
+  --color-rose-500: #e5758a;
+
   --color-sage-50: #f7f9f7;
   --color-sage-100: #eef2ee;
   --color-sage-200: #dce6dc;
   --color-sage-300: #c3d4c3;
   --color-sage-400: #a3bca3;
-  --color-sage-500: #8aa88a;
-  
+  --color-sage-500: #8eb894;
+
   --color-lavender-50: #faf9fc;
   --color-lavender-100: #f4f2f8;
   --color-lavender-200: #e8e3f0;
   --color-lavender-300: #d4cce3;
   --color-lavender-400: #b8acd4;
-  --color-lavender-500: #9d8ec4;
+  --color-lavender-500: #a68fcd;
   
   --color-cream-50: #fffefb;
   --color-cream-100: #fffcf5;
   --color-cream-200: #fef9ea;
   --color-cream-300: #fef4d9;
   --color-cream-400: #fceec0;
+
+  /* Semantic Color Tokens */
+  --color-success: var(--color-sage-500);
+  --color-warning: #f9d78f;
+  --color-error: #ef8989;
+  --color-info: var(--color-lavender-500);
+
+  /* Surface Hierarchy */
+  --color-surface-elevated: #ffffff;
+  --color-surface-base: var(--color-beige-50);
+  --color-surface-sunken: var(--color-beige-100);
+
+  /* Fluid Spacing Tokens */
+  --spacing-section: clamp(3rem, 8vw, 6rem);
+  --spacing-container: clamp(1.25rem, 4vw, 4rem);
+  --spacing-element: clamp(1rem, 2vw, 1.5rem);
 }
 
 html,
@@ -51,7 +67,9 @@ body {
 }
 
 .container-responsive {
-  @apply mx-auto px-5 sm:px-8 lg:px-12 xl:px-16;
+  @apply mx-auto;
+  padding-left: var(--spacing-container);
+  padding-right: var(--spacing-container);
   max-width: 100%;
 }
 
@@ -118,6 +136,36 @@ body {
 
 .text-responsive-3xl {
   @apply text-3xl md:text-4xl lg:text-5xl;
+}
+
+/* Typography System */
+.text-display {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.text-heading {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.text-body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+.text-body-sm {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  font-size: 0.875rem; /* 14px minimum for accessibility */
 }
 
 /* Responsive spacing utilities */
@@ -200,6 +248,27 @@ body {
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
@@ -214,6 +283,14 @@ body {
 
 .animate-scale-in {
   animation: scale-in 0.5s ease-out;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
 }
 
 /* Smooth scroll behavior */
@@ -240,9 +317,18 @@ html {
   background: #b8ae9f;
 }
 
-/* Focus styles - Soft and minimal */
+/* Enhanced Focus States for Keyboard Navigation */
 .focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-rose-300/50 focus:ring-offset-2 focus:ring-offset-beige-50;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2 focus-visible:ring-offset-beige-50 transition-shadow;
+}
+
+.focus-ring-inset {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-rose-400 transition-shadow;
+}
+
+/* Skip to content link for keyboard users */
+.skip-link {
+  @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-6 focus:py-3 focus:bg-rose-500 focus:text-white focus:rounded-full;
 }
 
 /* Minimal card style */
@@ -257,4 +343,16 @@ html {
 
 .shadow-soft-lg {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Respect user motion preferences for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

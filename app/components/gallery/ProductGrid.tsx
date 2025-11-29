@@ -44,12 +44,12 @@ export function ProductGrid({ products, loading, wishlistedItems, onToggleWishli
         <Link
           key={product.id}
           to={`/product/${product.id}`}
-          className="group card-minimal overflow-hidden flex flex-col animate-fade-in-up"
+          className="group card-minimal overflow-hidden flex flex-col animate-fade-in-up transform-gpu transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
           style={{ animationDelay: `${index * 0.05}s` }}
         >
-          {/* Image Container - No padding on image itself */}
+          {/* Image Container - Aspect ratio to prevent layout shift */}
           <div className="bg-gradient-to-br from-beige-100 via-rose-50 to-lavender-100 flex items-center justify-center relative overflow-hidden aspect-square">
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-rose-100/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-rose-100/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 will-change-auto"></div>
 
             {/* Discount Badge */}
             <div className="absolute top-3 left-3 z-20">
@@ -58,21 +58,22 @@ export function ProductGrid({ products, loading, wishlistedItems, onToggleWishli
               </div>
             </div>
 
-            {/* Quick Action Buttons */}
-            <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 z-20">
+            {/* Quick Action Buttons - 44x44px touch targets */}
+            <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-20">
               <button
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   onToggleWishlist(product.id);
                 }}
-                className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-soft ${
+                aria-label={wishlistedItems.has(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
+                className={`w-11 h-11 rounded-full flex items-center justify-center transform-gpu transition-all duration-200 hover:scale-110 shadow-soft ${
                   wishlistedItems.has(product.id)
                     ? 'bg-rose-500 text-white'
                     : 'bg-white/90 text-neutral-700 hover:bg-white'
                 }`}
               >
-                <Heart className={`h-4 w-4 ${wishlistedItems.has(product.id) ? 'fill-current' : ''}`} strokeWidth={1.5} />
+                <Heart className={`h-5 w-5 ${wishlistedItems.has(product.id) ? 'fill-current' : ''}`} strokeWidth={1.5} />
               </button>
             </div>
 
@@ -80,11 +81,13 @@ export function ProductGrid({ products, loading, wishlistedItems, onToggleWishli
               <img
                 src={product.images[0]}
                 alt={product.title}
-                className="w-full h-full object-cover relative z-10"
+                className="w-full h-full object-cover relative z-10 transition-transform duration-500 ease-out group-hover:scale-110"
                 loading={index < 6 ? "eager" : "lazy"}
+                decoding="async"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             ) : (
-              <span className="relative z-10 text-4xl transition-transform duration-300 group-hover:scale-110">
+              <span className="relative z-10 text-4xl transition-transform duration-500 ease-out group-hover:scale-110">
                 🖼️
               </span>
             )}
@@ -117,17 +120,18 @@ export function ProductGrid({ products, loading, wishlistedItems, onToggleWishli
                 </p>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <button
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
                   }}
-                  className="bg-beige-100 text-neutral-700 p-2.5 rounded-full hover:bg-rose-100 hover:text-rose-600 transition-all duration-200 hover:scale-110 shadow-soft"
+                  aria-label="Add to cart"
+                  className="bg-beige-100 text-neutral-700 w-11 h-11 rounded-full hover:bg-rose-100 hover:text-rose-600 transform-gpu transition-all duration-200 hover:scale-110 shadow-soft flex items-center justify-center"
                 >
-                  <ShoppingCart className="h-4 w-4" strokeWidth={1.5} />
+                  <ShoppingCart className="h-5 w-5" strokeWidth={1.5} />
                 </button>
-                <span className="bg-gradient-to-r from-rose-400 to-rose-500 text-white rounded-full font-medium transition-all duration-200 hover:shadow-soft-lg flex items-center justify-center px-5 py-2 text-sm">
+                <span className="bg-gradient-to-r from-rose-400 to-rose-500 text-white rounded-full font-medium transform-gpu transition-all duration-200 hover:shadow-soft-lg hover:scale-[1.02] flex items-center justify-center px-5 py-2.5 text-sm min-h-[44px]">
                   View
                 </span>
               </div>

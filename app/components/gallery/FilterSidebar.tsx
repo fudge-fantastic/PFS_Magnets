@@ -49,7 +49,7 @@ export function FilterSidebar({
   productsLoading
 }: FilterSidebarProps) {
   return (
-    <aside className="lg:w-80 xl:w-96 flex-shrink-0">
+    <div className="lg:w-80 xl:w-96 flex-shrink-0">
       <div className="card-minimal lg:sticky lg:top-24 space-y-6 md:space-y-8 p-5 md:p-6">
         {/* Search Filter */}
         <div>
@@ -73,7 +73,7 @@ export function FilterSidebar({
             {selectedCategories.size > 0 && (
               <button
                 onClick={onClearCategories}
-                className="text-xs text-rose-500 hover:text-rose-600 font-medium transition-colors duration-200"
+                className="text-sm text-rose-500 hover:text-rose-600 font-medium transition-colors duration-200 min-h-[44px] px-3"
               >
                 Clear all
               </button>
@@ -101,7 +101,7 @@ export function FilterSidebar({
                   <span className="flex-1 text-sm text-neutral-700 group-hover:text-neutral-800 transition-colors font-light">
                     {category.name}
                   </span>
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-beige-100 text-neutral-700 font-medium min-w-[32px] text-center">
+                  <span className="text-sm px-2.5 py-1 rounded-full bg-beige-100 text-neutral-700 font-medium min-w-[32px] text-center">
                     {category.count}
                   </span>
                 </label>
@@ -110,7 +110,7 @@ export function FilterSidebar({
           </div>
           {selectedCategories.size > 0 && (
             <div className="mt-4 pt-4 border-t border-beige-200">
-              <p className="text-xs text-neutral-600 font-light">
+              <p className="text-sm text-neutral-600 font-light">
                 {selectedCategories.size} categor{selectedCategories.size === 1 ? 'y' : 'ies'} selected
               </p>
             </div>
@@ -159,6 +159,6 @@ export function FilterSidebar({
           </p>
         </div>
       </div>
-    </aside>
+    </div>
   );
 }
